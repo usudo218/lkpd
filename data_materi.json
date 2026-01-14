@@ -1,10 +1,17 @@
 [
   {
-    "judul": "Modul 1...",
-    "link": "..."
-  },     <--- TAMBAHKAN KOMA DI SINI
+    "judul": "Modul 1: Pengenalan Hardware",
+    "deskripsi": "Pelajari komponen CPU, RAM, dan Storage.",
+    "link": "https://drive.google.com/file/d/CONTOH_LINK_DRIVE_1/view"
+  },
   {
-    "judul": "Modul 2...",
-    "link": "..."
+    "judul": "Modul 2: Jaringan Dasar",
+    "deskripsi": "Materi tentang LAN, MAN, WAN dan Topologi.",
+    "link": "https://drive.google.com/file/d/CONTOH_LINK_DRIVE_2/view"
+  },
+  {
+    "judul": "Modul 3: Algoritma Pemrograman",
+    "deskripsi": "Belajar dasar logika coding dan flowchart.",
+    "link": "https://drive.google.com/file/d/CONTOH_LINK_DRIVE_3/view"
   }
 ]
