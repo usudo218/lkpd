@@ -1,55 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Daftar Materi</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Tugas & LKPD</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #eef2f3; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .back-btn { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #555; font-weight: bold; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f3; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
         
-        .item-card { 
-            background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; 
-            display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s;
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-back { text-decoration: none; color: #555; font-weight: bold; padding: 8px 15px; border: 1px solid #ccc; border-radius: 5px; background: white; }
+        
+        /* === GRID SYSTEM (Sama seperti Materi) === */
+        #list-tugas {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(2, 1fr); /* Default HP: 2 Kolom */
         }
-        .item-card:hover { transform: translateX(5px); border-left: 5px solid #28a745; }
-        
-        .info h4 { margin: 0 0 5px 0; color: #333; }
-        .info p { margin: 0; font-size: 12px; color: #777; }
-        
-        .btn-buka { 
-            background: #28a745; color: white; text-decoration: none; 
-            padding: 8px 15px; border-radius: 5px; font-size: 12px; font-weight: bold; 
+        @media (min-width: 1024px) {
+            #list-tugas { grid-template-columns: repeat(4, 1fr); } /* Laptop: 4 Kolom */
         }
+        @media (max-width: 480px) {
+            #list-tugas { grid-template-columns: repeat(1, 1fr); } /* HP Kecil: 1 Kolom */
+        }
+
+        /* === DESAIN KARTU TUGAS === */
+        .card { 
+            background: white; border-radius: 10px; padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            display: flex; flex-direction: column; justify-content: space-between; height: 100%;
+            border-top: 4px solid #007bff; /* Warna Biru Khas Tugas */
+            transition: transform 0.2s; position: relative;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        
+        h4 { margin: 10px 0 5px 0; font-size: 16px; color: #333; line-height: 1.4; }
+        p { font-size: 12px; color: #666; margin: 0 0 15px 0; flex-grow: 1; }
+        
+        /* BADGE STATUS */
+        .badge {
+            display: inline-block; padding: 3px 8px; border-radius: 4px; 
+            font-size: 10px; font-weight: bold; color: white; text-transform: uppercase;
+            align-self: flex-start; /* Agar badge di kiri atas */
+        }
+        .bg-wajib { background: #dc3545; }   /* Merah */
+        .bg-latihan { background: #28a745; } /* Hijau */
+        .bg-tugas { background: #ffc107; color: #333; } /* Kuning */
+        
+        .btn-kerjakan { 
+            background: #007bff; color: white; text-decoration: none; text-align: center;
+            padding: 10px; border-radius: 5px; font-weight: bold; font-size: 13px; display: block;
+        }
+        .btn-kerjakan:hover { background: #0056b3; }
+
+        .error-box { grid-column: 1 / -1; background: #ffdddd; color: #a00; padding: 20px; border-radius: 8px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="index.html" class="back-btn">&larr; Kembali ke Dashboard</a>
-    <h2 style="margin-top:0;">📚 Daftar Materi & Modul</h2>
-    <div id="list-materi">Loading...</div>
+    <div class="header">
+        <h2 style="margin:0;">📝 Tugas & Ujian</h2>
+        <a href="index.html" class="btn-back">🏠 Dashboard</a>
+    </div>
+
+    <div id="loading" style="text-align:center; padding:20px;">⏳ Memuat daftar tugas...</div>
+    <div id="list-tugas"></div>
 </div>
 
 <script>
-    fetch('data_materi.json')
-        .then(res => res.json())
+    // PASTIKAN NAMA FILE JSON BENAR
+    const fileJSON = 'data_tugas.json'; 
+
+    fetch(fileJSON)
+        .then(response => {
+            if (!response.ok) { throw new Error("File JSON tidak ditemukan."); }
+            return response.json();
+        })
         .then(data => {
+            document.getElementById('loading').style.display = 'none';
+            
+            if(data.length === 0) {
+                document.getElementById('list-tugas').innerHTML = "<p class='error-box'>Belum ada tugas aktif.</p>";
+                return;
+            }
+
             let html = '';
             data.forEach(item => {
+                // LOGIKA WARNA BADGE OTOMATIS
+                let badgeClass = 'bg-tugas'; // Default Kuning
+                if(item.status === 'WAJIB') badgeClass = 'bg-wajib'; // Merah
+                if(item.status === 'LATIHAN') badgeClass = 'bg-latihan'; // Hijau
+
                 html += `
-                <div class="item-card">
-                    <div class="info">
-                        <h4>${item.judul}</h4>
-                        <p>${item.deskripsi}</p>
-                    </div>
-                    <a href="${item.link}" target="_blank" class="btn-buka">Buka 🚀</a>
+                <div class="card">
+                    <span class="badge ${badgeClass}">${item.status}</span>
+                    <h4>${item.judul}</h4>
+                    <p>${item.deskripsi}</p>
+                    <a href="${item.link}" class="btn-kerjakan">Mulai Kerjakan ►</a>
                 </div>`;
             });
-            document.getElementById('list-materi').innerHTML = html;
+            document.getElementById('list-tugas').innerHTML = html;
+        })
+        .catch(err => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('list-tugas').innerHTML = `
+                <div class="error-box">
+                    <strong>Gagal Memuat!</strong><br>${err.message}
+                </div>`;
         });
 </script>
+
 </body>
 </html>
