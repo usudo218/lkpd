@@ -1,20 +1,14 @@
 [
   {
     "judul": "UH 1: Perangkat Keras",
-    "deskripsi": "Kerjakan dengan teliti. Soal pilihan ganda & essay.",
+    "deskripsi": "Soal PG, BS, Kompleks & Essay.",
     "status": "WAJIB",
-    "link": "ujian_perangkat_keras.html"
+    "link": "engine.html?file=soal_uh1.json"
   },
   {
-    "judul": "Latihan: Jaringan Komputer",
-    "deskripsi": "Latihan soal untuk persiapan ujian semester.",
+    "judul": "Latihan Jaringan (Contoh)",
+    "deskripsi": "Soal latihan santai.",
     "status": "LATIHAN",
-    "link": "latihan_jaringan.html"
-  },
-  {
-    "judul": "Tugas: Algoritma",
-    "deskripsi": "Kuis singkat logika pemrograman.",
-    "status": "TUGAS",
-    "link": "tugas_algoritma.html"
+    "link": "engine.html?file=soal_latihan.json"
   }
 ]
