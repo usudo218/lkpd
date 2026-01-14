@@ -16,87 +16,78 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg-light); margin: 0; padding: 20px; color: var(--text-dark); }
         .container { max-width: 800px; margin: 0 auto; }
         
-        /* === HALAMAN 1: IDENTITAS (DIBUAT SANGAT JELAS) === */
+        /* === HALAMAN 1: IDENTITAS === */
         #halaman-identitas { 
-            display: block; /* Pastikan muncul */
-            background: white; padding: 40px; border-radius: 15px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
-            text-align: left;
+            display: block; background: white; padding: 30px; border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: left;
         }
-
-        .judul-halaman { text-align: center; color: var(--primary); margin-bottom: 30px; font-weight: 800; font-size: 24px; }
-        
-        /* STYLE INPUT YANG LEBIH TEGAS */
-        .form-group { margin-bottom: 25px; }
-        .form-label { 
-            display: block; 
-            font-weight: 700; 
-            margin-bottom: 8px; 
-            color: #333; 
-            font-size: 16px;
-        }
+        .form-label { display: block; font-weight: 800; margin-bottom: 8px; color: #333; }
         .form-input { 
-            width: 100%; 
-            padding: 15px; 
-            font-size: 16px; 
-            border: 2px solid #ccc; /* Garis Jelas */
-            border-radius: 8px; 
-            background-color: #fff;
-            box-sizing: border-box; /* Agar tidak melebar */
-            transition: 0.3s;
+            width: 100%; padding: 15px; font-size: 16px; border: 2px solid #ccc; 
+            border-radius: 8px; box-sizing: border-box; margin-bottom: 20px;
         }
-        .form-input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
-        }
-
         .btn-mulai { 
-            width: 100%; padding: 18px; background: var(--primary); color: white; 
+            width: 100%; padding: 15px; background: var(--primary); color: white; 
             border: none; border-radius: 10px; font-weight: 800; font-size: 18px; cursor: pointer; 
-            margin-top: 10px; box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
         }
 
-        /* === HALAMAN 2: UJIAN (HIDDEN DEFAULT) === */
+        /* === HALAMAN 2: UJIAN === */
         #halaman-ujian { display: none; }
         
         .header-cbt { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .progress-container { width: 100%; background: #eee; height: 8px; border-radius: 4px; margin-top: 10px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--success); width: 0%; transition: 0.3s; }
+        .progress-bar { height: 8px; background: var(--success); width: 0%; transition: 0.3s; border-radius: 4px; }
         
-        /* SOAL CARD */
         .soal-card { 
-            display: none; background: white; padding: 25px; border-radius: 12px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--primary);
-            text-align: left;
+            display: none; background: white; padding: 20px; border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); text-align: left;
         }
         .soal-card.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .nomor-soal { display: inline-block; background: #eef2ff; color: var(--primary); padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 14px; margin-bottom: 15px; }
-        .pertanyaan { font-size: 18px; font-weight: 600; margin-bottom: 25px; line-height: 1.6; }
+        .pertanyaan { font-size: 17px; font-weight: 600; margin-bottom: 20px; line-height: 1.6; }
 
-        /* OPSI JAWABAN */
-        .opsi-label { display: flex; align-items: center; padding: 15px; margin-bottom: 12px; background: white; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-        .opsi-label:hover { background: #f8f9fa; border-color: #bbb; }
-        .opsi-label::before { content: ''; display: block; width: 20px; height: 20px; margin-right: 15px; border: 2px solid #999; border-radius: 50%; background: white; flex-shrink: 0; }
-        .checkbox-label::before { border-radius: 4px; }
+        /* === PERBAIKAN TOMBOL OPSI (PENTING) === */
+        /* Sembunyikan Radio/Checkbox Asli */
+        .input-hidden { display: none; }
+
+        /* Desain Label Tombol */
+        .opsi-label { 
+            display: flex; align-items: center; padding: 15px; margin-bottom: 10px; 
+            background: white; border: 2px solid #e5e7eb; border-radius: 10px; 
+            cursor: pointer; transition: 0.2s; position: relative;
+        }
         
-        input:checked + .opsi-label { background: #e7f5ff; border-color: var(--primary); font-weight: 600; color: var(--primary); }
-        input:checked + .opsi-label::before { background: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 3px white; }
-        input[type="radio"], input[type="checkbox"] { display: none; } /* Hide default */
+        /* Ikon Bulat/Kotak di Kiri */
+        .opsi-label::before { 
+            content: ''; display: block; width: 20px; height: 20px; margin-right: 15px; 
+            border: 2px solid #9ca3af; border-radius: 50%; background: white; flex-shrink: 0; 
+        }
+        .checkbox-label::before { border-radius: 4px; } /* Kotak untuk checkbox */
 
-        /* NAVIGASI */
-        .nav-box { display: flex; gap: 10px; margin-top: 25px; }
-        .btn-nav { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
-        .btn-prev { background: #e9ecef; color: #555; }
+        /* EFEK SAAT DIPILIH (CHECKED) - INI KUNCINYA */
+        input:checked + .opsi-label { 
+            background-color: #e0e7ff; /* Biru Muda */
+            border-color: var(--primary); 
+            color: var(--primary); 
+            font-weight: 700;
+        }
+        input:checked + .opsi-label::before { 
+            background-color: var(--primary); 
+            border-color: var(--primary); 
+            box-shadow: inset 0 0 0 3px white; 
+        }
+
+        /* Navigasi */
+        .nav-box { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-nav { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-prev { background: #e9ecef; }
         .btn-next { background: var(--primary); color: white; }
         .btn-submit { background: var(--success); color: white; display: none; }
 
-        /* TABEL MENJODOHKAN */
-        .table-jodoh { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        /* Tabel Menjodohkan */
+        .table-jodoh { width: 100%; border-collapse: collapse; margin-top: 10px; }
         .table-jodoh td, .table-jodoh th { border: 1px solid #ddd; padding: 10px; text-align: center; }
-        .table-jodoh td:first-child { text-align: left; background: #fafafa; font-weight: bold; width: 40%; }
+        .table-jodoh td:first-child { text-align: left; font-weight: bold; width: 40%; }
         .radio-jodoh { display: inline-block !important; transform: scale(1.5); }
     </style>
 </head>
@@ -105,26 +96,21 @@
 <div class="container">
 
     <div id="halaman-identitas">
-        <h2 class="judul-halaman">📝 Data Peserta</h2>
-        <p style="text-align:center; color:#666; margin-bottom:30px;" id="judul-mapel-display">Memuat Info Ujian...</p>
+        <h2 style="text-align:center; color:var(--primary);">📝 Data Peserta</h2>
+        <p style="text-align:center; color:#666;" id="judul-mapel-display">Memuat...</p>
         
         <form id="formIdentitas">
-            <div class="form-group">
-                <label class="form-label">NAMA LENGKAP:</label>
-                <input type="text" id="inputNama" class="form-input" placeholder="Ketik Nama Lengkap Anda..." required>
-            </div>
+            <label class="form-label">NAMA LENGKAP:</label>
+            <input type="text" id="inputNama" class="form-input" placeholder="Ketik Nama Anda..." required>
 
-            <div class="form-group">
-                <label class="form-label">KELAS:</label>
-                <select id="inputKelas" class="form-input" required>
-                    <option value="">-- Pilih Kelas --</option>
-                    <option value="10-1">10-1</option>
-                    <option value="10-2">10-2</option>
-                    <option value="10-3">10-3</option>
-                    <option value="10-4">10-4</option>
-                </select>
-            </div>
-
+            <label class="form-label">KELAS:</label>
+            <select id="inputKelas" class="form-input" required>
+                <option value="">-- Pilih Kelas --</option>
+                <option value="10-1">10-1</option>
+                <option value="10-2">10-2</option>
+                <option value="10-3">10-3</option>
+                <option value="10-4">10-4</option>
+            </select>
             <button type="button" class="btn-mulai" onclick="bukaSoal()">MULAI KERJAKAN ▶</button>
         </form>
     </div>
@@ -135,11 +121,14 @@
                 <span id="info-mapel">MAPEL</span>
                 <span id="counter-soal">Soal 1 / 10</span>
             </div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="background:#eee; height:8px; border-radius:4px; margin-top:10px;">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
         </div>
 
         <form id="formUjian">
-            <div id="area-soal"></div> <div class="nav-box">
+            <div id="area-soal"></div>
+            <div class="nav-box">
                 <button type="button" class="btn-nav btn-prev" id="btnPrev" onclick="gantiSoal(-1)">Kembali</button>
                 <button type="button" class="btn-nav btn-next" id="btnNext" onclick="gantiSoal(1)">Selanjutnya ❯</button>
                 <button type="submit" class="btn-nav btn-submit" id="btnSubmit">KIRIM JAWABAN ✅</button>
@@ -151,20 +140,19 @@
 
 <script>
     // ==========================================
-    // ⚠️ PASTE LINK GOOGLE SCRIPT DISINI
+    // ⚠️ PASTE URL GOOGLE SCRIPT DISINI
     // ==========================================
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx...PASTE_URL_DISINI.../exec'; 
 
     let currentIdx = 0;
     let totalSoal = 0;
     
-    // 1. AMBIL SOAL DARI JSON
     const urlParams = new URLSearchParams(window.location.search);
     const namaFile = urlParams.get('file');
 
     if(namaFile) {
         const judul = namaFile.replace('.json', '').replace(/_/g, ' ').toUpperCase();
-        document.getElementById('judul-mapel-display').innerText = "Ujian: " + judul;
+        document.getElementById('judul-mapel-display').innerText = judul;
         document.getElementById('info-mapel').innerText = judul;
 
         fetch(namaFile)
@@ -173,10 +161,9 @@
                 totalSoal = data.length;
                 renderSoal(data);
             })
-            .catch(err => alert("Gagal memuat soal. Cek nama file JSON!"));
+            .catch(err => alert("Gagal memuat soal. Cek nama file!"));
     }
 
-    // 2. RENDER SEMUA SOAL (TAPI DISEMBUNYIKAN)
     function renderSoal(data) {
         const area = document.getElementById('area-soal');
         area.innerHTML = '';
@@ -186,14 +173,17 @@
             
             let html = `
             <div class="soal-card ${activeClass}" id="card-${index}">
-                <span class="nomor-soal">Nomor ${index + 1}</span>
+                <div style="background:#eef2ff; color:var(--primary); display:inline-block; padding:5px 10px; border-radius:5px; font-weight:bold; margin-bottom:15px;">
+                    Soal Nomor ${index + 1}
+                </div>
                 <div class="pertanyaan">${item.tanya}</div>
                 <div class="opsi-container">`;
 
-            // RENDER OPSI
+            // 1. ESSAY
             if(item.jenis === 'essay') {
                 html += `<textarea name="soal_${item.id}" class="form-input" rows="5" placeholder="Jawab disini..."></textarea>`;
             } 
+            // 2. MENJODOHKAN
             else if(item.jenis === 'jodoh') {
                 html += `<table class="table-jodoh"><thead><tr><th>Pernyataan</th>`;
                 item.respon.forEach(r => html += `<th>${r}</th>`);
@@ -205,20 +195,26 @@
                 });
                 html += `</tbody></table>`;
             }
-            else if(item.jenis === 'kompleks') { // Checkbox
+            // 3. CHECKBOX (PG KOMPLEKS)
+            else if(item.jenis === 'kompleks') {
                 item.opsi.forEach((opt, i) => {
-                    html += `<label class="opsi-label checkbox-label">
-                                <input type="checkbox" name="soal_${item.id}" value="${opt}">
-                                ${opt}
-                             </label>`;
+                    // ID UNIK PER OPSI AGAR BISA DIKLIK
+                    let uniqueID = `soal_${item.id}_opt_${i}`;
+                    html += `
+                        <input type="checkbox" id="${uniqueID}" name="soal_${item.id}" value="${opt}" class="input-hidden">
+                        <label for="${uniqueID}" class="opsi-label checkbox-label">${opt}</label>
+                    `;
                 });
             }
-            else { // PG / BS (Radio)
+            // 4. PG / BS (RADIO)
+            else {
                 item.opsi.forEach((opt, i) => {
-                    html += `<label class="opsi-label">
-                                <input type="radio" name="soal_${item.id}" value="${opt}">
-                                ${opt}
-                             </label>`;
+                    // ID UNIK PER OPSI AGAR BISA DIKLIK
+                    let uniqueID = `soal_${item.id}_opt_${i}`;
+                    html += `
+                        <input type="radio" id="${uniqueID}" name="soal_${item.id}" value="${opt}" class="input-hidden">
+                        <label for="${uniqueID}" class="opsi-label">${opt}</label>
+                    `;
                 });
             }
 
@@ -227,11 +223,10 @@
         });
     }
 
-    // 3. LOGIKA PINDAH HALAMAN
     function bukaSoal() {
         const nama = document.getElementById('inputNama').value;
         const kelas = document.getElementById('inputKelas').value;
-        if(!nama || !kelas) { alert("⚠️ Mohon isi Nama dan Kelas dulu!"); return; }
+        if(!nama || !kelas) { alert("Isi Nama dan Kelas dulu!"); return; }
 
         document.getElementById('halaman-identitas').style.display = 'none';
         document.getElementById('halaman-ujian').style.display = 'block';
@@ -239,12 +234,10 @@
     }
 
     function gantiSoal(n) {
-        // Validasi: Harus diisi sebelum Next
         if(n === 1 && !cekTerisi(currentIdx)) {
-            alert("⚠️ Jawab dulu soal ini sebelum lanjut!");
+            alert("⚠️ Jawab dulu soal ini!");
             return;
         }
-
         document.getElementById(`card-${currentIdx}`).classList.remove('active');
         currentIdx += n;
         document.getElementById(`card-${currentIdx}`).classList.add('active');
@@ -269,22 +262,16 @@
 
     function cekTerisi(idx) {
         const card = document.getElementById(`card-${idx}`);
-        const inputs = card.querySelectorAll('input:checked, textarea');
-        let isFilled = false;
-        if(inputs.length > 0) {
-            inputs.forEach(inp => {
-                if(inp.type === 'textarea' && inp.value.trim() !== '') isFilled = true;
-                else if(inp.type !== 'textarea') isFilled = true;
-            });
-        }
-        // Cek Textarea manual karena querySelectorAll :checked ga nangkep textarea
-        const txt = card.querySelector('textarea');
-        if(txt && txt.value.trim() !== '') isFilled = true;
+        const inputs = card.querySelectorAll('input:checked');
+        const textareas = card.querySelectorAll('textarea');
+        let filled = false;
         
-        return isFilled;
+        if(inputs.length > 0) filled = true;
+        textareas.forEach(t => { if(t.value.trim() !== '') filled = true; });
+        
+        return filled;
     }
 
-    // 4. KIRIM DATA
     document.getElementById('formUjian').addEventListener('submit', e => {
         e.preventDefault();
         if(!confirm("Kirim Jawaban?")) return;
@@ -295,35 +282,32 @@
 
         const formData = new FormData(document.getElementById('formUjian'));
         const finalData = new FormData();
-
-        // Identitas
+        
         finalData.append('Waktu', new Date().toLocaleString());
         finalData.append('Nama', document.getElementById('inputNama').value);
         finalData.append('Kelas', document.getElementById('inputKelas').value);
         finalData.append('Mapel', document.getElementById('info-mapel').innerText);
 
-        // Jawaban (Logic Gabung Checkbox/Jodoh)
         const entries = formData.entries();
         const processedKeys = new Set();
+        
         for(let [key, value] of entries) {
             let mainKey = key.includes('_row_') ? key.split('_row_')[0] : key;
             if(processedKeys.has(mainKey)) continue;
 
-            const allVal = formData.getAll(key);
-            if(key.includes('_row_')) { // Jodoh
+            if(key.includes('_row_')) { 
                 let arr = [];
                 document.querySelectorAll(`input[name^="${mainKey}"]:checked`).forEach(el => arr.push(el.value));
                 finalData.append(mainKey, arr.join(', '));
-            } else if(allVal.length > 1) {
-                finalData.append(key, allVal.join(', '));
             } else {
-                finalData.append(key, value);
+                const allVal = formData.getAll(key);
+                finalData.append(key, allVal.length > 1 ? allVal.join(', ') : value);
             }
             processedKeys.add(mainKey);
         }
 
         fetch(scriptURL, { method: 'POST', body: finalData})
-            .then(() => { alert("✅ Terkirim!"); window.location.href = "tugas.html"; })
+            .then(() => { alert("✅ Berhasil!"); window.location.href = "tugas.html"; })
             .catch(() => { alert("❌ Gagal!"); btn.disabled = false; btn.innerHTML = "Coba Lagi"; });
     });
 </script>
