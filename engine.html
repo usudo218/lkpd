@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ujian Online</title>
+    <style>
+        /* GAYA TAMPILAN (Sama seperti sebelumnya) */
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f6f8; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #007bff; padding-bottom: 20px; }
+        .identitas { background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #90caf9; }
+        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .soal-box { margin-bottom: 25px; padding: 15px; background: #fafafa; border: 1px solid #eee; border-radius: 8px; }
+        .nomor { font-weight: bold; color: #007bff; margin-right: 5px; }
+        .label-opsi { display: block; margin: 8px 0; cursor: pointer; padding: 8px; border-radius: 5px; transition: 0.2s; }
+        .label-opsi:hover { background: #f0f0f0; }
+        button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+        button:disabled { background: #ccc; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2 id="judul-ujian">📝 Ujian Sekolah</h2> <p>Pastikan koneksi internet lancar.</p>
+    </div>
+
+    <form id="formUjian">
+        <div class="identitas">
+            <label><b>Nama Lengkap:</b></label>
+            <input type="text" name="nama" required placeholder="Nama Siswa">
+            <label style="margin-top:10px; display:block;"><b>Kelas:</b></label>
+            <select name="kelas" required>
+                <option value="">-- Pilih Kelas --</option>
+                <option value="10-1">10-1</option>
+                <option value="10-2">10-2</option>
+                <option value="10-3">10-3</option>
+                <option value="10-4">10-4</option>
+            </select>
+            <input type="hidden" name="mapel" id="inputMapel">
+        </div>
+
+        <div id="area-soal"><p style="text-align:center;">⏳ Memuat soal...</p></div>
+        <button type="submit" id="btnKirim">🚀 KIRIM JAWABAN</button>
+    </form>
+</div>
+
+<script>
+    // --- KONFIGURASI LINK SCRIPT GOOGLE BAPAK ---
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx...PASTE_URL_DISINI.../exec';
+
+    // 1. TANGKAP NAMA FILE DARI URL (Query String)
+    // Contoh URL: engine.html?file=soal_uh1.json
+    const urlParams = new URLSearchParams(window.location.search);
+    const namaFile = urlParams.get('file'); // Akan berisi 'soal_uh1.json'
+
+    if(!namaFile) {
+        document.getElementById('area-soal').innerHTML = "<p style='color:red; text-align:center'>❌ Error: Tidak ada file soal yang dipilih.</p>";
+    } else {
+        // Update Judul Mapel agar rapi (Hilangkan .json dan tanda _)
+        const judulRapih = namaFile.replace('.json', '').replace(/_/g, ' ').toUpperCase();
+        document.getElementById('judul-ujian').innerText = "📝 " + judulRapih;
+        document.getElementById('inputMapel').value = judulRapih;
+
+        // 2. FETCH SOAL BERDASARKAN FILE YANG DIPILIH
+        fetch(namaFile)
+            .then(res => {
+                if(!res.ok) throw new Error("Gagal memuat " + namaFile);
+                return res.json();
+            })
+            .then(data => {
+                const area = document.getElementById('area-soal');
+                area.innerHTML = ''; 
+                data.forEach((item, index) => {
+                    let html = `<div class="soal-box"><p><span class="nomor">${index + 1}.</span> ${item.tanya}</p>`;
+                    
+                    if(item.jenis === 'essay'){
+                        html += `<textarea name="soal_${item.id}" rows="3" required></textarea>`;
+                    } else if(item.jenis === 'kompleks'){
+                        item.opsi.forEach(opt => {
+                            html += `<label class="label-opsi"><input type="checkbox" name="soal_${item.id}" value="${opt}"> ${opt}</label>`;
+                        });
+                    } else {
+                        item.opsi.forEach(opt => {
+                            html += `<label class="label-opsi"><input type="radio" name="soal_${item.id}" value="${opt}" required> ${opt}</label>`;
+                        });
+                    }
+                    html += `</div>`;
+                    area.innerHTML += html;
+                });
+            })
+            .catch(err => {
+                document.getElementById('area-soal').innerHTML = "<p style='color:red; text-align:center'>❌ Gagal: " + err.message + "</p>";
+            });
+    }
+
+    // 3. KIRIM JAWABAN
+    const form = document.getElementById('formUjian');
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        if(!confirm("Kirim jawaban sekarang?")) return;
+        
+        // Logika gabung checkbox
+        const formData = new FormData(form);
+        const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+        // (Tambahkan logika penggabungan checkbox manual jika perlu, atau biarkan Google Script menangani array)
+        
+        document.getElementById('btnKirim').innerHTML = "⏳ Mengirim...";
+        document.getElementById('btnKirim').disabled = true;
+
+        fetch(scriptURL, { method: 'POST', body: formData})
+            .then(response => { alert("✅ Berhasil!"); window.location.href = "tugas.html"; })
+            .catch(error => { alert("❌ Gagal!"); document.getElementById('btnKirim').disabled = false; });
+    });
+</script>
+</body>
+</html>
