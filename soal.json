@@ -1,0 +1,71 @@
+[
+  {
+    "id": "1",
+    "jenis": "bs",
+    "tanya": "Pernyataan: RAM (Random Access Memory) berfungsi menyimpan data secara permanen, sehingga data tidak akan hilang meskipun listrik mati.",
+    "opsi": [
+      "Benar",
+      "Salah"
+    ]
+  },
+  {
+    "id": "2",
+    "jenis": "pg",
+    "tanya": "Manakah di bawah ini yang merupakan perangkat keras yang berfungsi sebagai 'Otak' komputer untuk memproses data?",
+    "opsi": [
+      "Harddisk",
+      "VGA Card",
+      "Processor (CPU)",
+      "Motherboard",
+      "Power Supply"
+    ]
+  },
+  {
+    "id": "3",
+    "jenis": "pg",
+    "tanya": "Perangkat yang berfungsi mengubah dokumen fisik (kertas) menjadi data digital (gambar) adalah...",
+    "opsi": [
+      "Printer",
+      "Scanner",
+      "Plotter",
+      "Speaker",
+      "Projector"
+    ]
+  },
+  {
+    "id": "4",
+    "jenis": "kompleks",
+    "tanya": "Pilih DUA perangkat yang termasuk dalam kategori STORAGE (Penyimpanan Data):",
+    "opsi": [
+      "SSD (Solid State Drive)",
+      "RAM",
+      "Flashdisk",
+      "Processor",
+      "Monitor"
+    ]
+  },
+  {
+    "id": "5",
+    "jenis": "kompleks",
+    "tanya": "Pilih DUA perangkat yang berfungsi sebagai OUTPUT Device (Keluaran):",
+    "opsi": [
+      "Mouse",
+      "Speaker",
+      "Microphone",
+      "Monitor",
+      "Webcam"
+    ]
+  },
+  {
+    "id": "6",
+    "jenis": "essay",
+    "tanya": "Jelaskan fungsi dari Motherboard pada sebuah komputer dengan bahasa Anda sendiri!",
+    "opsi": []
+  },
+  {
+    "id": "7",
+    "jenis": "essay",
+    "tanya": "Sebutkan perbedaan utama antara SSD dan Harddisk (HDD) dari segi kecepatan dan ketahanan!",
+    "opsi": []
+  }
+]
