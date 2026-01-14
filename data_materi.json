@@ -1,17 +1,121 @@
-[
-  {
-    "judul": "Modul 1: Pengenalan Hardware",
-    "deskripsi": "Pelajari komponen CPU, RAM, dan Storage.",
-    "link": "https://drive.google.com/file/d/CONTOH_LINK_DRIVE_1/view"
-  },
-  {
-    "judul": "Modul 2: Jaringan Dasar",
-    "deskripsi": "Materi tentang LAN, MAN, WAN dan Topologi.",
-    "link": "https://drive.google.com/file/d/CONTOH_LINK_DRIVE_2/view"
-  },
-  {
-    "judul": "Modul 3: Algoritma Pemrograman",
-    "deskripsi": "Belajar dasar logika coding dan flowchart.",
-    "link": "https://drive.google.com/file/d/CONTOH_LINK_DRIVE_3/view"
-  }
-]
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Materi | Usudo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #eef2f3; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-back { text-decoration: none; color: #555; font-weight: bold; padding: 8px 15px; border: 1px solid #ccc; border-radius: 5px; background: white; }
+        
+        /* === BAGIAN GRID (INTI PERUBAHAN) === */
+        #list-materi {
+            display: grid;
+            gap: 20px; /* Jarak antar kartu */
+            
+            /* DEFAULT: HP & Tablet (2 Kolom) */
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* LAYAR LAPTOP/PC (Lebar > 1024px) -> Ubah jadi 4 Kolom */
+        @media (min-width: 1024px) {
+            #list-materi {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* OPTIONAL: Untuk HP sangat kecil (< 480px) sebaiknya 1 kolom biar terbaca */
+        @media (max-width: 480px) {
+            #list-materi {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+
+        /* === DESAIN KARTU === */
+        .card { 
+            background: white; 
+            border-radius: 10px; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            display: flex; 
+            flex-direction: column; /* Agar isi kartu menumpuk ke bawah */
+            justify-content: space-between; /* Agar tombol selalu di bawah */
+            height: 100%; /* Agar tinggi kartu seragam */
+            border-top: 4px solid #28a745;
+            transition: transform 0.2s;
+        }
+        
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        
+        h4 { margin: 0 0 10px 0; font-size: 16px; color: #333; line-height: 1.4; }
+        p { font-size: 12px; color: #666; margin: 0 0 20px 0; flex-grow: 1; }
+        
+        .btn-buka { 
+            background: #28a745; color: white; text-decoration: none; text-align: center;
+            padding: 10px; border-radius: 5px; font-weight: bold; font-size: 13px; display: block;
+        }
+        .btn-buka:hover { background: #218838; }
+
+        /* Error Box Style */
+        .error-box { grid-column: 1 / -1; background: #ffdddd; color: #a00; padding: 20px; border-radius: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2 style="margin:0;">📚 Materi Pelajaran</h2>
+        <a href="index.html" class="btn-back">🏠 Dashboard</a>
+    </div>
+
+    <div id="loading" style="text-align:center; padding:20px;">⏳ Memuat data materi...</div>
+    
+    <div id="list-materi"></div>
+</div>
+
+<script>
+    const fileJSON = 'data_materi.json'; 
+
+    fetch(fileJSON)
+        .then(response => {
+            if (!response.ok) { throw new Error("File tidak ditemukan (Cek nama file JSON)"); }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('loading').style.display = 'none';
+            
+            if(data.length === 0) {
+                document.getElementById('list-materi').innerHTML = "<p class='error-box'>Data JSON kosong.</p>";
+                return;
+            }
+
+            let html = '';
+            data.forEach(item => {
+                // Kita gunakan class "card" agar sesuai desain CSS diatas
+                html += `
+                <div class="card">
+                    <div>
+                        <h4>${item.judul}</h4>
+                        <p>${item.deskripsi}</p>
+                    </div>
+                    <a href="${item.link}" target="_blank" class="btn-buka">Buka Materi 🚀</a>
+                </div>`;
+            });
+            document.getElementById('list-materi').innerHTML = html;
+        })
+        .catch(err => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('list-materi').innerHTML = `
+                <div class="error-box">
+                    <strong>Gagal Memuat!</strong><br>
+                    ${err.message}
+                </div>`;
+        });
+</script>
+
+</body>
+</html>
