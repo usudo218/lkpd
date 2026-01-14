@@ -2,9 +2,10 @@
   {
     "judul": "Materi 1",
     "link": "..."
-  }   <-- KURANG KOMA DI SINI!
+  },   <-- KURANG KOMA DI SINI!
   {
     "judul": "Materi 2",
     "link": "..."
   },  <-- KELEBIHAN KOMA DI SINI (Padahal item terakhir)
+
 ]
