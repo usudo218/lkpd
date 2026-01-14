@@ -3,141 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ujian Online | Usudo Edu</title>
+    <title>Ujian Online CBT</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #4361ee;
-            --secondary: #3f37c9;
+            --secondary: #6c757d;
+            --success: #28a745;
             --bg-light: #f3f4f6;
             --text-dark: #1f2937;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        body { font-family: 'Inter', sans-serif; background: var(--bg-light); margin: 0; padding: 20px; color: var(--text-dark); line-height: 1.6; }
-        .container { max-width: 850px; margin: 0 auto; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-light); margin: 0; padding: 20px; color: var(--text-dark); }
+        .container { max-width: 800px; margin: 0 auto; }
         
-        /* HEADER & IDENTITAS */
-        .header-exam { background: white; padding: 25px; border-radius: 12px; box-shadow: var(--card-shadow); margin-bottom: 25px; text-align: center; border-bottom: 4px solid var(--primary); }
-        .header-exam h2 { margin: 0; color: var(--primary); font-weight: 800; font-size: 24px; }
-        
-        .identitas-box { background: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: var(--card-shadow); border: 1px solid #e5e7eb; }
+        /* HEADER & PROGRESS BAR */
+        .header-cbt { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .progress-container { width: 100%; background-color: #e9ecef; height: 10px; border-radius: 5px; margin-top: 15px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--success); width: 0%; transition: width 0.3s ease; }
+        .info-soal { display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; color: #555; }
+
+        /* IDENTITAS (Hanya muncul di awal) */
+        #halaman-identitas { display: block; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .form-group { margin-bottom: 15px; text-align: left; }
-        .form-label { font-weight: 600; display: block; margin-bottom: 8px; color: #374151; font-size: 14px; }
-        .form-input { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; font-size: 14px; transition: 0.3s; box-sizing: border-box; }
-        .form-input:focus { border-color: var(--primary); outline: none; ring: 2px solid var(--primary); }
+        .form-input { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; box-sizing: border-box; }
+        .btn-mulai { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-        /* SOAL CARD (RATA KIRI) */
+        /* SOAL CARD (Disembunyikan Default) */
         .soal-card { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 12px; 
-            box-shadow: var(--card-shadow); 
-            margin-bottom: 25px; 
-            text-align: left; /* PASTI RATA KIRI */
-            border-left: 5px solid var(--primary); /* Aksen garis di kiri */
+            display: none; /* RAHASIA: Default sembunyi */
+            background: white; padding: 25px; border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; 
+            text-align: left; border-left: 5px solid var(--primary); animation: fadeIn 0.4s;
         }
+        .soal-card.active { display: block; } /* Hanya yang aktif yang muncul */
 
-        .nomor-soal { 
-            display: inline-block; 
-            background: #eef2ff; 
-            color: var(--primary); 
-            padding: 4px 12px; 
-            border-radius: 6px; 
-            font-weight: 700; 
-            font-size: 13px; 
-            margin-bottom: 15px; 
-            border: 1px solid #c7d2fe;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .pertanyaan { 
-            font-size: 16px; 
-            font-weight: 600; 
-            margin-bottom: 20px; 
-            text-align: left; /* PASTI RATA KIRI */
-            color: #111827;
-        }
+        .nomor-soal { display: inline-block; background: #eef2ff; color: var(--primary); padding: 5px 12px; border-radius: 6px; font-weight: 700; font-size: 13px; margin-bottom: 15px; }
+        .pertanyaan { font-size: 17px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
 
-        /* OPSI JAWABAN (RATA KIRI) */
-        .opsi-container input[type="radio"], .opsi-container input[type="checkbox"] { display: none; }
-        
-        .opsi-label { 
-            display: flex; /* Biar ikon & teks sejajar rapi */
-            align-items: center;
-            padding: 12px 15px; 
-            margin-bottom: 10px; 
-            background: white; 
-            border: 1px solid #d1d5db;
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            font-weight: 500;
-            font-size: 15px;
-            text-align: left; /* PASTI RATA KIRI */
-        }
-        
-        /* Ikon Lingkaran/Kotak */
-        .opsi-label::before {
-            content: ''; 
-            display: inline-block;
-            width: 18px; height: 18px; 
-            margin-right: 15px; /* Jarak ikon ke teks */
-            border: 2px solid #9ca3af; 
-            border-radius: 50%; 
-            background: white; 
-            flex-shrink: 0; /* Biar ikon tidak gepeng kalau teks panjang */
-        }
+        /* OPSI JAWABAN */
+        .opsi-label { display: flex; align-items: center; padding: 12px 15px; margin-bottom: 10px; background: white; border: 1px solid #dee2e6; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .opsi-label:hover { background: #f8f9fa; }
+        .opsi-label::before { content: ''; display: inline-block; width: 18px; height: 18px; margin-right: 15px; border: 2px solid #adb5bd; border-radius: 50%; background: white; flex-shrink: 0; }
         .checkbox-label::before { border-radius: 4px; }
+        input[type="radio"]:checked + .opsi-label, input[type="checkbox"]:checked + .opsi-label { background: #e7f5ff; border-color: var(--primary); color: var(--primary); font-weight: 600; }
+        input[type="radio"]:checked + .opsi-label::before, input[type="checkbox"]:checked + .opsi-label::before { background: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 3px white; }
+        input { display: none; } /* Sembunyikan radio asli */
 
-        /* Efek Checked */
-        .opsi-container input:checked + .opsi-label {
-            background: #eff6ff; border-color: var(--primary); color: var(--secondary);
-        }
-        .opsi-container input:checked + .opsi-label::before {
-            background: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 3px white;
-        }
-
-        /* ESSAY & TABLE */
-        .essay-area { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; font-size: 14px; min-height: 100px; box-sizing: border-box; }
+        /* TOMBOL NAVIGASI (Next/Prev) */
+        .nav-box { display: none; justify-content: space-between; gap: 10px; margin-top: 20px; }
+        .btn-nav { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .btn-prev { background: #e9ecef; color: #495057; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-submit { background: var(--success); color: white; display: none; } /* Muncul di akhir */
         
-        .table-jodoh-wrapper { overflow-x: auto; margin-top: 15px; }
-        .table-jodoh { width: 100%; border-collapse: collapse; min-width: 500px; } /* Min-width biar ga hancur di HP */
-        .table-jodoh th { padding: 10px; background: #f3f4f6; color: #374151; font-size: 13px; border-bottom: 2px solid #e5e7eb; text-align: center; }
-        /* Kolom Pertama (Pertanyaan Jodoh) RATA KIRI */
-        .table-jodoh td { padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; }
-        .table-jodoh td:first-child { text-align: left; font-weight: 600; width: 40%; } 
-        .radio-jodoh { transform: scale(1.3); cursor: pointer; accent-color: var(--primary); }
-
-        /* TOMBOL KIRIM */
-        .btn-kirim { 
-            width: 100%; padding: 18px; background: var(--primary); 
-            color: white; border: none; font-size: 16px; font-weight: 700; border-radius: 10px; 
-            cursor: pointer; margin-top: 20px; box-shadow: 0 4px 6px rgba(67, 97, 238, 0.3);
-        }
-        .btn-kirim:hover { background: var(--secondary); }
-        .btn-kirim:disabled { background: #9ca3af; cursor: not-allowed; box-shadow: none; }
-        
-        .loading-state, .error-state { text-align: center; padding: 40px; color: #6b7280; }
-        .error-state { color: #ef4444; background: #fef2f2; border-radius: 12px; }
+        .table-jodoh { width: 100%; border-collapse: collapse; margin-top:10px; }
+        .table-jodoh td, .table-jodoh th { border: 1px solid #eee; padding: 8px; text-align: center; }
+        .table-jodoh td:first-child { text-align: left; width: 40%; font-weight: bold; }
+        .radio-jodoh { display: inline-block; transform: scale(1.3); } /* Radio tabel tetap muncul */
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-exam">
-        <h2 id="judul-ujian">📝 Memuat Ujian...</h2>
-        <p style="color:#6b7280; font-size:14px; margin-top:5px;">Kerjakan dengan jujur dan teliti.</p>
-    </div>
-
-    <form id="formUjian">
-        <div class="identitas-box">
+    
+    <div id="halaman-identitas">
+        <h2 style="text-align:center; color:var(--primary);">📝 Identitas Peserta</h2>
+        <p style="text-align:center; margin-bottom:30px; color:#666;" id="judul-mapel">Memuat Ujian...</p>
+        
+        <form id="formIdentitas">
             <div class="form-group">
-                <label class="form-label">Nama Lengkap Siswa</label>
-                <input type="text" name="nama" class="form-input" required placeholder="Ketik nama Anda...">
+                <label>Nama Lengkap</label>
+                <input type="text" id="inputNama" class="form-input" required placeholder="Contoh: Budi Santoso">
             </div>
             <div class="form-group">
-                <label class="form-label">Kelas</label>
-                <select name="kelas" class="form-input" required>
+                <label>Kelas</label>
+                <select id="inputKelas" class="form-input" required>
                     <option value="">-- Pilih Kelas --</option>
                     <option value="10-1">10-1</option>
                     <option value="10-2">10-2</option>
@@ -145,177 +88,226 @@
                     <option value="10-4">10-4</option>
                 </select>
             </div>
-            <input type="hidden" name="mapel" id="inputMapel">
+            <button type="button" class="btn-mulai" onclick="mulaiUjian()">MULAI MENGERJAKAN ▶</button>
+        </form>
+    </div>
+
+    <div id="halaman-ujian" style="display:none;">
+        <div class="header-cbt">
+            <div class="info-soal">
+                <span id="mapel-label">MAPEL</span>
+                <span id="counter-soal">Soal 1 / 10</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
         </div>
 
-        <div id="area-soal" class="loading-state">
-            <p>⏳ Sedang mengambil soal dari server...</p>
-        </div>
+        <form id="formUjian">
+            <div id="area-soal"></div>
 
-        <button type="submit" id="btnKirim" class="btn-kirim">🚀 KIRIM JAWABAN</button>
-    </form>
+            <div class="nav-box" id="navBox">
+                <button type="button" class="btn-nav btn-prev" id="btnPrev" onclick="gantiSoal(-1)">Kembali</button>
+                <button type="button" class="btn-nav btn-next" id="btnNext" onclick="gantiSoal(1)">Selanjutnya ❯</button>
+                <button type="submit" class="btn-nav btn-submit" id="btnSubmit">Kirim Jawaban ✅</button>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 <script>
-    // ============================================================
-    // ⚠️ PASTE URL GOOGLE APPS SCRIPT ANDA DISINI
-    // ============================================================
+    // ===========================================
+    // ⚠️ GANTI LINK GOOGLE SCRIPT DISINI
+    // ===========================================
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx...PASTE_URL_DISINI.../exec'; 
-    // ============================================================
 
+    let currentSoalIndex = 0;
+    let totalSoal = 0;
+    let dataSoal = [];
+
+    // 1. LOAD SOAL SAAT WEB DIBUKA
     const urlParams = new URLSearchParams(window.location.search);
     const namaFile = urlParams.get('file');
 
-    if(!namaFile) {
-        showError("Tidak ada file soal yang dipilih. Silakan kembali ke dashboard.");
-    } else {
-        const judulRapih = namaFile.replace('.json', '').replace(/_/g, ' ').toUpperCase();
-        document.getElementById('judul-ujian').innerText = judulRapih;
-        document.getElementById('inputMapel').value = judulRapih;
+    if(namaFile) {
+        const judul = namaFile.replace('.json', '').replace(/_/g, ' ').toUpperCase();
+        document.getElementById('judul-mapel').innerText = judul;
+        document.getElementById('mapel-label').innerText = judul;
 
         fetch(namaFile)
-            .then(res => {
-                if(!res.ok) throw new Error(`Gagal membaca file ${namaFile}`);
-                return res.json();
-            })
+            .then(res => res.json())
             .then(data => {
+                dataSoal = data;
+                totalSoal = data.length;
                 renderSoal(data);
             })
-            .catch(err => {
-                showError(err.message + ". Pastikan nama file benar.");
-            });
+            .catch(err => alert("Gagal memuat soal: " + err));
     }
 
+    // 2. FUNGSI RENDER HTML
     function renderSoal(data) {
         const area = document.getElementById('area-soal');
         area.innerHTML = ''; 
         
         data.forEach((item, index) => {
+            // Tambahkan class 'active' hanya untuk soal pertama
+            let status = (index === 0) ? 'active' : ''; 
+            
             let html = `
-            <div class="soal-card" id="soal-${item.id}">
-                <span class="nomor-soal">Soal No. ${index + 1}</span>
+            <div class="soal-card ${status}" id="soal-index-${index}" data-id="${item.id}" data-type="${item.jenis}">
+                <span class="nomor-soal">Nomor ${index + 1}</span>
                 <div class="pertanyaan">${item.tanya}</div>
                 <div class="opsi-container">`;
 
-            // 1. ESSAY
+            // RENDER OPSI (Sama seperti sebelumnya)
             if(item.jenis === 'essay'){
-                html += `<textarea name="soal_${item.id}" class="essay-area" rows="4" placeholder="Jawab disini..." required></textarea>`;
+                html += `<textarea name="soal_${item.id}" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc" rows="4"></textarea>`;
             } 
-            
-            // 2. CHECKBOX (PG KOMPLEKS)
             else if(item.jenis === 'kompleks'){
                 item.opsi.forEach((opt, i) => {
-                    let uniqueID = `soal_${item.id}_opt_${i}`;
-                    html += `
-                        <input type="checkbox" id="${uniqueID}" name="soal_${item.id}" value="${opt}">
-                        <label class="opsi-label checkbox-label" for="${uniqueID}">${opt}</label>
-                    `;
+                    html += `<input type="checkbox" id="c_${item.id}_${i}" name="soal_${item.id}" value="${opt}">
+                             <label class="opsi-label checkbox-label" for="c_${item.id}_${i}">${opt}</label>`;
                 });
-                html += `<small style="color:var(--primary); font-style:italic; display:block; margin-top:5px;">* Pilih lebih dari satu jawaban.</small>`;
             } 
-            
-            // 3. MENJODOHKAN
             else if(item.jenis === 'jodoh'){
-                html += `<div class="table-jodoh-wrapper"><table class="table-jodoh"><thead><tr><th>Pernyataan</th>`;
-                item.respon.forEach(res => { html += `<th>${res}</th>`; });
+                html += `<table class="table-jodoh"><thead><tr><th>Pernyataan</th>`;
+                item.respon.forEach(res => html += `<th>${res}</th>`);
                 html += `</tr></thead><tbody>`;
-                item.premis.forEach((prem, rowIdx) => {
+                item.premis.forEach((prem, r) => {
                     html += `<tr><td>${prem}</td>`;
-                    item.respon.forEach(res => {
-                        html += `<td><input type="radio" class="radio-jodoh" name="soal_${item.id}_row_${rowIdx}" value="${prem}=${res}" required></td>`;
-                    });
+                    item.respon.forEach(res => html += `<td><input type="radio" class="radio-jodoh" name="soal_${item.id}_row_${r}" value="${prem}=${res}"></td>`);
                     html += `</tr>`;
                 });
-                html += `</tbody></table></div>`;
-            }
-
-            // 4. PG BIASA / BS
-            else {
+                html += `</tbody></table>`;
+            } 
+            else { // PG / BS
                 item.opsi.forEach((opt, i) => {
-                    let uniqueID = `soal_${item.id}_opt_${i}`;
-                    html += `
-                        <input type="radio" id="${uniqueID}" name="soal_${item.id}" value="${opt}" required>
-                        <label class="opsi-label" for="${uniqueID}">${opt}</label>
-                    `;
+                    html += `<input type="radio" id="r_${item.id}_${i}" name="soal_${item.id}" value="${opt}">
+                             <label class="opsi-label" for="r_${item.id}_${i}">${opt}</label>`;
                 });
             }
-            
-            html += `</div></div>`; 
+            html += `</div></div>`;
             area.innerHTML += html;
         });
     }
 
-    function showError(msg) {
-        document.getElementById('area-soal').innerHTML = `<div class="error-state">❌ <b>Error</b><br>${msg}</div>`;
-        document.getElementById('btnKirim').disabled = true;
+    // 3. FUNGSI PINDAH HALAMAN (KUNCI UTAMA)
+    function mulaiUjian() {
+        const nama = document.getElementById('inputNama').value;
+        const kelas = document.getElementById('inputKelas').value;
+        if(nama === "" || kelas === "") { alert("Isi nama dan kelas dulu!"); return; }
+
+        document.getElementById('halaman-identitas').style.display = 'none';
+        document.getElementById('halaman-ujian').style.display = 'block';
+        document.getElementById('navBox').style.display = 'flex';
+        updateUI();
     }
 
-    // --- PENGIRIMAN DATA ---
-    const form = document.getElementById('formUjian');
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        // Cek Tabel Menjodohkan
-        const jodohTables = document.querySelectorAll('.table-jodoh tbody');
-        for(let tbody of jodohTables) {
-             const rows = tbody.querySelectorAll('tr');
-             for(let row of rows) {
-                 if(!row.querySelector('input:checked')) {
-                     alert("⚠️ Mohon lengkapi soal Menjodohkan.");
-                     row.scrollIntoView({behavior: "smooth", block: "center"});
-                     return;
-                 }
-             }
+    function gantiSoal(n) {
+        // Validasi: Cek apakah soal sekarang sudah diisi sebelum lanjut
+        if(n === 1) { // Kalau mau klik Next
+            if(!cekJawabanTerisi(currentSoalIndex)) {
+                alert("⚠️ Anda belum menjawab soal ini!");
+                return;
+            }
         }
 
-        if(!confirm("Kirim jawaban sekarang?")) return;
+        // Sembunyikan soal lama
+        document.getElementById(`soal-index-${currentSoalIndex}`).classList.remove('active');
         
-        const btn = document.getElementById('btnKirim');
+        // Update Index
+        currentSoalIndex += n;
+        
+        // Tampilkan soal baru
+        document.getElementById(`soal-index-${currentSoalIndex}`).classList.add('active');
+        updateUI();
+    }
+
+    function updateUI() {
+        // Update Tombol
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        // Tombol Back mati di soal pertama
+        btnPrev.disabled = (currentSoalIndex === 0);
+        btnPrev.style.opacity = (currentSoalIndex === 0) ? '0.5' : '1';
+
+        // Tombol Next mati di soal terakhir, ganti jadi Submit
+        if(currentSoalIndex === totalSoal - 1) {
+            btnNext.style.display = 'none';
+            btnSubmit.style.display = 'block';
+        } else {
+            btnNext.style.display = 'block';
+            btnSubmit.style.display = 'none';
+        }
+
+        // Update Info & Progress
+        document.getElementById('counter-soal').innerText = `Soal ${currentSoalIndex + 1} / ${totalSoal}`;
+        const persen = ((currentSoalIndex + 1) / totalSoal) * 100;
+        document.getElementById('progressBar').style.width = `${persen}%`;
+    }
+
+    function cekJawabanTerisi(index) {
+        const divSoal = document.getElementById(`soal-index-${index}`);
+        const inputs = divSoal.querySelectorAll('input, textarea');
+        let terisi = false;
+        
+        // Loop cek input
+        inputs.forEach(input => {
+            if(input.type === 'radio' || input.type === 'checkbox') {
+                if(input.checked) terisi = true;
+            } else if (input.tagName === 'TEXTAREA') {
+                if(input.value.trim() !== '') terisi = true;
+            }
+        });
+        return terisi;
+    }
+
+    // 4. KIRIM DATA FINAL
+    document.getElementById('formUjian').addEventListener('submit', e => {
+        e.preventDefault();
+        if(!confirm("Yakin ingin mengumpulkan ujian?")) return;
+
+        const btn = document.getElementById('btnSubmit');
         btn.innerHTML = "⏳ Mengirim...";
         btn.disabled = true;
-        
-        const formData = new FormData(form);
+
+        const formData = new FormData(document.getElementById('formUjian'));
         const finalData = new FormData();
 
-        // Identitas
+        // Ambil Identitas
         finalData.append('Waktu', new Date().toLocaleString());
-        finalData.append('Nama', formData.get('nama'));
-        finalData.append('Kelas', formData.get('kelas'));
-        finalData.append('Mapel', formData.get('mapel'));
+        finalData.append('Nama', document.getElementById('inputNama').value);
+        finalData.append('Kelas', document.getElementById('inputKelas').value);
+        finalData.append('Mapel', document.getElementById('judul-mapel').innerText);
 
-        // Jawaban
+        // Proses Jawaban (Logika Gabung Checkbox & Jodoh)
+        // (Sama seperti kode sebelumnya, disederhanakan)
+        const entries = formData.entries();
         const processedKeys = new Set();
-        for(let [key, value] of formData.entries()) {
-            if(['nama','kelas','mapel'].includes(key)) continue; 
-            let mainKey = key.includes('_row_') ? key.split('_row_')[0] : key;
-            if(processedKeys.has(mainKey)) continue; 
+        
+        for(let [key, value] of entries) {
+             let mainKey = key.includes('_row_') ? key.split('_row_')[0] : key;
+             if(processedKeys.has(mainKey)) continue;
 
-            const allValues = formData.getAll(key); 
-            if(key.includes('_row_')) { // Jodoh
-                 let jodohAnswers = [];
-                 document.querySelectorAll(`input[name^="${mainKey}"]`).forEach(input => {
-                     if(input.checked) jodohAnswers.push(input.value);
-                 });
-                finalData.append(mainKey, jodohAnswers.join(', '));
-            } 
-            else if(allValues.length > 1) { // Checkbox
-                finalData.append(key, allValues.join(', '));
-            } else {
-                finalData.append(key, value);
-            }
-            processedKeys.add(mainKey);
+             const allValues = formData.getAll(key);
+             if(key.includes('_row_')) { // Jodoh
+                 let jodohArr = [];
+                 document.querySelectorAll(`input[name^="${mainKey}"]`).forEach(inp => { if(inp.checked) jodohArr.push(inp.value); });
+                 finalData.append(mainKey, jodohArr.join(', '));
+             } else if(allValues.length > 1) { // Checkbox
+                 finalData.append(key, allValues.join(', '));
+             } else {
+                 finalData.append(key, value);
+             }
+             processedKeys.add(mainKey);
         }
 
         fetch(scriptURL, { method: 'POST', body: finalData})
-            .then(response => {
-                alert("✅ Terkirim!");
-                window.location.href = "tugas.html"; 
-            })
-            .catch(error => {
-                alert("❌ Gagal Kirim!");
-                btn.disabled = false;
-                btn.innerHTML = "🚀 KIRIM JAWABAN";
-            });
+            .then(() => { alert("✅ Berhasil!"); window.location.href = 'tugas.html'; })
+            .catch(() => { alert("❌ Gagal!"); btn.disabled = false; btn.innerHTML = "Coba Lagi"; });
     });
 </script>
 
