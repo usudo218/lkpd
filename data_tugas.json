@@ -1,0 +1,12 @@
+[
+  {
+    "judul": "UH 1: Perangkat Keras",
+    "status": "WAJIB",
+    "link": "ujian_perangkat_keras.html" 
+  },
+  {
+    "judul": "Latihan Soal Jaringan",
+    "status": "LATIHAN",
+    "link": "latihan_jaringan.html"
+  }
+]
