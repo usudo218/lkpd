@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal LKPD Interaktif Informatika SMA</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0b1120;
+      color: #f8fafc;
+    }
+
+    .font-mono {
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Glow effect background */
+    .glow-bg {
+      background: radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.15), rgba(99, 102, 241, 0.08), transparent 70%);
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 12px 30px -10px rgba(14, 165, 233, 0.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen glow-bg flex flex-col justify-between">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-gradient-to-tr from-sky-500 to-indigo-600 rounded-xl shadow-lg shadow-sky-500/20">
+          <i data-lucide="code-2" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-extrabold text-white tracking-tight leading-none">INFORMATIKA SMA</h1>
+          <p class="text-[11px] font-medium text-slate-400">Portal LKPD Digital Interaktif</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-950/80 border border-emerald-500/40 rounded-full text-xs font-semibold text-emerald-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Auto-Sync Google Drive Aktif
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-grow w-full">
+    
+    <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-slate-800/80 border border-slate-700/80 rounded-full text-xs font-semibold text-sky-400 mb-4 shadow-inner">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-yellow-400"></i> Kurikulum Merdeka • Fase F
+      </div>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
+        Pusat Lembar Kerja Siswa <br>
+        <span class="bg-gradient-to-r from-sky-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">
+          Strategi Algoritmik & Pemrograman C++
+        </span>
+      </h2>
+      <p class="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
+        Pilih modul penugasan interaktif di bawah ini. Selesaikan analisis kode secara mandiri atau kolaboratif. Seluruh hasil lembar kerja akan otomatis disimpan langsung ke Google Drive Guru.
+      </p>
+    </div>
+
+    <!-- ================= CONTROLS & FILTER ================= -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800">
+      <!-- Search Box -->
+      <div class="relative w-full sm:w-80">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+        <input type="text" id="searchLkpd" oninput="filterCards()" placeholder="Cari modul atau topik..." 
+               class="w-full bg-slate-950/80 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition">
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+        <button onclick="setFilter('all')" id="btn-all" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-sky-500 text-slate-950 shadow-md">
+          Semua Modul
+        </button>
+        <button onclick="setFilter('fase-f')" id="btn-fase-f" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-800 text-slate-300 hover:bg-slate-700">
+          Fase F (Kelas XI)
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= GRID CARD LKPD ================= -->
+    <div id="lkpdContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- CARD 1: Strategi Algoritmik -->
+      <div class="lkpd-card card-hover bg-slate-900/90 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between" data-phase="fase-f" data-title="Strategi Algoritmik Greedy Debugging C++">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-2.5 py-1 bg-blue-950 border border-blue-600/50 text-blue-300 rounded-lg text-[11px] font-extrabold uppercase tracking-wide">
+              Tugas 1
+            </span>
+            <span class="text-xs font-bold text-slate-400 flex items-center gap-1">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-sky-400"></i> Mandiri
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+            Strategi Algoritmik & Pemrograman C++
+          </h3>
+          <p class="text-xs text-slate-400 mb-5 leading-relaxed">
+            Eksplorasi strategi IPO, paradigma Greedy vs Dynamic Programming, identifikasi alur logis, dan tantangan analisis bug sederhana.
+          </p>
+
+          <div class="space-y-2 mb-6 text-xs text-slate-300 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Fase F • Kelas XI SMA</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-text" class="w-3.5 h-3.5 text-sky-400"></i>
+              <span>Output: <code class="text-amber-300 font-mono">namasiswa_tugas1.pdf</code></span>
+            </div>
+          </div>
+        </div>
+
+        <a href="htpps://lkpd.kodi.web.id/Algoritmik.html" class="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-slate-800 hover:bg-sky-500 hover:text-slate-950 text-sky-400 font-bold text-xs rounded-xl transition-all border border-slate-700 hover:border-sky-400">
+          <span>Buka Lembar Kerja</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <!-- CARD 2: Dasar Pemrograman C++ -->
+      <div class="lkpd-card card-hover bg-slate-900/90 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between" data-phase="fase-f" data-title="Dasar Pemrograman C++ Struktur Tipe Data Modulo If-Else Tracing">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-2.5 py-1 bg-indigo-950 border border-indigo-600/50 text-indigo-300 rounded-lg text-[11px] font-extrabold uppercase tracking-wide">
+              Tugas 2
+            </span>
+            <span class="text-xs font-bold text-slate-400 flex items-center gap-1">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-sky-400"></i> Mandiri
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+            Dasar-Dasar Pemrograman Bahasa C++
+          </h3>
+          <p class="text-xs text-slate-400 mb-5 leading-relaxed">
+            Studi anatomi sintaks C++, tipe data, operator logika/aritmatika, pelacakan output loop, serta analisis diskon kasir bertingkat (HOTS).
+          </p>
+
+          <div class="space-y-2 mb-6 text-xs text-slate-300 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Fase F • Kelas XI SMA</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-text" class="w-3.5 h-3.5 text-sky-400"></i>
+              <span>Output: <code class="text-amber-300 font-mono">namasiswa_tugas2.pdf</code></span>
+            </div>
+          </div>
+        </div>
+
+        <a href="htpps://lkpd.kodi.web.id/Pemrograman C++.html" class="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-slate-800 hover:bg-indigo-500 hover:text-white text-indigo-400 font-bold text-xs rounded-xl transition-all border border-slate-700 hover:border-indigo-400">
+          <span>Buka Lembar Kerja</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <!-- CARD 3: C++ Lanjutan Kolaboratif -->
+      <div class="lkpd-card card-hover bg-slate-900/90 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between" data-phase="fase-f" data-title="Pemrograman C++ Lanjutan Array 2D Pass By Reference Kolaboratif Teman Sebangku">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-2.5 py-1 bg-cyan-950 border border-cyan-600/50 text-cyan-300 rounded-lg text-[11px] font-extrabold uppercase tracking-wide">
+              Tugas 3
+            </span>
+            <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+              <i data-lucide="users" class="w-3.5 h-3.5"></i> Kolaboratif
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+            Pemrograman C++ Lanjutan (Array & Fungsi)
+          </h3>
+          <p class="text-xs text-slate-400 mb-5 leading-relaxed">
+            Studi kasus *Memory Out-of-Bounds*, evaluasi fungsi *Pass-by-Reference*, rancang algoritma matrix 3x3, dan peer-review sebangku.
+          </p>
+
+          <div class="space-y-2 mb-6 text-xs text-slate-300 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Fase F • Kelas XI SMA</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-text" class="w-3.5 h-3.5 text-sky-400"></i>
+              <span>Output: <code class="text-amber-300 font-mono">namasiswa1_namasiswa2_tugas3.pdf</code></span>
+            </div>
+          </div>
+        </div>
+
+        <a href="htpps://lkpd.kodi.web.id/Pemrogramanan Lanjutan.html" class="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-400 font-bold text-xs rounded-xl transition-all border border-slate-700 hover:border-cyan-400">
+          <span>Buka Lembar Kerja</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Empty State Notification -->
+    <div id="emptyState" class="hidden text-center py-12">
+      <i data-lucide="folder-search" class="w-12 h-12 text-slate-600 mx-auto mb-3"></i>
+      <p class="text-sm text-slate-400 font-medium">Modul yang kamu cari tidak ditemukan.</p>
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4">
+      <p>© 2026 Informatika SMA • Design by Agus Suyatno, S.Kom</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT FILTER & SEARCH -->
+  <script>
+    lucide.createIcons();
+
+    let currentFilter = 'all';
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.className = "filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-800 text-slate-300 hover:bg-slate-700";
+      });
+
+      const activeBtn = document.getElementById(`btn-${filter}`);
+      if (activeBtn) {
+        activeBtn.className = "filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-sky-500 text-slate-950 shadow-md";
+      }
+
+      filterCards();
+    }
+
+    function filterCards() {
+      const keyword = document.getElementById('searchLkpd').value.toLowerCase();
+      const cards = document.querySelectorAll('.lkpd-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        const phase = card.getAttribute('data-phase');
+
+        const matchesSearch = title.includes(keyword);
+        const matchesPhase = (currentFilter === 'all') || (phase === currentFilter);
+
+        if (matchesSearch && matchesPhase) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      const emptyState = document.getElementById('emptyState');
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
