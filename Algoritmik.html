@@ -42,6 +42,14 @@
       background-color: #0f172a;
     }
 
+    /* Styling saat identitas terkunci */
+    .input-locked {
+      background-color: #1e293b !important;
+      color: #94a3b8 !important;
+      border-color: #334155 !important;
+      cursor: not-allowed !important;
+    }
+
     /* Target cetak khusus PDF */
     .printable-sheet {
       background-color: #0f172a;
@@ -69,26 +77,35 @@
 
     <!-- Identitas Peserta Didik -->
     <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
-      <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-        <i data-lucide="user-check" class="w-4 h-4"></i> Identitas Peserta Didik
-      </h3>
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
+          <i data-lucide="user-check" class="w-4 h-4"></i> Identitas Peserta Didik
+        </h3>
+        <span id="lockStatusBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-700 text-slate-300 border border-slate-600 flex items-center gap-1">
+          <i data-lucide="unlock" class="w-3 h-3"></i> Siap Diisi
+        </span>
+      </div>
+      
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Lengkap Siswa *</label>
           <input type="text" id="student_name" required placeholder="tulis jawabanmu disini..." 
-                 class="w-full rounded-lg px-3.5 py-2 text-sm">
+                 class="w-full rounded-lg px-3.5 py-2 text-sm transition">
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Kelas & No. Presensi *</label>
           <input type="text" id="student_class" required placeholder="tulis jawabanmu disini..." 
-                 class="w-full rounded-lg px-3.5 py-2 text-sm">
+                 class="w-full rounded-lg px-3.5 py-2 text-sm transition">
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Tanggal Pengerjaan</label>
           <input type="date" id="student_date" 
-                 class="w-full rounded-lg px-3.5 py-2 text-sm">
+                 class="w-full rounded-lg px-3.5 py-2 text-sm transition">
         </div>
       </div>
+      <p id="lockWarningText" class="text-[11px] text-amber-400/90 mt-2 flex items-center gap-1.5 hidden">
+        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Identitas telah dikunci otomatis saat pengerjaan dimulai untuk menjaga keaslian tugas.
+      </p>
     </div>
 
     <!-- Tujuan Pembelajaran -->
@@ -116,12 +133,14 @@
         <div>
           <label class="text-xs text-slate-300 font-semibold block mb-1">1. Menurut pendapatmu, apa yang dimaksud dengan <strong>algoritma</strong>?</label>
           <textarea id="ans_a1_1" rows="2" placeholder="tulis jawabanmu disini..." 
-                    class="w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
+                    onpaste="handlePasteBlock(event)"
+                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
         </div>
         <div>
           <label class="text-xs text-slate-300 font-semibold block mb-1">2. Mengapa masalah komputasi wajib diselesaikan dengan langkah teratur dan logis?</label>
           <textarea id="ans_a1_2" rows="2" placeholder="tulis jawabanmu disini..." 
-                    class="w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
+                    onpaste="handlePasteBlock(event)"
+                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
         </div>
       </div>
 
@@ -130,7 +149,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5">
           <div class="bg-slate-900 border border-slate-700 p-2.5 rounded-lg text-center">
             <span class="text-xs text-slate-300 block mb-1.5 font-medium">Analisis masalah</span>
-            <select id="ans_a2_1" class="w-full rounded p-1.5 text-xs text-center">
+            <select id="ans_a2_1" class="question-input w-full rounded p-1.5 text-xs text-center">
               <option value="">Pilih Posisi</option>
               <option value="Urutan 1">Urutan 1</option>
               <option value="Urutan 2">Urutan 2</option>
@@ -141,7 +160,7 @@
           </div>
           <div class="bg-slate-900 border border-slate-700 p-2.5 rounded-lg text-center">
             <span class="text-xs text-slate-300 block mb-1.5 font-medium">Tentukan solusi</span>
-            <select id="ans_a2_2" class="w-full rounded p-1.5 text-xs text-center">
+            <select id="ans_a2_2" class="question-input w-full rounded p-1.5 text-xs text-center">
               <option value="">Pilih Posisi</option>
               <option value="Urutan 1">Urutan 1</option>
               <option value="Urutan 2">Urutan 2</option>
@@ -152,7 +171,7 @@
           </div>
           <div class="bg-slate-900 border border-slate-700 p-2.5 rounded-lg text-center">
             <span class="text-xs text-slate-300 block mb-1.5 font-medium">Masukkan kode</span>
-            <select id="ans_a2_3" class="w-full rounded p-1.5 text-xs text-center">
+            <select id="ans_a2_3" class="question-input w-full rounded p-1.5 text-xs text-center">
               <option value="">Pilih Posisi</option>
               <option value="Urutan 1">Urutan 1</option>
               <option value="Urutan 2">Urutan 2</option>
@@ -163,7 +182,7 @@
           </div>
           <div class="bg-slate-900 border border-slate-700 p-2.5 rounded-lg text-center">
             <span class="text-xs text-slate-300 block mb-1.5 font-medium">Jalankan & uji</span>
-            <select id="ans_a2_4" class="w-full rounded p-1.5 text-xs text-center">
+            <select id="ans_a2_4" class="question-input w-full rounded p-1.5 text-xs text-center">
               <option value="">Pilih Posisi</option>
               <option value="Urutan 1">Urutan 1</option>
               <option value="Urutan 2">Urutan 2</option>
@@ -174,7 +193,7 @@
           </div>
           <div class="bg-slate-900 border border-slate-700 p-2.5 rounded-lg text-center">
             <span class="text-xs text-slate-300 block mb-1.5 font-medium">Perbaiki error</span>
-            <select id="ans_a2_5" class="w-full rounded p-1.5 text-xs text-center">
+            <select id="ans_a2_5" class="question-input w-full rounded p-1.5 text-xs text-center">
               <option value="">Pilih Posisi</option>
               <option value="Urutan 1">Urutan 1</option>
               <option value="Urutan 2">Urutan 2</option>
@@ -200,7 +219,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
           <span class="sm:col-span-4 text-xs font-bold text-sky-400">1. Rekursi</span>
           <div class="sm:col-span-8">
-            <select id="ans_b3_1" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_b3_1" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Definisi / Karakteristik --</option>
               <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
               <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
@@ -212,7 +231,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
           <span class="sm:col-span-4 text-xs font-bold text-amber-400">2. Greedy</span>
           <div class="sm:col-span-8">
-            <select id="ans_b3_2" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_b3_2" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Definisi / Karakteristik --</option>
               <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
               <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
@@ -224,7 +243,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
           <span class="sm:col-span-4 text-xs font-bold text-emerald-400">3. Dynamic Programming</span>
           <div class="sm:col-span-8">
-            <select id="ans_b3_3" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_b3_3" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Definisi / Karakteristik --</option>
               <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
               <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
@@ -236,7 +255,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
           <span class="sm:col-span-4 text-xs font-bold text-rose-400">4. Divide and Conquer</span>
           <div class="sm:col-span-8">
-            <select id="ans_b3_4" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_b3_4" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Definisi / Karakteristik --</option>
               <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
               <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
@@ -253,19 +272,19 @@
           <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
             <p class="text-xs text-slate-200 mb-2 font-medium">1. Strategi yang memanfaatkan pemanggilan fungsi terhadap dirinya sendiri disebut:</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="A"> A. Greedy</label>
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="B"> B. Rekursi</label>
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="C"> C. Dynamic Prog.</label>
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="D"> D. Brute Force</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="A" class="question-input"> A. Greedy</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="B" class="question-input"> B. Rekursi</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="C" class="question-input"> C. Dynamic Prog.</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_1" value="D" class="question-input"> D. Brute Force</label>
             </div>
           </div>
           <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
             <p class="text-xs text-slate-200 mb-2 font-medium">2. Paradigma yang selalu memilih keputusan paling optimal pada setiap tahap saat ini adalah:</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="A"> A. Greedy</label>
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="B"> B. Rekursi</label>
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="C"> C. Searching</label>
-              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="D"> D. Sorting</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="A" class="question-input"> A. Greedy</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="B" class="question-input"> B. Rekursi</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="C" class="question-input"> C. Searching</label>
+              <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_b4_2" value="D" class="question-input"> D. Sorting</label>
             </div>
           </div>
         </div>
@@ -288,15 +307,15 @@
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
           <span class="text-xs font-bold text-sky-400 block mb-1">1. Input (Masukan Data)</span>
-          <input type="text" id="ans_c_input" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+          <input type="text" id="ans_c_input" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
         </div>
         <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
           <span class="text-xs font-bold text-amber-400 block mb-1">2. Process (Rumus/Operasi)</span>
-          <input type="text" id="ans_c_process" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+          <input type="text" id="ans_c_process" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
         </div>
         <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
           <span class="text-xs font-bold text-emerald-400 block mb-1">3. Output (Hasil Keluar)</span>
-          <input type="text" id="ans_c_output" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+          <input type="text" id="ans_c_output" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
         </div>
       </div>
     </section>
@@ -326,7 +345,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <code class="sm:col-span-4 text-xs font-mono text-sky-400">#include &lt;iostream&gt;</code>
           <div class="sm:col-span-8">
-            <select id="ans_d_1" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_d_1" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Fungsi Kode --</option>
               <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
               <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
@@ -339,7 +358,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <code class="sm:col-span-4 text-xs font-mono text-sky-400">int main()</code>
           <div class="sm:col-span-8">
-            <select id="ans_d_2" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_d_2" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Fungsi Kode --</option>
               <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
               <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
@@ -352,7 +371,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <code class="sm:col-span-4 text-xs font-mono text-sky-400">int harga = 10000;</code>
           <div class="sm:col-span-8">
-            <select id="ans_d_3" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_d_3" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Fungsi Kode --</option>
               <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
               <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
@@ -365,7 +384,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <code class="sm:col-span-4 text-xs font-mono text-sky-400">cout</code>
           <div class="sm:col-span-8">
-            <select id="ans_d_4" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_d_4" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Fungsi Kode --</option>
               <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
               <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
@@ -378,7 +397,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <code class="sm:col-span-4 text-xs font-mono text-sky-400">return 0;</code>
           <div class="sm:col-span-8">
-            <select id="ans_d_5" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_d_5" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Fungsi Kode --</option>
               <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
               <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
@@ -414,15 +433,15 @@
         <div class="sm:col-span-7 space-y-2.5">
           <div>
             <label class="text-xs text-slate-300 font-semibold block mb-1">1. Pada baris berapakah terdapat syntax error?</label>
-            <input type="text" id="ans_e_line" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+            <input type="text" id="ans_e_line" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
           </div>
           <div>
             <label class="text-xs text-slate-300 font-semibold block mb-1">2. Apa penyebab error tersebut?</label>
-            <input type="text" id="ans_e_cause" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+            <input type="text" id="ans_e_cause" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
           </div>
           <div>
             <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan perbaikan kode baris yang benar:</label>
-            <input type="text" id="ans_e_fix" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono text-emerald-400">
+            <input type="text" id="ans_e_fix" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-emerald-400">
           </div>
         </div>
       </div>
@@ -447,33 +466,33 @@
         <div class="grid grid-cols-3 gap-2 mb-2 text-xs">
           <div>
             <label class="block text-slate-400 mb-1">Keping Rp10.000:</label>
-            <input type="number" id="ans_hots_10k" min="0" placeholder="tulis jawabanmu disini..." class="w-full rounded p-1.5 text-xs text-center">
+            <input type="number" id="ans_hots_10k" min="0" placeholder="tulis jawabanmu disini..." class="question-input w-full rounded p-1.5 text-xs text-center">
           </div>
           <div>
             <label class="block text-slate-400 mb-1">Keping Rp7.000:</label>
-            <input type="number" id="ans_hots_7k" min="0" placeholder="tulis jawabanmu disini..." class="w-full rounded p-1.5 text-xs text-center">
+            <input type="number" id="ans_hots_7k" min="0" placeholder="tulis jawabanmu disini..." class="question-input w-full rounded p-1.5 text-xs text-center">
           </div>
           <div>
             <label class="block text-slate-400 mb-1">Keping Rp1.000:</label>
-            <input type="number" id="ans_hots_1k" min="0" placeholder="tulis jawabanmu disini..." class="w-full rounded p-1.5 text-xs text-center">
+            <input type="number" id="ans_hots_1k" min="0" placeholder="tulis jawabanmu disini..." class="question-input w-full rounded p-1.5 text-xs text-center">
           </div>
         </div>
-        <p class="text-xs text-slate-400">Total koin versi mesin Greedy: <input type="text" id="ans_hots_greedy_total" placeholder="tulis jawabanmu disini..." class="w-48 rounded p-1 text-xs text-center font-bold text-amber-400"></p>
+        <p class="text-xs text-slate-400">Total koin versi mesin Greedy: <input type="text" id="ans_hots_greedy_total" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-48 rounded p-1 text-xs text-center font-bold text-amber-400"></p>
       </div>
 
       <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 mb-3.5">
         <p class="text-xs font-semibold text-slate-200 mb-1.5">2. Evaluasi Analis Sistem (Critical Thinking):</p>
         <p class="text-xs text-slate-400 mb-2">Apakah ada kombinasi koin yang <strong>lebih sedikit/optimal</strong> dari mesin Greedy? Jelaskan analisismu!</p>
-        <textarea id="ans_hots_eval" rows="2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs"></textarea>
+        <textarea id="ans_hots_eval" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
       </div>
 
       <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 text-xs">
         <label class="font-semibold text-slate-200 block mb-2">3. Paradigma apa yang seharusnya digunakan agar mesin selalu menghasilkan koin optimal?</label>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Brute Force"> Brute Force</label>
-          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Dynamic Programming"> Dynamic Prog.</label>
-          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Divide and Conquer"> Divide & Conquer</label>
-          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Linear Search"> Linear Search</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Brute Force" class="question-input"> Brute Force</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Dynamic Programming" class="question-input"> Dynamic Prog.</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Divide and Conquer" class="question-input"> Divide & Conquer</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_hots_sol" value="Linear Search" class="question-input"> Linear Search</label>
         </div>
       </div>
     </section>
@@ -496,8 +515,8 @@
             cout &lt;&lt; "Angka: " &lt;&lt; <span class="text-amber-400 font-bold">______ (2)</span>;
           </div>
           <div class="space-y-2">
-            <input type="text" id="ans_g1_1" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono">
-            <input type="text" id="ans_g1_2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono">
+            <input type="text" id="ans_g1_1" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
+            <input type="text" id="ans_g1_2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
           </div>
         </div>
 
@@ -510,7 +529,7 @@
             return 0;
           </div>
           <label class="text-xs text-slate-300 block mb-1">Hasil output konsol:</label>
-          <input type="text" id="ans_g2_output" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono">
+          <input type="text" id="ans_g2_output" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
         </div>
       </div>
     </section>
@@ -527,7 +546,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <span class="sm:col-span-6 text-xs text-slate-300">1. Menghitung faktorial / Fibonacci</span>
           <div class="sm:col-span-6">
-            <select id="ans_h_1" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_h_1" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Strategi --</option>
               <option value="Rekursi">Rekursi</option>
               <option value="Greedy">Greedy</option>
@@ -539,7 +558,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <span class="sm:col-span-6 text-xs text-slate-300">2. Memilih pecahan kembalian optimal</span>
           <div class="sm:col-span-6">
-            <select id="ans_h_2" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_h_2" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Strategi --</option>
               <option value="Rekursi">Rekursi</option>
               <option value="Greedy">Greedy</option>
@@ -551,7 +570,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <span class="sm:col-span-6 text-xs text-slate-300">3. Memoization / menyimpan hasil</span>
           <div class="sm:col-span-6">
-            <select id="ans_h_3" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_h_3" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Strategi --</option>
               <option value="Rekursi">Rekursi</option>
               <option value="Greedy">Greedy</option>
@@ -563,7 +582,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2 rounded border border-slate-700">
           <span class="sm:col-span-6 text-xs text-slate-300">4. Membagi masalah besar jadi kecil</span>
           <div class="sm:col-span-6">
-            <select id="ans_h_4" class="w-full rounded p-1.5 text-xs">
+            <select id="ans_h_4" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Strategi --</option>
               <option value="Rekursi">Rekursi</option>
               <option value="Greedy">Greedy</option>
@@ -586,28 +605,28 @@
       <div class="mb-3">
         <label class="text-xs font-semibold text-slate-300 block mb-2">Tingkat pemahaman materi:</label>
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs">
-          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="1"> ⭐ Belum</label>
-          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="2"> ⭐⭐ Mulai Paham</label>
-          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="3"> ⭐⭐⭐ Cukup</label>
-          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="4"> ⭐⭐⭐⭐ Paham Baik</label>
-          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer text-emerald-400 font-semibold"><input type="radio" name="ans_rating" value="5"> ⭐⭐⭐⭐⭐ Mahir</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="1" class="question-input"> ⭐ Belum</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="2" class="question-input"> ⭐⭐ Mulai Paham</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="3" class="question-input"> ⭐⭐⭐ Cukup</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer"><input type="radio" name="ans_rating" value="4" class="question-input"> ⭐⭐⭐⭐ Paham Baik</label>
+          <label class="flex items-center gap-1.5 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer text-emerald-400 font-semibold"><input type="radio" name="ans_rating" value="5" class="question-input"> ⭐⭐⭐⭐⭐ Mahir</label>
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <div>
           <label class="text-xs text-slate-400 block mb-1">Materi paling dipahami:</label>
-          <input type="text" id="ans_ref_best" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+          <input type="text" id="ans_ref_best" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
         </div>
         <div>
           <label class="text-xs text-slate-400 block mb-1">Materi masih membingungkan:</label>
-          <input type="text" id="ans_ref_hard" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+          <input type="text" id="ans_ref_hard" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
         </div>
       </div>
 
       <div>
         <label class="text-xs text-slate-400 block mb-1">Hal baru yang dipelajari:</label>
-        <textarea id="ans_ref_new" rows="2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs"></textarea>
+        <textarea id="ans_ref_new" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
       </div>
     </section>
 
@@ -639,8 +658,69 @@
     lucide.createIcons();
     document.getElementById('student_date').valueAsDate = new Date();
 
-    // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
+    // URL GOOGLE APPS SCRIPT
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwokrZArEENzEepANydmpNRFmvNKMc5UiD0rKCn1rb36MNHXLDLrXxIbDd7LJ5_A5qFLg/exec";
+
+    // 1. Logika Kunci Nama & Kelas Otomatis saat mulai mengerjakan soal
+    let isIdentityLocked = false;
+
+    function lockIdentity() {
+      if (isIdentityLocked) return;
+
+      const studentName = document.getElementById('student_name').value.trim();
+      const studentClass = document.getElementById('student_class').value.trim();
+
+      if (!studentName || !studentClass) {
+        alert("⚠️ Perhatian: Mohon lengkapi Nama Siswa dan Kelas terlebih dahulu sebelum mulai mengerjakan soal!");
+        document.getElementById('student_name').focus();
+        return false;
+      }
+
+      // Kunci input identitas
+      const nameInput = document.getElementById('student_name');
+      const classInput = document.getElementById('student_class');
+      const dateInput = document.getElementById('student_date');
+
+      nameInput.readOnly = true;
+      classInput.readOnly = true;
+      dateInput.readOnly = true;
+
+      nameInput.classList.add('input-locked');
+      classInput.classList.add('input-locked');
+      dateInput.classList.add('input-locked');
+
+      // Update badge status
+      const badge = document.getElementById('lockStatusBadge');
+      badge.className = "text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-600 flex items-center gap-1";
+      badge.innerHTML = `<i data-lucide="lock" class="w-3 h-3"></i> Terkunci`;
+
+      document.getElementById('lockWarningText').classList.remove('hidden');
+      isIdentityLocked = true;
+      lucide.createIcons();
+      return true;
+    }
+
+    // Pasang event listener ke seluruh input pertanyaan untuk memicu penguncian
+    document.querySelectorAll('.question-input').forEach(el => {
+      el.addEventListener('focus', () => {
+        if (!isIdentityLocked) {
+          const locked = lockIdentity();
+          if (!locked) {
+            el.blur();
+          }
+        }
+      });
+      el.addEventListener('change', () => {
+        if (!isIdentityLocked) lockIdentity();
+      });
+    });
+
+    // 2. Logika Pemblokir Paste Teks
+    function handlePasteBlock(e) {
+      e.preventDefault();
+      alert("⚠️ Dilarang menempel (paste) teks jawaban! Silakan ketikkan jawaban analisismu sendiri secara mandiri.");
+      return false;
+    }
 
     function getFormattedFileName() {
       const studentName = document.getElementById('student_name').value.trim();
@@ -648,25 +728,18 @@
       return `${cleanName}_tugas1.pdf`;
     }
 
-    /**
-     * KUNCI PERBAIKAN BLANK PDF:
-     * Menyalin nilai dinamis dari form DOM ke atribut statis elemen
-     * sehingga html2canvas dapat membacanya tanpa error layar kosong.
-     */
+    // Sinkronisasi DOM Form ke Atribut Statis agar PDF tidak kosong
     function syncFormValuesToDOM(element) {
-      // Sync Input Text & Number
       const inputs = element.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
       inputs.forEach(input => {
         input.setAttribute('value', input.value);
       });
 
-      // Sync Textarea
       const textareas = element.querySelectorAll('textarea');
       textareas.forEach(textarea => {
         textarea.innerHTML = textarea.value;
       });
 
-      // Sync Select
       const selects = element.querySelectorAll('select');
       selects.forEach(select => {
         const selectedOption = select.options[select.selectedIndex];
@@ -676,7 +749,6 @@
         }
       });
 
-      // Sync Radio Buttons
       const radios = element.querySelectorAll('input[type="radio"]');
       radios.forEach(radio => {
         if (radio.checked) {
