@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LKPD Kolaboratif: Pemrograman C++ Lanjutan (Fase F)</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2pdf.js bundle -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+
+    .font-mono {
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Memastikan seluruh elemen input responsif dan bisa diketik */
+    input[type="text"], 
+    input[type="number"], 
+    input[type="date"], 
+    textarea, 
+    select {
+      pointer-events: auto !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      background-color: #1e293b;
+      color: #ffffff;
+      border: 1.5px solid #475569;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+      background-color: #0f172a;
+    }
+
+    .printable-sheet {
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+  </style>
+</head>
+<body class="min-h-screen py-6 px-3 sm:px-6">
+
+  <!-- Container Lembar Kerja -->
+  <div id="worksheet-app" class="printable-sheet max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-8">
+
+    <!-- Header Banner -->
+    <div class="bg-gradient-to-r from-blue-900 via-indigo-800 to-cyan-700 rounded-xl p-6 mb-6 text-white shadow-lg">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="users" class="w-3.5 h-3.5 text-yellow-300"></i> LKPD Kolaboratif & Pair-Review (Tugas 3)
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1">
+        PEMROGRAMAN C++ LANJUTAN (HOTS)
+      </h1>
+      <p class="text-sky-100 text-sm font-medium">
+        Mata Pelajaran: <strong>Informatika</strong> | Fase / Kelas: <strong>Fase F / Kelas XI SMA</strong>
+      </p>
+    </div>
+
+    <!-- Identitas Pasangan Peserta Didik -->
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
+      <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+        <i data-lucide="user-check" class="w-4 h-4"></i> Identitas Pasangan Peserta Didik (Teman Sebangku)
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Siswa 1 (Driver / Implementer) *</label>
+          <input type="text" id="student_name_1" required placeholder="tulis jawabanmu disini..." 
+                 class="w-full rounded-lg px-3.5 py-2 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Siswa 2 (Navigator / Reviewer) *</label>
+          <input type="text" id="student_name_2" required placeholder="tulis jawabanmu disini..." 
+                 class="w-full rounded-lg px-3.5 py-2 text-sm">
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Kelas / Kelompok *</label>
+          <input type="text" id="student_class" required placeholder="tulis jawabanmu disini..." 
+                 class="w-full rounded-lg px-3.5 py-2 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Tanggal Pengerjaan</label>
+          <input type="date" id="student_date" 
+                 class="w-full rounded-lg px-3.5 py-2 text-sm">
+        </div>
+      </div>
+    </div>
+
+    <!-- Tujuan Pembelajaran -->
+    <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 mb-6 text-emerald-100 text-xs sm:text-sm">
+      <div class="font-bold text-emerald-400 mb-1.5 flex items-center gap-2">
+        <i data-lucide="target" class="w-4 h-4"></i> TUJUAN PEMBELAJARAN (FASE F):
+      </div>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 list-disc list-inside">
+        <li>Menganalisis manipulasi array 1D/2D dan alokasi indeks memori.</li>
+        <li>Membedakan mekanisme parameter fungsi (*pass-by-value* vs *pass-by-reference*).</li>
+        <li>Mendiagnosis bug kritis (*memory out-of-bounds* & *type casting truncation*).</li>
+        <li>Merancang algoritma penelusuran matriks (*nested loop*) secara kolaboratif.</li>
+      </ul>
+    </div>
+
+    <!-- ================= FORUM DISKUSI 1 ================= -->
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+          <span class="p-1 bg-blue-600 rounded text-xs font-mono">01</span> FORUM DISKUSI 1: ARRAY 1D & MEMORY LEAK (HOTS C4)
+        </h2>
+        <span class="text-xs font-bold px-2.5 py-1 bg-blue-950 text-blue-300 border border-blue-700/60 rounded-full">Analisis Bersama</span>
+      </div>
+
+      <div class="bg-slate-950 rounded-lg p-4 font-mono text-xs text-slate-300 border border-slate-700 mb-4 leading-relaxed">
+        <span class="text-purple-400">#include</span> <span class="text-emerald-400">&lt;iostream&gt;</span><br>
+        <span class="text-purple-400">using namespace</span> std;<br><br>
+        <span class="text-rose-400">int</span> <span class="text-blue-400">main</span>() {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">int</span> nilai[<span class="text-amber-300">5</span>] = {<span class="text-amber-300">75, 88, 92, 60, 85</span>};<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">int</span> total = <span class="text-amber-300">0</span>;<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-rose-400">int</span> i = <span class="text-amber-300">0</span>; i &lt;= <span class="text-amber-300">5</span>; i++) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total += nilai[i];<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">double</span> rata_rata = total / <span class="text-amber-300">5</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="text-emerald-400">"Rata-rata = "</span> &lt;&lt; rata_rata &lt;&lt; endl;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-amber-300">0</span>;<br>
+        }
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Temukan bug fatal pada indeks array perulangan `for` (*Memory Out-of-Bounds*):</label>
+          <textarea id="ans_d1_1" rows="2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs"></textarea>
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Mengapa perhitungan `rata_rata` menghasilkan pembulatan integer dan kehilangan presisi desimal?</label>
+          <textarea id="ans_d1_2" rows="2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs"></textarea>
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan baris perbaikan kode yang benar untuk `for` dan rumus `rata_rata`:</label>
+          <input type="text" id="ans_d1_3" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono text-emerald-400">
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FORUM DISKUSI 2 ================= -->
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+          <span class="p-1 bg-purple-600 rounded text-xs font-mono">02</span> FORUM DISKUSI 2: PASS BY VALUE VS PASS BY REFERENCE (HOTS C5)
+        </h2>
+        <span class="text-xs font-bold px-2.5 py-1 bg-purple-950 text-purple-300 border border-purple-700/60 rounded-full">Evaluasi Fungsi</span>
+      </div>
+
+      <div class="bg-slate-950 rounded-lg p-4 font-mono text-xs text-slate-300 border border-slate-700 mb-4 leading-relaxed">
+        <span class="text-purple-400">#include</span> <span class="text-emerald-400">&lt;iostream&gt;</span><br>
+        <span class="text-purple-400">using namespace</span> std;<br><br>
+        <span class="text-purple-400">void</span> <span class="text-blue-400">tukarData</span>(<span class="text-rose-400">int</span> a, <span class="text-rose-400">int</span> b) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">int</span> temp = a;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;a = b;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;b = temp;<br>
+        }<br><br>
+        <span class="text-rose-400">int</span> <span class="text-blue-400">main</span>() {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">int</span> x = <span class="text-amber-300">10</span>, y = <span class="text-amber-300">50</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;tukarData(x, y);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="text-emerald-400">"x="</span> &lt;&lt; x &lt;&lt; <span class="text-emerald-400">", y="</span> &lt;&lt; y;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-amber-300">0</span>;<br>
+        }
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Mengapa nilai variabel `x` dan `y` tidak berubah setelah fungsi `tukarData()` dijalankan?</label>
+          <textarea id="ans_d2_1" rows="2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs"></textarea>
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Karakter/simbol apa yang wajib ditambahkan pada parameter fungsi agar variabel asli ikut tertukar (*Pass-by-Reference*)?</label>
+          <input type="text" id="ans_d2_2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono text-sky-400">
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan baris deklarasi header fungsi `tukarData` yang sudah diperbaiki:</label>
+          <input type="text" id="ans_d2_3" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono text-emerald-400">
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TANTANGAN SISTEM ARRAY 2D ================= -->
+    <section class="bg-slate-800/50 border border-amber-600/50 rounded-xl p-5 mb-6">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-amber-400 flex items-center gap-2">
+          <span class="p-1 bg-amber-600 text-slate-950 rounded text-xs font-black">HOTS</span> TANTANGAN RANCANG ALGORITMA: ARRAY 2D GUDANG (C6)
+        </h2>
+        <span class="text-xs font-bold px-2.5 py-1 bg-amber-950 text-amber-300 border border-amber-700/60 rounded-full">Problem Solving</span>
+      </div>
+
+      <div class="bg-slate-950 border border-slate-700 p-3.5 rounded-lg mb-4 text-xs text-slate-300 leading-relaxed">
+        <strong>Kasus Penataan Rak Gudang Matrix 3x3:</strong><br>
+        Sebuah gudang memiliki rak matriks berukuran $3 \times 3$. Diberikan data stok: <code class="font-mono text-amber-300">int gudang[3][3] = {{12, 45, 18}, {30, 85, 22}, {15, 60, 40}};</code>.<br>
+        Rancanglah logika perulangan bersarang (*nested loop*) untuk menghitung <strong>total seluruh barang</strong> dan mencari <strong>koordinat baris & kolom dengan stok terbanyak</strong>.
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Tuliskan kode perulangan bersarang (*nested loop*) C++ lengkap untuk menyelesaikan kasus di atas:</label>
+          <textarea id="ans_hots_code" rows="5" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs font-mono text-emerald-400"></textarea>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <label class="text-xs text-slate-300 font-semibold block mb-1">2. Nilai Grand Total Stok Barang:</label>
+            <input type="text" id="ans_hots_total" placeholder="tulis jawabanmu disini..." class="w-full rounded p-1.5 text-xs font-mono text-amber-300">
+          </div>
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <label class="text-xs text-slate-300 font-semibold block mb-1">3. Koordinat Stok Maksimal (Baris, Kolom):</label>
+            <input type="text" id="ans_hots_coord" placeholder="tulis jawabanmu disini..." class="w-full rounded p-1.5 text-xs font-mono text-amber-300">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PEER ASSESSMENT & REFLEKSI ================= -->
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-8">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+          <span class="p-1 bg-sky-600 rounded text-xs font-mono">04</span> PEER REVIEW & REFLEKSI BERSAMA
+        </h2>
+      </div>
+
+      <div class="mb-4">
+        <label class="text-xs font-semibold text-slate-300 block mb-2">Evaluasi Kolaborasi Tim Sebangku:</label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="bg-slate-900 p-2.5 rounded border border-slate-700 text-xs">
+            <span class="text-slate-300 block mb-1">Keaktifan Diskusi</span>
+            <select id="ans_peer_1" class="w-full rounded p-1.5 text-xs">
+              <option value="">-- Pilih Rating --</option>
+              <option value="Sangat Aktif (5/5)">⭐⭐⭐⭐⭐ Sangat Aktif</option>
+              <option value="Cukup Aktif (4/5)">⭐⭐⭐⭐ Cukup Aktif</option>
+              <option value="Kurang Aktif (3/5)">⭐⭐⭐ Perlu Ditingkatkan</option>
+            </select>
+          </div>
+          <div class="bg-slate-900 p-2.5 rounded border border-slate-700 text-xs">
+            <span class="text-slate-300 block mb-1">Ketelitian Tracking Bug</span>
+            <select id="ans_peer_2" class="w-full rounded p-1.5 text-xs">
+              <option value="">-- Pilih Rating --</option>
+              <option value="Sangat Teliti (5/5)">⭐⭐⭐⭐⭐ Sangat Teliti</option>
+              <option value="Cukup Teliti (4/5)">⭐⭐⭐⭐ Cukup Teliti</option>
+              <option value="Kurang Teliti (3/5)">⭐⭐⭐ Perlu Ditingkatkan</option>
+            </select>
+          </div>
+          <div class="bg-slate-900 p-2.5 rounded border border-slate-700 text-xs">
+            <span class="text-slate-300 block mb-1">Pemahaman Alur Logika</span>
+            <select id="ans_peer_3" class="w-full rounded p-1.5 text-xs">
+              <option value="">-- Pilih Rating --</option>
+              <option value="Sangat Paham (5/5)">⭐⭐⭐⭐⭐ Sangat Paham</option>
+              <option value="Cukup Paham (4/5)">⭐⭐⭐⭐ Cukup Paham</option>
+              <option value="Kurang Paham (3/5)">⭐⭐⭐ Perlu Ditingkatkan</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Catatan/Masukan untuk Teman Sebangku:</label>
+          <input type="text" id="ans_peer_note" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Kesimpulan materi C++ Lanjutan yang dipelajari hari ini:</label>
+          <textarea id="ans_ref_summary" rows="2" placeholder="tulis jawabanmu disini..." class="w-full rounded p-2 text-xs"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOMBOL SUBMIT & MANUAL DOWNLOAD -->
+    <div class="bg-gradient-to-r from-emerald-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
+      <h3 class="font-extrabold text-lg text-white">🎉 Kumpulkan Tugas C++ Lanjutan</h3>
+      <p class="text-xs text-emerald-200 max-w-lg mx-auto">
+        Pastikan seluruh lembar analisis telah terisi lengkap. Berkas PDF otomatis disimpan dengan format nama <span class="font-mono text-amber-300">namasiswa1_namasiswa2_tugas3.pdf</span> ke Google Drive Guru.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button type="button" id="submitBtn" onclick="submitToGoogleDrive()" 
+                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg transition active:scale-95">
+          <i data-lucide="send" class="w-4 h-4"></i> KIRIM KE GOOGLE DRIVE
+        </button>
+        <button type="button" onclick="downloadPdfDirectly()" 
+                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm rounded-xl border border-slate-600 transition">
+          <i data-lucide="download" class="w-4 h-4"></i> Unduh PDF Manual
+        </button>
+      </div>
+
+      <div id="statusMessage" class="hidden text-xs font-semibold p-3 rounded-lg max-w-md mx-auto"></div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT LOGIKA FORM & PDF -->
+  <script>
+    lucide.createIcons();
+    document.getElementById('student_date').valueAsDate = new Date();
+
+    // URL WEB APP GOOGLE APPS SCRIPT
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwokrZArEENzEepANydmpNRFmvNKMc5UiD0rKCn1rb36MNHXLDLrXxIbDd7LJ5_A5qFLg/exec";
+
+    // Format Nama Berkas: namasiswa1_namasiswa2_tugas3.pdf
+    function getFormattedFileName() {
+      const s1 = document.getElementById('student_name_1').value.trim();
+      const s2 = document.getElementById('student_name_2').value.trim();
+      
+      const clean1 = s1 ? s1.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'siswa1';
+      const clean2 = s2 ? s2.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'siswa2';
+      
+      return `${clean1}_${clean2}_tugas3.pdf`;
+    }
+
+    // Fungsi sinkronisasi nilai input dinamis ke DOM statis agar PDF tidak blank
+    function syncFormValuesToDOM(element) {
+      // 1. Sinkronisasi Input Text, Number, Date
+      const inputs = element.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
+      inputs.forEach(input => {
+        input.setAttribute('value', input.value);
+      });
+
+      // 2. Sinkronisasi Textarea
+      const textareas = element.querySelectorAll('textarea');
+      textareas.forEach(textarea => {
+        textarea.innerHTML = textarea.value;
+      });
+
+      // 3. Sinkronisasi Select Dropdown
+      const selects = element.querySelectorAll('select');
+      selects.forEach(select => {
+        const selectedOption = select.options[select.selectedIndex];
+        if (selectedOption) {
+          Array.from(select.options).forEach(opt => opt.removeAttribute('selected'));
+          selectedOption.setAttribute('selected', 'selected');
+        }
+      });
+
+      // 4. Sinkronisasi Radio Button
+      const radios = element.querySelectorAll('input[type="radio"]');
+      radios.forEach(radio => {
+        if (radio.checked) {
+          radio.setAttribute('checked', 'checked');
+        } else {
+          radio.removeAttribute('checked');
+        }
+      });
+    }
+
+    async function generatePdfBlob(fileName) {
+      const element = document.getElementById('worksheet-app');
+      syncFormValuesToDOM(element);
+
+      const opt = {
+        margin: [8, 8, 8, 8],
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          windowWidth: document.documentElement.offsetWidth
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      return await html2pdf().set(opt).from(element).outputPdf('blob');
+    }
+
+    async function downloadPdfDirectly() {
+      const fileName = getFormattedFileName();
+      const element = document.getElementById('worksheet-app');
+      syncFormValuesToDOM(element);
+
+      const opt = {
+        margin: [8, 8, 8, 8],
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          windowWidth: document.documentElement.offsetWidth
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    }
+
+    async function submitToGoogleDrive() {
+      const studentName1 = document.getElementById('student_name_1').value.trim();
+      const studentName2 = document.getElementById('student_name_2').value.trim();
+      const studentClass = document.getElementById('student_class').value.trim();
+      const statusDiv = document.getElementById('statusMessage');
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (!studentName1 || !studentName2 || !studentClass) {
+        alert("⚠️ Mohon isi Nama Siswa 1, Nama Siswa 2, dan Kelas terlebih dahulu!");
+        document.getElementById('student_name_1').focus();
+        return;
+      }
+
+      const fileName = getFormattedFileName();
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Merender & Mengirim PDF...`;
+      lucide.createIcons();
+
+      statusDiv.className = "block bg-blue-950 border border-blue-600 text-blue-200 text-xs p-3 rounded-lg max-w-md mx-auto text-center";
+      statusDiv.innerHTML = `⏳ Sedang membuat dokumen PDF hasil kolaborasi dan mengunggah ke Google Drive Guru...`;
+
+      try {
+        const pdfBlob = await generatePdfBlob(fileName);
+
+        const reader = new FileReader();
+        reader.readAsDataURL(pdfBlob);
+        reader.onloadend = async function () {
+          const base64data = reader.result.split(',')[1];
+
+          const payload = {
+            fileName: fileName,
+            fileData: base64data,
+            studentName: `${studentName1} & ${studentName2}`,
+            studentClass: studentClass,
+            submissionDate: new Date().toLocaleString('id-ID')
+          };
+
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+
+          if (result.status === 'success') {
+            statusDiv.className = "block bg-emerald-950 border border-emerald-500 text-emerald-100 text-xs p-4 rounded-lg max-w-md mx-auto text-center shadow-lg";
+            statusDiv.innerHTML = `
+              <div class="font-bold text-sm mb-1 text-emerald-300">✅ Berhasil Terkirim!</div>
+              Berkas <span class="font-mono font-bold text-amber-300">${fileName}</span> telah sukses tersimpan di Google Drive Guru.
+            `;
+            submitBtn.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> TUGAS SUDAH TERKIRIM`;
+            submitBtn.className = "w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-700 text-slate-400 font-bold text-sm rounded-xl cursor-not-allowed";
+          } else {
+            throw new Error(result.message || "Gagal menyimpan ke Google Drive.");
+          }
+        };
+
+      } catch (err) {
+        console.error(err);
+        statusDiv.className = "block bg-rose-950 border border-rose-500 text-rose-100 text-xs p-4 rounded-lg max-w-md mx-auto text-center";
+        statusDiv.innerHTML = `
+          <div class="font-bold text-sm mb-1 text-rose-300">❌ Gagal Mengirim ke Drive</div>
+          ${err.message}<br>
+          <span class="text-xs text-slate-300">Silakan gunakan tombol <strong>Unduh PDF Manual</strong> untuk menyimpan berkas secara lokal.</span>
+        `;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> COBA KIRIM LAGI`;
+      }
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
