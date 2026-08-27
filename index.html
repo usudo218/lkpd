@@ -1,816 +1,807 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<style>
-  @page {
-    size: A4;
-    margin: 12mm 10mm 12mm 10mm;
-    background-color: #f8fafc;
-    @bottom-right {
-      content: "Halaman " counter(page) " dari " counter(pages);
-      font-size: 8pt;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #64748b;
-      font-weight: 600;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LKPD Interaktif: Strategi Algoritmik & Pemrograman C++</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2pdf.js for client-side PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0f172a;
     }
-    @bottom-left {
-      content: "LKPD Interaktif: Strategi Algoritmik & Pemrograman C++ (Informatika Fase E)";
-      font-size: 8pt;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #94a3b8;
+    .code-font {
+      font-family: 'Fira Code', monospace;
     }
-  }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-    color: #1e293b;
-    font-size: 9pt;
-    line-height: 1.4;
-    background-color: #f8fafc;
-  }
-
-  /* Header Banner */
-  .hero-banner {
-    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #0284c7 100%);
-    color: #ffffff;
-    border-radius: 10px;
-    padding: 12px 18px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: #ffffff;
-    font-size: 7pt;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    padding: 2px 7px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-
-  .hero-title {
-    font-size: 14.5pt;
-    font-weight: 800;
-    letter-spacing: -0.2px;
-    margin: 2px 0 3px 0;
-    line-height: 1.2;
-    color: #ffffff;
-  }
-
-  .hero-subtitle {
-    font-size: 8.5pt;
-    color: #e0f2fe;
-    margin-bottom: 0;
-    font-weight: 500;
-  }
-
-  /* Identity Bar */
-  .id-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin-bottom: 10px;
-    display: table;
-    width: 100%;
-  }
-
-  .id-col {
-    display: table-cell;
-    width: 33.33%;
-    vertical-align: middle;
-    padding: 0 5px;
-  }
-
-  .id-label {
-    font-size: 7pt;
-    text-transform: uppercase;
-    color: #64748b;
-    font-weight: 700;
-    margin-bottom: 2px;
-  }
-
-  .id-fill {
-    border-bottom: 1.5px dashed #94a3b8;
-    height: 16px;
-    font-size: 8pt;
-    color: #334155;
-    font-weight: 600;
-  }
-
-  /* Section Container */
-  .section-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 10px;
-    page-break-inside: avoid;
-  }
-
-  .section-header {
-    display: table;
-    width: 100%;
-    margin-bottom: 6px;
-    padding-bottom: 4px;
-    border-bottom: 2px solid #f1f5f9;
-  }
-
-  .section-title {
-    font-size: 10pt;
-    font-weight: 800;
-    color: #0f172a;
-    display: table-cell;
-    vertical-align: middle;
-  }
-
-  .section-tag {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-    font-size: 7pt;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 5px;
-    text-transform: uppercase;
-  }
-
-  .tag-blue { background: #e0f2fe; color: #0284c7; }
-  .tag-purple { background: #f3e8ff; color: #7c3aed; }
-  .tag-emerald { background: #d1fae5; color: #059669; }
-  .tag-amber { background: #fef3c7; color: #d97706; }
-  .tag-rose { background: #ffe4e6; color: #e11d48; }
-
-  .objective-box {
-    background: #f0fdf4;
-    border-left: 3.5px solid #10b981;
-    border-radius: 6px;
-    padding: 6px 10px;
-    margin-bottom: 10px;
-    font-size: 8pt;
-  }
-
-  .objective-grid {
-    display: table;
-    width: 100%;
-  }
-
-  .obj-col {
-    display: table-cell;
-    width: 50%;
-    vertical-align: top;
-    padding-right: 8px;
-  }
-
-  .obj-col ul {
-    margin: 0;
-    padding-left: 14px;
-  }
-
-  .obj-col li {
-    margin-bottom: 1px;
-    color: #166534;
-  }
-
-  /* Interactive Boxes */
-  .live-box {
-    background: #f8fafc;
-    border: 1.5px dashed #0ea5e9;
-    border-radius: 5px;
-    padding: 5px 8px;
-    color: #0369a1;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 8pt;
-    min-height: 24px;
-    margin: 3px 0 6px 0;
-    line-height: 1.3;
-  }
-
-  .live-box-large {
-    min-height: 42px;
-  }
-
-  .q-item {
-    margin-bottom: 6px;
-  }
-
-  .q-text {
-    font-weight: 700;
-    color: #1e293b;
-    font-size: 8.5pt;
-    margin-bottom: 3px;
-  }
-
-  .drag-pool {
-    background: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    padding: 6px 8px;
-    margin-bottom: 6px;
-  }
-
-  .drag-chip {
-    display: inline-block;
-    background: #ffffff;
-    border: 1px solid #94a3b8;
-    color: #334155;
-    font-size: 7.5pt;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 5px;
-    margin: 2px 3px 2px 0;
-  }
-
-  .match-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 4px;
-  }
-
-  .match-left {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 5px;
-    padding: 5px 8px;
-    font-weight: 700;
-    color: #1d4ed8;
-    width: 32%;
-    font-size: 8pt;
-  }
-
-  .match-connector {
-    text-align: center;
-    width: 5%;
-    color: #94a3b8;
-    font-weight: bold;
-    font-size: 8pt;
-  }
-
-  .match-right {
-    background: #f8fafc;
-    border: 1.5px dashed #38bdf8;
-    border-radius: 5px;
-    padding: 5px 8px;
-    color: #0f172a;
-    font-size: 8pt;
-    width: 63%;
-  }
-
-  .mcq-group {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 5px;
-    padding: 6px 8px;
-    margin-bottom: 5px;
-  }
-
-  .mcq-options {
-    display: table;
-    width: 100%;
-    margin-top: 3px;
-  }
-
-  .mcq-opt {
-    display: table-cell;
-    width: 25%;
-    font-size: 8pt;
-    color: #334155;
-  }
-
-  .mcq-radio {
-    display: inline-block;
-    width: 11px;
-    height: 11px;
-    border: 1.5px solid #64748b;
-    border-radius: 50%;
-    margin-right: 4px;
-    vertical-align: middle;
-  }
-
-  .code-container {
-    background: #1e1e2e;
-    border-radius: 6px;
-    padding: 8px 12px;
-    color: #cdd6f4;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 8pt;
-    line-height: 1.35;
-    margin: 4px 0 8px 0;
-    border: 1px solid #313244;
-  }
-
-  .code-keyword { color: #cba6f7; font-weight: bold; }
-  .code-type { color: #f38ba8; }
-  .code-var { color: #89b4fa; }
-  .code-num { color: #fab387; }
-  .code-str { color: #a6e3a1; }
-  .code-pre { color: #f9e2af; }
-  .code-comment { color: #6c7086; font-style: italic; }
-
-  .custom-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 4px;
-  }
-
-  .custom-table th {
-    background: #0f172a;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 7.5pt;
-    padding: 5px 8px;
-    text-align: left;
-    text-transform: uppercase;
-  }
-
-  .custom-table td {
-    padding: 5px 8px;
-    border-bottom: 1px solid #e2e8f0;
-    font-size: 8pt;
-  }
-
-  .custom-table tr:nth-child(even) td {
-    background-color: #f8fafc;
-  }
-
-  .drop-zone {
-    display: inline-block;
-    width: 36px;
-    height: 20px;
-    border: 1.5px dashed #0284c7;
-    background: #e0f2fe;
-    border-radius: 4px;
-    text-align: center;
-    line-height: 18px;
-    font-weight: bold;
-    color: #0369a1;
-    font-size: 7.5pt;
-    margin-right: 4px;
-    vertical-align: middle;
-  }
-
-  .star-badge {
-    display: inline-block;
-    border: 1px solid #cbd5e1;
-    border-radius: 5px;
-    padding: 3px 6px;
-    margin-right: 4px;
-    font-size: 7.5pt;
-    color: #475569;
-    background: #ffffff;
-  }
-
-  .finish-card {
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-    color: #ffffff;
-    border-radius: 8px;
-    padding: 10px 14px;
-    text-align: center;
-    margin-top: 8px;
-  }
-
-  .finish-title {
-    font-size: 10pt;
-    font-weight: 800;
-    margin-bottom: 2px;
-  }
-
-  .finish-btn {
-    display: inline-block;
-    background: #ffffff;
-    color: #065f46;
-    font-weight: 800;
-    font-size: 8pt;
-    padding: 5px 14px;
-    border-radius: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-  }
-
-  .pill-code { background: #fee2e2; color: #991b1b; font-family: monospace; padding: 1px 4px; border-radius: 3px; font-size: 7.5pt; font-weight: bold; }
-</style>
+    /* PDF Print-specific styling */
+    .pdf-mode {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      padding: 15px !important;
+    }
+    .pdf-mode .bg-slate-900, .pdf-mode .bg-slate-800, .pdf-mode .bg-slate-800\/50, .pdf-mode .bg-slate-800\/80 {
+      background-color: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    .pdf-mode input, .pdf-mode textarea, .pdf-mode select {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #94a3b8 !important;
+    }
+    .pdf-mode .text-white, .pdf-mode .text-slate-200, .pdf-mode .text-slate-300 {
+      color: #0f172a !important;
+    }
+    .pdf-mode .text-slate-400, .pdf-mode .text-slate-500 {
+      color: #475569 !important;
+    }
+    .pdf-mode .bg-black\/80 {
+      background-color: #1e293b !important;
+      color: #f8fafc !important;
+    }
+  </style>
 </head>
-<body>
+<body class="text-slate-100 min-h-screen py-6 px-3 sm:px-6">
 
-  <!-- HERO BANNER -->
-  <div class="hero-banner">
-    <div class="hero-badge">⚡ LEMBAR KERJA PESERTA DIDIK (LKPD) INTERAKTIF LIVEWORKSHEET</div>
-    <div class="hero-title">STRATEGI ALGORITMIK &amp; PEMROGRAMAN C++</div>
-    <div class="hero-subtitle">Mata Pelajaran: <strong>Informatika</strong> &nbsp;|&nbsp; Fase / Kelas: <strong>Fase E / Kelas X SMA</strong></div>
-  </div>
+  <!-- Main Container -->
+  <div id="worksheet-app" class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-5 sm:p-8">
 
-  <!-- IDENTITAS SISWA -->
-  <div class="id-card">
-    <div class="id-col">
-      <div class="id-label">👤 Nama Peserta Didik</div>
-      <div class="id-fill"></div>
-    </div>
-    <div class="id-col">
-      <div class="id-label">🏫 Kelas / No. Presensi</div>
-      <div class="id-fill"></div>
-    </div>
-    <div class="id-col">
-      <div class="id-label">📅 Tanggal Pengerjaan</div>
-      <div class="id-fill"></div>
-    </div>
-  </div>
-
-  <!-- TUJUAN PEMBELAJARAN -->
-  <div class="objective-box">
-    <div style="font-weight: 700; color: #065f46; margin-bottom: 2px;">🎯 TUJUAN PEMBELAJARAN:</div>
-    <div class="objective-grid">
-      <div class="obj-col">
-        <ul>
-          <li>Memahami konsep strategi penyelesaian masalah algoritmik.</li>
-          <li>Membedakan paradigma Greedy, Rekursi, DP, &amp; Divide &amp; Conquer.</li>
-          <li>Menganalisis masalah komputasional secara terstruktur (IPO).</li>
-        </ul>
+    <!-- Header Banner -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-800 to-sky-700 rounded-xl p-6 sm:p-8 mb-8 text-white shadow-lg">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+        <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-300"></i> LKPD Digital Interaktif
       </div>
-      <div class="obj-col">
-        <ul>
-          <li>Memahami struktur sintaks dan fungsi dasar bahasa C++.</li>
-          <li>Menemukan dan memperbaiki kesalahan kode (<em>debugging</em>).</li>
-          <li>Menyusun logika input-proses-output program secara mandiri.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- BAGIAN A -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">🧠 BAGIAN A — PEMANASAN KONSEP ALGORITMA</div>
-      <div class="section-tag tag-blue">Liveworksheet: Text &amp; Drag-Drop</div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">
+        STRATEGI ALGORITMIK & PEMROGRAMAN C++
+      </h1>
+      <p class="text-sky-100 text-sm sm:text-base font-medium">
+        Mata Pelajaran: <strong>Informatika</strong> | Fase / Kelas: <strong>Fase E / Kelas X SMA</strong>
+      </p>
     </div>
 
-    <div class="q-item">
-      <div class="q-text">Aktivitas 1: Eksplorasi Konsep Awal</div>
-      <div style="font-size: 8pt; color: #475569; margin-bottom: 2px;">1. Menurut pendapatmu, apa yang dimaksud dengan <strong>algoritma</strong> dalam pemrograman?</div>
-      <div class="live-box">[✏️ KOTAK JAWABAN INTERAKTIF: Ketik definisi menurut bahasamu...]</div>
-
-      <div style="font-size: 8pt; color: #475569; margin-bottom: 2px;">2. Mengapa sebuah masalah komputasi wajib diselesaikan dengan langkah yang runtut dan teratur?</div>
-      <div class="live-box">[✏️ KOTAK JAWABAN INTERAKTIF: Ketik alasan logismu di sini...]</div>
-    </div>
-
-    <div class="q-item" style="margin-top: 6px;">
-      <div class="q-text">Aktivitas 2: Urutkan Tahapan Problem Solving Program!</div>
-      <div style="font-size: 7.5pt; color: #64748b; margin-bottom: 3px;">Susun kartu tahapan berikut ke dalam urutan langkah nomor 1 sampai 5:</div>
-      <div class="drag-pool">
-        <span class="drag-chip">🔀 Masukkan kode program</span>
-        <span class="drag-chip">🔀 Analisis masalah</span>
-        <span class="drag-chip">🔀 Jalankan &amp; uji program</span>
-        <span class="drag-chip">🔀 Tentukan solusi</span>
-        <span class="drag-chip">🔀 Perbaiki kesalahan</span>
-      </div>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr>
-          <td style="width: 20%; padding: 2px;"><div class="live-box" style="text-align:center; min-height:20px; font-size:7pt; margin:0;"><strong>1.</strong> [DROP DISINI]</div></td>
-          <td style="width: 20%; padding: 2px;"><div class="live-box" style="text-align:center; min-height:20px; font-size:7pt; margin:0;"><strong>2.</strong> [DROP DISINI]</div></td>
-          <td style="width: 20%; padding: 2px;"><div class="live-box" style="text-align:center; min-height:20px; font-size:7pt; margin:0;"><strong>3.</strong> [DROP DISINI]</div></td>
-          <td style="width: 20%; padding: 2px;"><div class="live-box" style="text-align:center; min-height:20px; font-size:7pt; margin:0;"><strong>4.</strong> [DROP DISINI]</div></td>
-          <td style="width: 20%; padding: 2px;"><div class="live-box" style="text-align:center; min-height:20px; font-size:7pt; margin:0;"><strong>5.</strong> [DROP DISINI]</div></td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- BAGIAN B -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">🔍 BAGIAN B — MENGENAL STRATEGI ALGORITMIK</div>
-      <div class="section-tag tag-purple">Liveworksheet: Matching &amp; Radio</div>
-    </div>
-
-    <div class="q-text">Aktivitas 3: Pasangkan Strategi Algoritmik dengan Karakteristiknya</div>
-    <table class="match-table">
-      <tr>
-        <td class="match-left">🔹 Rekursi</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Memilih solusi terbaik pada setiap langkah saat ini]</td>
-      </tr>
-      <tr>
-        <td class="match-left">🔹 Greedy</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Masalah besar dipecah menjadi bagian-bagian lebih kecil]</td>
-      </tr>
-      <tr>
-        <td class="match-left">🔹 Dynamic Programming</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Fungsi memanggil dirinya sendiri secara berulang]</td>
-      </tr>
-      <tr>
-        <td class="match-left">🔹 Divide and Conquer</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Menyimpan dan menggunakan hasil perhitungan sebelumnya]</td>
-      </tr>
-    </table>
-
-    <div style="margin-top: 6px;">
-      <div class="q-text">Aktivitas 4: Pilih Jawaban yang Tepat</div>
-      <div class="mcq-group">
-        <div style="font-weight: 600; font-size: 8pt;">1. Strategi yang memanfaatkan pemanggilan fungsi terhadap dirinya sendiri disebut:</div>
-        <div class="mcq-options">
-          <div class="mcq-opt"><span class="mcq-radio"></span>A. Greedy</div>
-          <div class="mcq-opt"><span class="mcq-radio"></span>B. Rekursi</div>
-          <div class="mcq-opt"><span class="mcq-radio"></span>C. Dynamic Prog.</div>
-          <div class="mcq-opt"><span class="mcq-radio"></span>D. Brute Force</div>
+    <!-- Student Identity Card -->
+    <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-5 mb-8">
+      <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+        <i data-lucide="user-check" class="w-4 h-4"></i> Identitas Peserta Didik
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Lengkap Siswa *</label>
+          <input type="text" id="student_name" required placeholder="Contoh: Budi Santoso" 
+                 class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition">
         </div>
-      </div>
-      <div class="mcq-group">
-        <div style="font-weight: 600; font-size: 8pt;">2. Strategi yang memilih solusi terbaik lokal pada setiap tahap penyelesaian disebut:</div>
-        <div class="mcq-options">
-          <div class="mcq-opt"><span class="mcq-radio"></span>A. Greedy</div>
-          <div class="mcq-opt"><span class="mcq-radio"></span>B. Rekursi</div>
-          <div class="mcq-opt"><span class="mcq-radio"></span>C. Searching</div>
-          <div class="mcq-opt"><span class="mcq-radio"></span>D. Sorting</div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Kelas & No. Presensi *</label>
+          <input type="text" id="student_class" required placeholder="Contoh: X-1 / 14" 
+                 class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Tanggal Pengerjaan</label>
+          <input type="date" id="student_date" 
+                 class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition">
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- BAGIAN C -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">💻 BAGIAN C — ANALISIS MASALAH (INPUT - PROCESS - OUTPUT)</div>
-      <div class="section-tag tag-emerald">Tabel IPO Interaktif</div>
+    <!-- Tujuan Pembelajaran -->
+    <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-5 mb-8 text-emerald-100 text-sm">
+      <div class="font-bold text-emerald-400 mb-2 flex items-center gap-2">
+        <i data-lucide="target" class="w-4 h-4"></i> TUJUAN PEMBELAJARAN:
+      </div>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm list-disc list-inside">
+        <li>Memahami konsep strategi penyelesaian masalah komputasional.</li>
+        <li>Membedakan konsep Greedy, Rekursi, DP, & Divide and Conquer.</li>
+        <li>Menganalisis masalah berbasis Input-Process-Output (IPO).</li>
+        <li>Menganalisis kode, melacak error (debugging), dan menyusun kode C++.</li>
+      </ul>
     </div>
-    <div style="background:#f1f5f9; padding:5px 8px; border-radius:5px; font-size:8pt; margin-bottom:4px;">
-      📌 <strong>Studi Kasus:</strong> Menghitung total harga belanja barang. Diketahui <span class="pill-code">Harga barang = Rp10.000</span> dan <span class="pill-code">Jumlah barang = 5</span>.
-    </div>
-    <table class="custom-table">
-      <thead>
-        <tr>
-          <th style="width: 25%;">Komponen</th>
-          <th style="width: 35%;">Deskripsi Logika</th>
-          <th style="width: 40%;">Isian Interaktif</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Input</strong></td>
-          <td>Data masukan program</td>
-          <td><div class="live-box" style="margin:0; min-height:20px;">[ISI VARIABEL INPUT]</div></td>
-        </tr>
-        <tr>
-          <td><strong>Process</strong></td>
-          <td>Operasi kalkulasi data</td>
-          <td><div class="live-box" style="margin:0; min-height:20px;">[ISI RUMUS PERHITUNGAN]</div></td>
-        </tr>
-        <tr>
-          <td><strong>Output</strong></td>
-          <td>Hasil akhir ke layar</td>
-          <td><div class="live-box" style="margin:0; min-height:20px;">[ISI HASIL KELUARAN]</div></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
-  <!-- BAGIAN D -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">🧩 BAGIAN D — STRUKTUR DASAR PROGRAM C++</div>
-      <div class="section-tag tag-blue">Liveworksheet: Drag &amp; Drop</div>
-    </div>
-    <div class="code-container">
-<span class="code-pre">#include</span> <span class="code-str">&lt;iostream&gt;</span>
-<span class="code-keyword">using namespace</span> <span class="code-var">std</span>;
+    <form id="lkpdForm" onsubmit="event.preventDefault();">
 
-<span class="code-type">int</span> <span class="code-var">main</span>() {
-    <span class="code-type">int</span> <span class="code-var">harga</span> = <span class="code-num">10000</span>;
-    <span class="code-type">int</span> <span class="code-var">jumlah</span> = <span class="code-num">5</span>;
-    <span class="code-type">int</span> <span class="code-var">total</span> = <span class="code-var">harga</span> * <span class="code-var">jumlah</span>;
-    <span class="code-var">cout</span> &lt;&lt; <span class="code-str">"Total Harga = "</span> &lt;&lt; <span class="code-var">total</span>;
-    <span class="code-keyword">return</span> <span class="code-num">0</span>;
-}
-    </div>
-    <div class="q-text">Aktivitas 6: Pasangkan Potongan Kode dengan Fungsinya</div>
-    <table class="match-table">
-      <tr>
-        <td class="match-left" style="font-family:monospace; font-size:7.5pt;">#include &lt;iostream&gt;</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[DROP: Library standar I/O (cout, cin)]</td>
-      </tr>
-      <tr>
-        <td class="match-left" style="font-family:monospace; font-size:7.5pt;">int main()</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[DROP: Fungsi utama tempat eksekusi program dimulai]</td>
-      </tr>
-      <tr>
-        <td class="match-left" style="font-family:monospace; font-size:7.5pt;">int harga = 10000;</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[DROP: Deklarasi variabel integer &amp; inisialisasi nilai]</td>
-      </tr>
-      <tr>
-        <td class="match-left" style="font-family:monospace; font-size:7.5pt;">cout</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[DROP: Perintah objek stream untuk output ke layar]</td>
-      </tr>
-      <tr>
-        <td class="match-left" style="font-family:monospace; font-size:7.5pt;">return 0;</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[DROP: Mengakhiri fungsi utama dengan status sukses]</td>
-      </tr>
-    </table>
-  </div>
-
-  <!-- BAGIAN E -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">🐛 BAGIAN E — DEBUGGING CHALLENGE (TEMUKAN ERROR)</div>
-      <div class="section-tag tag-rose">Critical Thinking</div>
-    </div>
-    <div style="display: table; width: 100%;">
-      <div style="display: table-cell; width: 45%; vertical-align: top; padding-right: 8px;">
-        <div class="code-container" style="margin-top:0;">
-<span class="code-comment">// Baris Program:</span>
-<span class="code-pre">#include</span> <span class="code-str">&lt;iostream&gt;</span>
-<span class="code-keyword">using namespace</span> <span class="code-var">std</span>;
-
-<span class="code-type">int</span> <span class="code-var">main</span>() {
-    <span class="code-type">int</span> <span class="code-var">a</span> = <span class="code-num">10</span>    <span class="code-comment">&lt;-- [Baris 5]</span>
-    <span class="code-type">int</span> <span class="code-var">b</span> = <span class="code-num">5</span>;
-    <span class="code-type">int</span> <span class="code-var">hasil</span> = <span class="code-var">a</span> + <span class="code-var">b</span>;
-    <span class="code-var">cout</span> &lt;&lt; <span class="code-var">hasil</span>;
-    <span class="code-keyword">return</span> <span class="code-num">0</span>;
-}
+      <!-- ================= BAGIAN A ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-blue-600 rounded-lg text-xs">A</span> PEMANASAN KONSEP ALGORITMA
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-blue-900/60 text-blue-300 border border-blue-700/50 rounded-full">Esai & Susun Logika</span>
         </div>
-      </div>
-      <div style="display: table-cell; width: 55%; vertical-align: top;">
-        <div class="q-text">Aktivitas 7: Analisis &amp; Koreksi Kesalahan</div>
-        <div style="font-size:7.5pt; margin-bottom:1px;">1. Pada baris manakah terdapat kesalahan?</div>
-        <div class="live-box" style="min-height:20px;">[ISIKAN NOMOR BARIS]</div>
-        
-        <div style="font-size:7.5pt; margin-bottom:1px;">2. Apa jenis kesalahan yang terjadi?</div>
-        <div class="live-box" style="min-height:20px;">[JELASKAN KESALAHAN SINTAKS]</div>
 
-        <div style="font-size:7.5pt; margin-bottom:1px;">3. Tuliskan perbaikan kode yang benar:</div>
-        <div class="live-box" style="min-height:22px; font-weight:bold; color:#0f766e;">[TULISKAN BARIS KODE YANG BENAR]</div>
-      </div>
-    </div>
-  </div>
+        <div class="mb-5 space-y-3">
+          <p class="font-semibold text-sm text-slate-200">Aktivitas 1: Apa yang Kamu Ketahui?</p>
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">1. Menurut pendapatmu, apa yang dimaksud dengan <strong>algoritma</strong>?</label>
+            <textarea id="ans_a1_1" rows="2" placeholder="Tuliskan penjelasan konsep menurut pemahamanmu..." 
+                      class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-sky-500"></textarea>
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">2. Mengapa masalah komputasi perlu diselesaikan dengan urutan langkah yang teratur?</label>
+            <textarea id="ans_a1_2" rows="2" placeholder="Tuliskan alasan logismu..." 
+                      class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-sky-500"></textarea>
+          </div>
+        </div>
 
-  <!-- BAGIAN F -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">⚙️ BAGIAN F — TANTANGAN STRATEGI ALGORITMIK GREEDY</div>
-      <div class="section-tag tag-amber">Problem Solving</div>
-    </div>
-    <div style="font-size: 8pt; color: #334155; margin-bottom: 4px;">
-      <strong>Studi Kasus Pecahan Uang:</strong> Diberikan target <strong>Rp37.000</strong>. Pilih kombinasi keping/lembar dengan menerapkan strategi <em>Greedy</em> (ambil pecahan terbesar terlebih dahulu):
-    </div>
-    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:5px; padding:6px 10px; margin-bottom:6px;">
-      <table style="width: 100%;">
-        <tr>
-          <td style="width: 50%;">
-            <div style="font-size:8pt;"><strong>Target Uang: Rp37.000</strong></div>
-            <div style="margin-top:3px;">
-              <span class="drop-zone">[DRAG]</span> &times; Rp20.000 <br>
-              <span class="drop-zone" style="margin-top:2px;">[DRAG]</span> &times; Rp10.000 <br>
-              <span class="drop-zone" style="margin-top:2px;">[DRAG]</span> &times; Rp5.000
+        <div class="pt-3 border-t border-slate-700/60">
+          <p class="font-semibold text-sm text-slate-200 mb-2">Aktivitas 2: Urutkan Tahapan Problem Solving Program!</p>
+          <p class="text-xs text-slate-400 mb-3">Tentukan nomor urutan yang benar (1 sampai 5) untuk setiap tahapan di bawah ini:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+            <div class="bg-slate-900 border border-slate-700 p-3 rounded-lg text-center">
+              <span class="text-xs text-slate-300 block mb-2 font-medium">Analisis masalah</span>
+              <select id="ans_a2_1" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white focus:border-sky-500">
+                <option value="">Pilih Posisi</option>
+                <option value="1">Urutan 1</option>
+                <option value="2">Urutan 2</option>
+                <option value="3">Urutan 3</option>
+                <option value="4">Urutan 4</option>
+                <option value="5">Urutan 5</option>
+              </select>
             </div>
-          </td>
-          <td style="width: 50%; vertical-align: top;">
-            <div style="margin-top:14px;">
-              <span class="drop-zone">[DRAG]</span> &times; Rp2.000 <br>
-              <span class="drop-zone" style="margin-top:2px;">[DRAG]</span> &times; Rp1.000
+            <div class="bg-slate-900 border border-slate-700 p-3 rounded-lg text-center">
+              <span class="text-xs text-slate-300 block mb-2 font-medium">Tentukan solusi</span>
+              <select id="ans_a2_2" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white focus:border-sky-500">
+                <option value="">Pilih Posisi</option>
+                <option value="1">Urutan 1</option>
+                <option value="2">Urutan 2</option>
+                <option value="3">Urutan 3</option>
+                <option value="4">Urutan 4</option>
+                <option value="5">Urutan 5</option>
+              </select>
             </div>
-            <div style="margin-top:6px; font-size:7.5pt; color:#92400e;">
-              ⭐ <em>Pilihan koin drag: [0], [1], [2], [3]</em>
+            <div class="bg-slate-900 border border-slate-700 p-3 rounded-lg text-center">
+              <span class="text-xs text-slate-300 block mb-2 font-medium">Masukkan kode</span>
+              <select id="ans_a2_3" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white focus:border-sky-500">
+                <option value="">Pilih Posisi</option>
+                <option value="1">Urutan 1</option>
+                <option value="2">Urutan 2</option>
+                <option value="3">Urutan 3</option>
+                <option value="4">Urutan 4</option>
+                <option value="5">Urutan 5</option>
+              </select>
             </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="mcq-group" style="margin-bottom:0;">
-      <div style="font-weight:600; font-size:8pt;">Strategi apakah yang digunakan pada metode pembagian uang tersebut?</div>
-      <div class="mcq-options">
-        <div class="mcq-opt"><span class="mcq-radio"></span>A. Greedy</div>
-        <div class="mcq-opt"><span class="mcq-radio"></span>B. Rekursi</div>
-        <div class="mcq-opt"><span class="mcq-radio"></span>C. Sorting</div>
-        <div class="mcq-opt"><span class="mcq-radio"></span>D. Dyn. Prog.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BAGIAN G -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">🧑‍💻 BAGIAN G — CODING &amp; OUTPUT PREDICTION CHALLENGE</div>
-      <div class="section-tag tag-emerald">Live Coding</div>
-    </div>
-    <div style="display: table; width: 100%;">
-      <div style="display: table-cell; width: 50%; vertical-align: top; padding-right: 6px;">
-        <div class="q-text">Tantangan 1: Lengkapi I/O Program</div>
-        <div class="code-container" style="font-size: 7.5pt; margin-top: 3px;">
-<span class="code-type">int</span> <span class="code-var">angka</span>;
-<span class="code-var">cout</span> &lt;&lt; <span class="code-str">"Masukkan angka: "</span>;
-<span style="background:#450a0a; color:#fca5a5; padding:0 3px; border-radius:3px;">______ (1)</span> &gt;&gt; <span class="code-var">angka</span>;
-
-<span class="code-var">cout</span> &lt;&lt; <span class="code-str">"Angka adalah "</span> 
-     &lt;&lt; <span style="background:#450a0a; color:#fca5a5; padding:0 3px; border-radius:3px;">______ (2)</span>;
+            <div class="bg-slate-900 border border-slate-700 p-3 rounded-lg text-center">
+              <span class="text-xs text-slate-300 block mb-2 font-medium">Jalankan & uji</span>
+              <select id="ans_a2_4" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white focus:border-sky-500">
+                <option value="">Pilih Posisi</option>
+                <option value="1">Urutan 1</option>
+                <option value="2">Urutan 2</option>
+                <option value="3">Urutan 3</option>
+                <option value="4">Urutan 4</option>
+                <option value="5">Urutan 5</option>
+              </select>
+            </div>
+            <div class="bg-slate-900 border border-slate-700 p-3 rounded-lg text-center">
+              <span class="text-xs text-slate-300 block mb-2 font-medium">Perbaiki error</span>
+              <select id="ans_a2_5" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white focus:border-sky-500">
+                <option value="">Pilih Posisi</option>
+                <option value="1">Urutan 1</option>
+                <option value="2">Urutan 2</option>
+                <option value="3">Urutan 3</option>
+                <option value="4">Urutan 4</option>
+                <option value="5">Urutan 5</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div style="font-size:7.5pt; color:#475569;">Isian (1): <span class="pill-code">[cin]</span> &nbsp;|&nbsp; Isian (2): <span class="pill-code">[angka]</span></div>
-      </div>
-      <div style="display: table-cell; width: 50%; vertical-align: top; padding-left: 6px;">
-        <div class="q-text">Tantangan 2: Prediksi Output Program</div>
-        <div class="code-container" style="font-size: 7.5pt; margin-top: 3px;">
-<span class="code-type">int</span> <span class="code-var">x</span> = <span class="code-num">8</span>;
-<span class="code-type">int</span> <span class="code-var">y</span> = <span class="code-num">4</span>;
+      </section>
 
-<span class="code-var">cout</span> &lt;&lt; <span class="code-var">x</span> * <span class="code-var">y</span>;
+      <!-- ================= BAGIAN B ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-purple-600 rounded-lg text-xs">B</span> MENGENAL STRATEGI ALGORITMIK
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-purple-900/60 text-purple-300 border border-purple-700/50 rounded-full">Matching & PG</span>
         </div>
-        <div style="font-size:7.5pt; font-weight:600; margin-top:3px;">Nilai output konsol:</div>
-        <div class="live-box" style="min-height:22px; font-weight:bold; color:#1e3a8a;">🖥️ [HASIL OUTPUT: 32]</div>
+
+        <p class="font-semibold text-sm text-slate-200 mb-2">Aktivitas 3: Pasangkan Strategi Algoritmik dengan Karakteristiknya</p>
+        <div class="space-y-2.5 mb-5">
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-3 rounded-lg border border-slate-700/70">
+            <span class="sm:col-span-4 text-xs font-bold text-sky-400">1. Rekursi</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_b3_1" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
+                <option value="">-- Pilih Definisi / Ciri yang Tepat --</option>
+                <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
+                <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
+                <option value="Menyimpan hasil perhitungan sebelumnya (memoization)">Menyimpan hasil perhitungan sebelumnya (memoization)</option>
+                <option value="Masalah besar dipecah menjadi sub-masalah sejenis">Masalah besar dipecah menjadi sub-masalah sejenis</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-3 rounded-lg border border-slate-700/70">
+            <span class="sm:col-span-4 text-xs font-bold text-amber-400">2. Greedy</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_b3_2" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
+                <option value="">-- Pilih Definisi / Ciri yang Tepat --</option>
+                <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
+                <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
+                <option value="Menyimpan hasil perhitungan sebelumnya (memoization)">Menyimpan hasil perhitungan sebelumnya (memoization)</option>
+                <option value="Masalah besar dipecah menjadi sub-masalah sejenis">Masalah besar dipecah menjadi sub-masalah sejenis</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-3 rounded-lg border border-slate-700/70">
+            <span class="sm:col-span-4 text-xs font-bold text-emerald-400">3. Dynamic Programming</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_b3_3" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
+                <option value="">-- Pilih Definisi / Ciri yang Tepat --</option>
+                <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
+                <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
+                <option value="Menyimpan hasil perhitungan sebelumnya (memoization)">Menyimpan hasil perhitungan sebelumnya (memoization)</option>
+                <option value="Masalah besar dipecah menjadi sub-masalah sejenis">Masalah besar dipecah menjadi sub-masalah sejenis</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-3 rounded-lg border border-slate-700/70">
+            <span class="sm:col-span-4 text-xs font-bold text-rose-400">4. Divide and Conquer</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_b3_4" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
+                <option value="">-- Pilih Definisi / Ciri yang Tepat --</option>
+                <option value="Memilih solusi terbaik pada setiap langkah saat ini">Memilih solusi terbaik pada setiap langkah saat ini</option>
+                <option value="Fungsi memanggil dirinya sendiri secara berulang">Fungsi memanggil dirinya sendiri secara berulang</option>
+                <option value="Menyimpan hasil perhitungan sebelumnya (memoization)">Menyimpan hasil perhitungan sebelumnya (memoization)</option>
+                <option value="Masalah besar dipecah menjadi sub-masalah sejenis">Masalah besar dipecah menjadi sub-masalah sejenis</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-700/60">
+          <p class="font-semibold text-sm text-slate-200 mb-3">Aktivitas 4: Uji Cepat Pilihan Ganda</p>
+          <div class="space-y-4">
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-700/70">
+              <p class="text-xs text-slate-200 mb-2 font-medium">1. Strategi yang memanfaatkan pemanggilan fungsi terhadap dirinya sendiri disebut:</p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_1" value="A" class="text-sky-500"> A. Greedy
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_1" value="B" class="text-sky-500"> B. Rekursi
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_1" value="C" class="text-sky-500"> C. Dynamic Prog.
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_1" value="D" class="text-sky-500"> D. Brute Force
+                </label>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-700/70">
+              <p class="text-xs text-slate-200 mb-2 font-medium">2. Strategi yang selalu memilih langkah paling optimal saat ini adalah:</p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_2" value="A" class="text-sky-500"> A. Greedy
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_2" value="B" class="text-sky-500"> B. Rekursi
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_2" value="C" class="text-sky-500"> C. Searching
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+                  <input type="radio" name="ans_b4_2" value="D" class="text-sky-500"> D. Sorting
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BAGIAN C ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-emerald-600 rounded-lg text-xs">C</span> ANALISIS MASALAH (INPUT - PROCESS - OUTPUT)
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 rounded-full">Analisis Logika</span>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-700/80 rounded-lg p-3.5 mb-4 text-xs text-slate-300">
+          📌 <strong>Studi Kasus:</strong> Seseorang ingin menghitung total belanja. Diketahui <code class="text-amber-300 font-mono">harga_barang = 10000</code> dan <code class="text-amber-300 font-mono">jumlah_barang = 5</code>.
+        </div>
+
+        <p class="font-semibold text-sm text-slate-200 mb-2">Aktivitas 5: Analisis Komponen IPO</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <span class="text-xs font-bold text-sky-400 block mb-1">1. Input (Masukan Data)</span>
+            <input type="text" id="ans_c_input" placeholder="Contoh: harga, jumlah" 
+                   class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-xs text-white focus:border-sky-500">
+          </div>
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <span class="text-xs font-bold text-amber-400 block mb-1">2. Process (Rumus/Operasi)</span>
+            <input type="text" id="ans_c_process" placeholder="Contoh: total = harga * jumlah" 
+                   class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-xs text-white focus:border-sky-500">
+          </div>
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <span class="text-xs font-bold text-emerald-400 block mb-1">3. Output (Hasil Keluar)</span>
+            <input type="text" id="ans_c_output" placeholder="Contoh: total (50000)" 
+                   class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-xs text-white focus:border-sky-500">
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BAGIAN D ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-blue-600 rounded-lg text-xs">D</span> STRUKTUR DASAR BAHASA C++
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-blue-900/60 text-blue-300 border border-blue-700/50 rounded-full">Sintaks & Fungsi</span>
+        </div>
+
+        <div class="bg-black/80 rounded-lg p-4 font-mono text-xs text-slate-300 border border-slate-700 mb-4 overflow-x-auto leading-relaxed">
+          <span class="text-purple-400 font-bold">#include</span> <span class="text-emerald-400">&lt;iostream&gt;</span><br>
+          <span class="text-purple-400 font-bold">using namespace</span> std;<br><br>
+          <span class="text-rose-400 font-bold">int</span> <span class="text-blue-400">main</span>() {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">int</span> harga = <span class="text-amber-400">10000</span>;<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">int</span> jumlah = <span class="text-amber-400">5</span>;<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">int</span> total = harga * jumlah;<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="text-emerald-400">"Total Harga = "</span> &lt;&lt; total;<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400 font-bold">return</span> <span class="text-amber-400">0</span>;<br>
+          }
+        </div>
+
+        <p class="font-semibold text-sm text-slate-200 mb-2">Aktivitas 6: Pasangkan Kode dengan Fungsinya</p>
+        <div class="space-y-2">
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <code class="sm:col-span-4 text-xs font-mono text-sky-400">#include &lt;iostream&gt;</code>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_d_1" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Fungsi Kode --</option>
+                <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
+                <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
+                <option value="Deklarasi variabel integer sekaligus inisialisasi">Deklarasi variabel integer sekaligus inisialisasi</option>
+                <option value="Objek perintah untuk menampilkan output ke layar">Objek perintah untuk menampilkan output ke layar</option>
+                <option value="Mengakhiri fungsi utama dengan kode status sukses">Mengakhiri fungsi utama dengan kode status sukses</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <code class="sm:col-span-4 text-xs font-mono text-sky-400">int main()</code>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_d_2" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Fungsi Kode --</option>
+                <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
+                <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
+                <option value="Deklarasi variabel integer sekaligus inisialisasi">Deklarasi variabel integer sekaligus inisialisasi</option>
+                <option value="Objek perintah untuk menampilkan output ke layar">Objek perintah untuk menampilkan output ke layar</option>
+                <option value="Mengakhiri fungsi utama dengan kode status sukses">Mengakhiri fungsi utama dengan kode status sukses</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <code class="sm:col-span-4 text-xs font-mono text-sky-400">int harga = 10000;</code>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_d_3" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Fungsi Kode --</option>
+                <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
+                <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
+                <option value="Deklarasi variabel integer sekaligus inisialisasi">Deklarasi variabel integer sekaligus inisialisasi</option>
+                <option value="Objek perintah untuk menampilkan output ke layar">Objek perintah untuk menampilkan output ke layar</option>
+                <option value="Mengakhiri fungsi utama dengan kode status sukses">Mengakhiri fungsi utama dengan kode status sukses</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <code class="sm:col-span-4 text-xs font-mono text-sky-400">cout</code>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_d_4" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Fungsi Kode --</option>
+                <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
+                <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
+                <option value="Deklarasi variabel integer sekaligus inisialisasi">Deklarasi variabel integer sekaligus inisialisasi</option>
+                <option value="Objek perintah untuk menampilkan output ke layar">Objek perintah untuk menampilkan output ke layar</option>
+                <option value="Mengakhiri fungsi utama dengan kode status sukses">Mengakhiri fungsi utama dengan kode status sukses</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <code class="sm:col-span-4 text-xs font-mono text-sky-400">return 0;</code>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-7">
+              <select id="ans_d_5" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Fungsi Kode --</option>
+                <option value="Header file / library standar I/O (cout, cin)">Header file / library standar I/O (cout, cin)</option>
+                <option value="Fungsi utama tempat program mulai dieksekusi">Fungsi utama tempat program mulai dieksekusi</option>
+                <option value="Deklarasi variabel integer sekaligus inisialisasi">Deklarasi variabel integer sekaligus inisialisasi</option>
+                <option value="Objek perintah untuk menampilkan output ke layar">Objek perintah untuk menampilkan output ke layar</option>
+                <option value="Mengakhiri fungsi utama dengan kode status sukses">Mengakhiri fungsi utama dengan kode status sukses</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BAGIAN E ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-rose-600 rounded-lg text-xs">E</span> DEBUGGING CHALLENGE (TEMUKAN ERROR)
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-rose-900/60 text-rose-300 border border-rose-700/50 rounded-full">Pemeriksaan Sintaks</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+          <div class="sm:col-span-5 bg-black/80 rounded-lg p-3 font-mono text-xs text-slate-300 border border-slate-700">
+            <span class="text-slate-500">1</span> #include &lt;iostream&gt;<br>
+            <span class="text-slate-500">2</span> using namespace std;<br>
+            <span class="text-slate-500">3</span><br>
+            <span class="text-slate-500">4</span> int main() {<br>
+            <span class="text-slate-500">5</span> &nbsp;&nbsp;<span class="bg-rose-950 text-rose-300 px-1 rounded">int a = 10</span><br>
+            <span class="text-slate-500">6</span> &nbsp;&nbsp;int b = 5;<br>
+            <span class="text-slate-500">7</span> &nbsp;&nbsp;int hasil = a + b;<br>
+            <span class="text-slate-500">8</span> &nbsp;&nbsp;cout &lt;&lt; hasil;<br>
+            <span class="text-slate-500">9</span> &nbsp;&nbsp;return 0;<br>
+            <span class="text-slate-500">10</span> }
+          </div>
+          <div class="sm:col-span-7 space-y-3">
+            <div>
+              <label class="text-xs text-slate-300 font-semibold block mb-1">1. Pada baris nomor berapakah terdapat kesalahan?</label>
+              <input type="text" id="ans_e_line" placeholder="Contoh: Baris 5" 
+                     class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white focus:border-sky-500">
+            </div>
+            <div>
+              <label class="text-xs text-slate-300 font-semibold block mb-1">2. Apa jenis kesalahan sintaks tersebut?</label>
+              <input type="text" id="ans_e_cause" placeholder="Contoh: Kurang tanda semicolon (;)" 
+                     class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white focus:border-sky-500">
+            </div>
+            <div>
+              <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan kode perbaikan baris tersebut yang benar:</label>
+              <input type="text" id="ans_e_fix" placeholder="Contoh: int a = 10;" 
+                     class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white font-mono text-emerald-400 focus:border-sky-500">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BAGIAN F ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-amber-600 rounded-lg text-xs">F</span> SIMULASI STRATEGI GREEDY (PECAHAN UANG)
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-amber-900/60 text-amber-300 border border-amber-700/50 rounded-full">Problem Solving</span>
+        </div>
+
+        <p class="text-xs text-slate-300 mb-3">
+          Tentukan jumlah masing-masing pecahan untuk mencapai target <strong>Rp37.000</strong> dengan strategi <em>Greedy</em> (prioritaskan nominal terbesar):
+        </p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 mb-4">
+          <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-center">
+            <span class="text-xs font-bold text-amber-400 block mb-1">Rp20.000</span>
+            <input type="number" id="ans_f_20k" min="0" placeholder="Keping" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white">
+          </div>
+          <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-center">
+            <span class="text-xs font-bold text-amber-400 block mb-1">Rp10.000</span>
+            <input type="number" id="ans_f_10k" min="0" placeholder="Keping" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white">
+          </div>
+          <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-center">
+            <span class="text-xs font-bold text-amber-400 block mb-1">Rp5.000</span>
+            <input type="number" id="ans_f_5k" min="0" placeholder="Keping" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white">
+          </div>
+          <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-center">
+            <span class="text-xs font-bold text-amber-400 block mb-1">Rp2.000</span>
+            <input type="number" id="ans_f_2k" min="0" placeholder="Keping" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white">
+          </div>
+          <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-center">
+            <span class="text-xs font-bold text-amber-400 block mb-1">Rp1.000</span>
+            <input type="number" id="ans_f_1k" min="0" placeholder="Keping" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-center text-white">
+          </div>
+        </div>
+
+        <div class="bg-slate-900 p-3 rounded-lg border border-slate-700 text-xs">
+          <label class="font-semibold text-slate-200 block mb-2">Strategi apakah yang diterapkan pada pemilihan koin terbesar di atas?</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <label class="flex items-center gap-2 p-1.5 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_f_strat" value="Greedy"> Greedy
+            </label>
+            <label class="flex items-center gap-2 p-1.5 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_f_strat" value="Rekursi"> Rekursi
+            </label>
+            <label class="flex items-center gap-2 p-1.5 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_f_strat" value="Sorting"> Sorting
+            </label>
+            <label class="flex items-center gap-2 p-1.5 bg-slate-800 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_f_strat" value="Dynamic Programming"> Dynamic Programming
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BAGIAN G ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-emerald-600 rounded-lg text-xs">G</span> LIVE CODING & PREDIKSI OUTPUT
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 rounded-full">C++ Code</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+            <p class="text-xs font-bold text-sky-400 mb-2">Tantangan 1: Lengkapi I/O Program</p>
+            <div class="bg-black/80 p-3 rounded font-mono text-xs text-slate-300 mb-3 leading-relaxed">
+              int angka;<br>
+              cout &lt;&lt; "Masukkan angka: ";<br>
+              <span class="text-amber-400 font-bold">______ (1)</span> &gt;&gt; angka;<br>
+              cout &lt;&lt; "Angka adalah " &lt;&lt; <span class="text-amber-400 font-bold">______ (2)</span>;
+            </div>
+            <div class="space-y-2 text-xs">
+              <input type="text" id="ans_g1_1" placeholder="Isian (1) [Contoh: cin]" 
+                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white font-mono">
+              <input type="text" id="ans_g1_2" placeholder="Isian (2) [Contoh: angka]" 
+                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white font-mono">
+            </div>
+          </div>
+
+          <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+            <p class="text-xs font-bold text-amber-400 mb-2">Tantangan 2: Prediksi Output Konsol</p>
+            <div class="bg-black/80 p-3 rounded font-mono text-xs text-slate-300 mb-3 leading-relaxed">
+              int x = 8;<br>
+              int y = 4;<br>
+              cout &lt;&lt; x * y;<br>
+              return 0;
+            </div>
+            <label class="text-xs text-slate-300 block mb-1">Nilai output yang dicetak:</label>
+            <input type="text" id="ans_g2_output" placeholder="Tuliskan hasil output angka..." 
+                   class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-xs text-white font-mono">
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BAGIAN H ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-purple-600 rounded-lg text-xs">H</span> LEVEL UP! MATCHING STRATEGY
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-purple-900/60 text-purple-300 border border-purple-700/50 rounded-full">Penerapan Kasus Nyata</span>
+        </div>
+
+        <div class="space-y-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <span class="sm:col-span-5 text-xs text-slate-300 font-medium">1. Menghitung nilai faktorial / Fibonacci</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-6">
+              <select id="ans_h_1" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Strategi --</option>
+                <option value="Rekursi">Rekursi</option>
+                <option value="Greedy">Greedy</option>
+                <option value="Dynamic Programming">Dynamic Programming</option>
+                <option value="Divide and Conquer">Divide and Conquer</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <span class="sm:col-span-5 text-xs text-slate-300 font-medium">2. Memilih kombinasi pecahan uang kembalian</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-6">
+              <select id="ans_h_2" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Strategi --</option>
+                <option value="Rekursi">Rekursi</option>
+                <option value="Greedy">Greedy</option>
+                <option value="Dynamic Programming">Dynamic Programming</option>
+                <option value="Divide and Conquer">Divide and Conquer</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <span class="sm:col-span-5 text-xs text-slate-300 font-medium">3. Optimasi lintasan dengan menyimpan tabel hasil</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-6">
+              <select id="ans_h_3" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Strategi --</option>
+                <option value="Rekursi">Rekursi</option>
+                <option value="Greedy">Greedy</option>
+                <option value="Dynamic Programming">Dynamic Programming</option>
+                <option value="Divide and Conquer">Divide and Conquer</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+            <span class="sm:col-span-5 text-xs text-slate-300 font-medium">4. Membagi masalah besar menjadi bagian kecil</span>
+            <span class="hidden sm:block sm:col-span-1 text-center text-slate-500 font-bold">➔</span>
+            <div class="sm:col-span-6">
+              <select id="ans_h_4" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                <option value="">-- Pilih Strategi --</option>
+                <option value="Rekursi">Rekursi</option>
+                <option value="Greedy">Greedy</option>
+                <option value="Dynamic Programming">Dynamic Programming</option>
+                <option value="Divide and Conquer">Divide and Conquer</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BAGIAN I ================= -->
+      <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 sm:p-6 mb-8">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+          <h2 class="font-bold text-base sm:text-lg text-white flex items-center gap-2">
+            <span class="p-1.5 bg-sky-600 rounded-lg text-xs">I</span> REFLEKSI DIRI PESERTA DIDIK
+          </h2>
+          <span class="text-xs font-medium px-2.5 py-1 bg-sky-900/60 text-sky-300 border border-sky-700/50 rounded-full">Self Assessment</span>
+        </div>
+
+        <div class="mb-4">
+          <label class="text-xs font-semibold text-slate-300 block mb-2">Tingkat pemahaman materi saya hari ini:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs">
+            <label class="flex items-center gap-2 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_rating" value="1"> ⭐ Belum
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_rating" value="2"> ⭐⭐ Mulai Paham
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_rating" value="3"> ⭐⭐⭐ Cukup
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer">
+              <input type="radio" name="ans_rating" value="4"> ⭐⭐⭐⭐ Paham Baik
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-slate-900 rounded border border-slate-700 cursor-pointer text-emerald-400 font-semibold">
+              <input type="radio" name="ans_rating" value="5"> ⭐⭐⭐⭐⭐ Mahir
+            </label>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Materi yang paling dipahami:</label>
+            <input type="text" id="ans_ref_best" placeholder="Tuliskan topik favoritmu..." 
+                   class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white">
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Materi yang masih membingungkan:</label>
+            <input type="text" id="ans_ref_hard" placeholder="Tuliskan materi yang butuh penjelasan..." 
+                   class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Insight atau hal baru yang dipelajari:</label>
+          <textarea id="ans_ref_new" rows="2" placeholder="Tuliskan ringkasan pembelajaranmu..." 
+                    class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white"></textarea>
+        </div>
+      </section>
+
+      <!-- SUBMIT BUTTON & STATUS -->
+      <div class="bg-gradient-to-r from-emerald-900/80 via-teal-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
+        <h3 class="font-extrabold text-lg text-white">🎉 Siap Mengumpulkan Tugas?</h3>
+        <p class="text-xs text-emerald-200 max-w-lg mx-auto">
+          Pastikan Nama dan Kelas sudah terisi lengkap. Ketika tombol ditekan, jawabanmu akan di-render menjadi file PDF resmi (<span class="font-mono text-amber-300">namasiswa_tugas1.pdf</span>) dan langsung terkirim ke Google Drive Guru.
+        </p>
+
+        <button type="button" id="submitBtn" onclick="submitToGoogleDrive()" 
+                class="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg hover:shadow-emerald-500/25 transition-all transform active:scale-95">
+          <i data-lucide="send" class="w-4 h-4"></i> KIRIM TUGAS KE GOOGLE DRIVE
+        </button>
+
+        <div id="statusMessage" class="hidden text-xs font-semibold p-3 rounded-lg max-w-md mx-auto"></div>
       </div>
-    </div>
+
+    </form>
+
   </div>
 
-  <!-- BAGIAN H -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">🏆 BAGIAN H — LEVEL UP! MATCHING STRATEGY</div>
-      <div class="section-tag tag-purple">Penerapan Strategi</div>
-    </div>
-    <div class="q-text">Pasangkan Kasus Nyata dengan Paradigma Algoritma yang Paling Tepat:</div>
-    <table class="match-table" style="margin-top:3px;">
-      <tr>
-        <td class="match-left">1. Menghitung nilai faktorial / deret Fibonacci</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Rekursi / Greedy / DP / Divide &amp; Conquer]</td>
-      </tr>
-      <tr>
-        <td class="match-left">2. Memilih pecahan uang kembalian optimal</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Rekursi / Greedy / DP / Divide &amp; Conquer]</td>
-      </tr>
-      <tr>
-        <td class="match-left">3. Solusi tersimpan dengan tabel memoization</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Rekursi / Greedy / DP / Divide &amp; Conquer]</td>
-      </tr>
-      <tr>
-        <td class="match-left">4. Membagi masalah besar menjadi bagian kecil</td>
-        <td class="match-connector">➔</td>
-        <td class="match-right">[PILIH: Rekursi / Greedy / DP / Divide &amp; Conquer]</td>
-      </tr>
-    </table>
-  </div>
+  <script>
+    // Inisialisasi ikon Lucide
+    lucide.createIcons();
 
-  <!-- BAGIAN I -->
-  <div class="section-card">
-    <div class="section-header">
-      <div class="section-title">📝 BAGIAN I — REFLEKSI PEMBELAJARAN</div>
-      <div class="section-tag tag-blue">Self Assessment</div>
-    </div>
-    
-    <div style="font-size:8pt; font-weight:600; margin-bottom:3px;">Tingkat pemahaman materi saya hari ini:</div>
-    <div style="margin-bottom:6px;">
-      <span class="star-badge">⭐ Belum</span>
-      <span class="star-badge">⭐⭐ Mulai Paham</span>
-      <span class="star-badge">⭐⭐⭐ Cukup</span>
-      <span class="star-badge">⭐⭐⭐⭐ Paham Baik</span>
-      <span class="star-badge" style="background:#dcfce7; border-color:#86efac; font-weight:bold; color:#15803d;">⭐⭐⭐⭐⭐ Sangat Menguasai</span>
-    </div>
+    // Set default tanggal hari ini
+    document.getElementById('student_date').valueAsDate = new Date();
 
-    <div style="display:table; width:100%;">
-      <div style="display:table-cell; width:50%; padding-right:5px;">
-        <div style="font-size:7.5pt; font-weight:600;">Materi yang paling saya kuasai:</div>
-        <div class="live-box" style="min-height:20px;">[KETIK TOPIK DI SINI]</div>
-      </div>
-      <div style="display:table-cell; width:50%; padding-left:5px;">
-        <div style="font-size:7.5pt; font-weight:600;">Materi yang masih membingungkan:</div>
-        <div class="live-box" style="min-height:20px;">[KETIK TOPIK DI SINI]</div>
-      </div>
-    </div>
+    /**
+     * =========================================================================
+     * PENTING:
+     * Ganti URL di bawah dengan Web App URL dari Google Apps Script Anda (berakhir /exec)
+     * =========================================================================
+     */
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwokrZArEENzEepANydmpNRFmvNKMc5UiD0rKCn1rb36MNHXLDLrXxIbDd7LJ5_A5qFLg/exec";
 
-    <div style="margin-top:3px;">
-      <div style="font-size:7.5pt; font-weight:600;">Hal baru yang saya pelajari hari ini:</div>
-      <div class="live-box live-box-large">[KETIK REFLEKSI KESELURUHAN KAMU DI SINI...]</div>
-    </div>
-  </div>
+    async function submitToGoogleDrive() {
+      const studentName = document.getElementById('student_name').value.trim();
+      const studentClass = document.getElementById('student_class').value.trim();
+      const statusDiv = document.getElementById('statusMessage');
+      const submitBtn = document.getElementById('submitBtn');
 
-  <!-- FINISH CARD -->
-  <div class="finish-card">
-    <div class="finish-title">🎉 SELAMAT! KAMU TELAH MENYELESAIKAN SELURUH MISI!</div>
-    <div style="font-size: 7.5pt; color: #e6fffa;">
-      "Program yang baik tidak dimulai dari mengetik kode, tetapi dari strategi berpikir yang matang."
-    </div>
-    <div class="finish-btn">KLIK TOMBOL "FINISH" UNTUK SUBMIT JAWABAN KE GURU</div>
-  </div>
+      if (!studentName || !studentClass) {
+        alert("⚠️ Mohon isi Nama Siswa dan Kelas terlebih dahulu!");
+        document.getElementById('student_name').focus();
+        return;
+      }
 
+      // Format nama file: namasiswa_tugas1.pdf
+      const cleanName = studentName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      const fileName = `${cleanName}_tugas1.pdf`;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Memproses & Mengunggah PDF...`;
+      lucide.createIcons();
+
+      statusDiv.className = "block bg-blue-900/60 border border-blue-600 text-blue-200 text-xs p-3 rounded-lg max-w-md mx-auto text-center";
+      statusDiv.innerHTML = `⏳ Sedang meng-generate berkas PDF dan mengunggah ke Google Drive... Mohon tunggu sejenak.`;
+
+      try {
+        const element = document.getElementById('worksheet-app');
+        element.classList.add('pdf-mode');
+
+        const opt = {
+          margin:       [8, 8, 8, 8],
+          filename:     fileName,
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2, useCORS: true, logging: false },
+          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Render PDF sebagai blob
+        const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+        element.classList.remove('pdf-mode');
+
+        // Encode blob ke base64
+        const reader = new FileReader();
+        reader.readAsDataURL(pdfBlob);
+        reader.onloadend = async function () {
+          const base64data = reader.result.split(',')[1];
+
+          const payload = {
+            fileName: fileName,
+            fileData: base64data,
+            studentName: studentName,
+            studentClass: studentClass,
+            submissionDate: new Date().toLocaleString('id-ID')
+          };
+
+          // Kirim POST ke Web App Google Apps Script
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+
+          if (result.status === 'success') {
+            statusDiv.className = "block bg-emerald-900/80 border border-emerald-500 text-emerald-100 text-xs p-4 rounded-lg max-w-md mx-auto text-center shadow-lg";
+            statusDiv.innerHTML = `
+              <div class="font-bold text-sm mb-1 text-emerald-300">✅ Berhasil Terkirim!</div>
+              Berkas <span class="font-mono font-bold text-amber-300">${fileName}</span> telah sukses tersimpan di Google Drive Guru.
+            `;
+            submitBtn.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> TUGAS SUDAH TERKIRIM`;
+            submitBtn.className = "inline-flex items-center gap-2 px-8 py-3.5 bg-slate-700 text-slate-400 font-bold text-sm rounded-xl cursor-not-allowed";
+          } else {
+            throw new Error(result.message || "Gagal mengunggah berkas ke Drive.");
+          }
+        };
+
+      } catch (err) {
+        console.error(err);
+        statusDiv.className = "block bg-rose-900/80 border border-rose-500 text-rose-100 text-xs p-4 rounded-lg max-w-md mx-auto text-center";
+        statusDiv.innerHTML = `
+          <div class="font-bold text-sm mb-1 text-rose-300">❌ Pengiriman Gagal</div>
+          ${err.message}<br>
+          <span class="text-xs text-slate-300">Pastikan URL Web App Google Apps Script sudah terpasang dengan benar di file HTML.</span>
+        `;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> COBA KIRIM ULANG`;
+      }
+      lucide.createIcons();
+    }
+  </script>
 </body>
 </html>
