@@ -42,6 +42,13 @@
       background-color: #0f172a;
     }
 
+    /* Auto-resize textarea */
+    textarea {
+      resize: vertical;
+      min-height: 44px;
+      overflow-y: hidden;
+    }
+
     /* Styling saat identitas terkunci */
     .input-locked {
       background-color: #1e293b !important;
@@ -55,6 +62,28 @@
       background-color: #0f172a;
       color: #f8fafc;
     }
+
+    /* ATURAN ANTI TERPOTONG (PAGE BREAK RULES) */
+    .pdf-avoid-break,
+    section,
+    .question-card,
+    .header-banner {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    @media print {
+      body {
+        background-color: #0f172a !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .printable-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen py-6 px-3 sm:px-6">
@@ -63,7 +92,7 @@
   <div id="worksheet-app" class="printable-sheet max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-8">
 
     <!-- Header Banner -->
-    <div class="bg-gradient-to-r from-blue-900 via-indigo-800 to-sky-700 rounded-xl p-6 mb-6 text-white shadow-lg">
+    <div class="header-banner bg-gradient-to-r from-blue-900 via-indigo-800 to-sky-700 rounded-xl p-6 mb-6 text-white shadow-lg pdf-avoid-break">
       <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-2">
         <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-300"></i> LKPD Digital Interaktif
       </div>
@@ -76,7 +105,7 @@
     </div>
 
     <!-- Identitas Peserta Didik -->
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
           <i data-lucide="user-check" class="w-4 h-4"></i> Identitas Peserta Didik
@@ -109,7 +138,7 @@
     </div>
 
     <!-- Tujuan Pembelajaran -->
-    <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 mb-6 text-emerald-100 text-xs sm:text-sm">
+    <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 mb-6 text-emerald-100 text-xs sm:text-sm pdf-avoid-break">
       <div class="font-bold text-emerald-400 mb-1.5 flex items-center gap-2">
         <i data-lucide="target" class="w-4 h-4"></i> TUJUAN PEMBELAJARAN (FASE F):
       </div>
@@ -122,7 +151,7 @@
     </div>
 
     <!-- ================= BAGIAN A ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-blue-600 rounded text-xs">A</span> PEMANASAN KONSEP ALGORITMA
@@ -134,13 +163,13 @@
           <label class="text-xs text-slate-300 font-semibold block mb-1">1. Menurut pendapatmu, apa yang dimaksud dengan <strong>algoritma</strong>?</label>
           <textarea id="ans_a1_1" rows="2" placeholder="tulis jawabanmu disini..." 
                     onpaste="handlePasteBlock(event)"
-                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
+                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm auto-expand"></textarea>
         </div>
         <div>
           <label class="text-xs text-slate-300 font-semibold block mb-1">2. Mengapa masalah komputasi wajib diselesaikan dengan langkah teratur dan logis?</label>
           <textarea id="ans_a1_2" rows="2" placeholder="tulis jawabanmu disini..." 
                     onpaste="handlePasteBlock(event)"
-                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
+                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm auto-expand"></textarea>
         </div>
       </div>
 
@@ -207,7 +236,7 @@
     </section>
 
     <!-- ================= BAGIAN B ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-purple-600 rounded text-xs">B</span> MENGENAL STRATEGI ALGORITMIK
@@ -292,7 +321,7 @@
     </section>
 
     <!-- ================= BAGIAN C ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-emerald-600 rounded text-xs">C</span> ANALISIS MASALAH (INPUT - PROCESS - OUTPUT)
@@ -321,7 +350,7 @@
     </section>
 
     <!-- ================= BAGIAN D ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-blue-600 rounded text-xs">D</span> STRUKTUR DASAR BAHASA C++
@@ -411,7 +440,7 @@
     </section>
 
     <!-- ================= BAGIAN E ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-rose-600 rounded text-xs">E</span> DEBUGGING CHALLENGE (TEMUKAN ERROR)
@@ -448,7 +477,7 @@
     </section>
 
     <!-- ================= BAGIAN F (HOTS VERSION) ================= -->
-    <section class="bg-slate-800/50 border border-amber-600/50 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-amber-600/50 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-amber-400 flex items-center gap-2">
           <span class="p-1 bg-amber-600 text-slate-950 rounded text-xs font-black">HOTS</span> TANTANGAN KRITIS: KEGAGALAN STRATEGI GREEDY
@@ -466,24 +495,24 @@
         <div class="grid grid-cols-3 gap-2 mb-2 text-xs">
           <div>
             <label class="block text-slate-400 mb-1">Keping Rp10.000:</label>
-            <input type="number" id="ans_hots_10k" min="0" placeholder="tulis jawabanmu disini..." class="question-input w-full rounded p-1.5 text-xs text-center">
+            <input type="number" id="ans_hots_10k" min="0" placeholder="0" class="question-input w-full rounded p-1.5 text-xs text-center">
           </div>
           <div>
             <label class="block text-slate-400 mb-1">Keping Rp7.000:</label>
-            <input type="number" id="ans_hots_7k" min="0" placeholder="tulis jawabanmu disini..." class="question-input w-full rounded p-1.5 text-xs text-center">
+            <input type="number" id="ans_hots_7k" min="0" placeholder="0" class="question-input w-full rounded p-1.5 text-xs text-center">
           </div>
           <div>
             <label class="block text-slate-400 mb-1">Keping Rp1.000:</label>
-            <input type="number" id="ans_hots_1k" min="0" placeholder="tulis jawabanmu disini..." class="question-input w-full rounded p-1.5 text-xs text-center">
+            <input type="number" id="ans_hots_1k" min="0" placeholder="0" class="question-input w-full rounded p-1.5 text-xs text-center">
           </div>
         </div>
-        <p class="text-xs text-slate-400">Total koin versi mesin Greedy: <input type="text" id="ans_hots_greedy_total" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-48 rounded p-1 text-xs text-center font-bold text-amber-400"></p>
+        <p class="text-xs text-slate-400">Total koin versi mesin Greedy: <input type="text" id="ans_hots_greedy_total" placeholder="tulis jawabanmu..." onpaste="handlePasteBlock(event)" class="question-input w-48 rounded p-1 text-xs text-center font-bold text-amber-400"></p>
       </div>
 
       <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 mb-3.5">
         <p class="text-xs font-semibold text-slate-200 mb-1.5">2. Evaluasi Analis Sistem (Critical Thinking):</p>
         <p class="text-xs text-slate-400 mb-2">Apakah ada kombinasi koin yang <strong>lebih sedikit/optimal</strong> dari mesin Greedy? Jelaskan analisismu!</p>
-        <textarea id="ans_hots_eval" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
+        <textarea id="ans_hots_eval" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs auto-expand"></textarea>
       </div>
 
       <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 text-xs">
@@ -498,7 +527,7 @@
     </section>
 
     <!-- ================= BAGIAN G ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-emerald-600 rounded text-xs">G</span> CODING CHALLENGE & PREDIKSI OUTPUT
@@ -515,8 +544,8 @@
             cout &lt;&lt; "Angka: " &lt;&lt; <span class="text-amber-400 font-bold">______ (2)</span>;
           </div>
           <div class="space-y-2">
-            <input type="text" id="ans_g1_1" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
-            <input type="text" id="ans_g1_2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
+            <input type="text" id="ans_g1_1" placeholder="jawaban (1)..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
+            <input type="text" id="ans_g1_2" placeholder="jawaban (2)..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
           </div>
         </div>
 
@@ -529,13 +558,13 @@
             return 0;
           </div>
           <label class="text-xs text-slate-300 block mb-1">Hasil output konsol:</label>
-          <input type="text" id="ans_g2_output" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
+          <input type="text" id="ans_g2_output" placeholder="tulis jawabanmu..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
         </div>
       </div>
     </section>
 
     <!-- ================= BAGIAN H ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-purple-600 rounded text-xs">H</span> LEVEL UP! MATCHING STRATEGY
@@ -595,7 +624,7 @@
     </section>
 
     <!-- ================= BAGIAN I ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-8">
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-8 pdf-avoid-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-sky-600 rounded text-xs">I</span> REFLEKSI DIRI
@@ -626,12 +655,12 @@
 
       <div>
         <label class="text-xs text-slate-400 block mb-1">Hal baru yang dipelajari:</label>
-        <textarea id="ans_ref_new" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
+        <textarea id="ans_ref_new" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs auto-expand"></textarea>
       </div>
     </section>
 
-    <!-- TOMBOL SUBMIT & MANUAL SAVE -->
-    <div class="bg-gradient-to-r from-emerald-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
+    <!-- TOMBOL SUBMIT & MANUAL SAVE (Dikeluarkan dari render PDF atau disembunyikan saat cetak) -->
+    <div id="action-buttons-area" class="bg-gradient-to-r from-emerald-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
       <h3 class="font-extrabold text-lg text-white">🎉 Kumpulkan Tugas</h3>
       <p class="text-xs text-emerald-200 max-w-lg mx-auto">
         Pastikan seluruh jawaban sudah lengkap. Ketika tombol diklik, berkas <span class="font-mono text-amber-300">namasiswa_tugas1.pdf</span> otomatis disimpan ke Google Drive.
@@ -657,6 +686,14 @@
   <script>
     lucide.createIcons();
     document.getElementById('student_date').valueAsDate = new Date();
+
+    // Auto resize textarea saat diketik
+    document.querySelectorAll('textarea').forEach(tx => {
+      tx.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight + 4) + 'px';
+      });
+    });
 
     // URL GOOGLE APPS SCRIPT
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwokrZArEENzEepANydmpNRFmvNKMc5UiD0rKCn1rb36MNHXLDLrXxIbDd7LJ5_A5qFLg/exec";
@@ -728,43 +765,73 @@
       return `${cleanName}_tugas1.pdf`;
     }
 
-    // Sinkronisasi DOM Form ke Atribut Statis agar PDF tidak kosong
-    function syncFormValuesToDOM(element) {
-      const inputs = element.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
-      inputs.forEach(input => {
-        input.setAttribute('value', input.value);
+    // Siapkan Clone DOM Khusus Cetak agar jawaban panjang mengalir wajar & tidak terpotong
+    function preparePrintableClone(sourceElement) {
+      const clone = sourceElement.cloneNode(true);
+
+      // 1. Hilangkan tombol kirim/unduh dari dokumen PDF yang dicetak
+      const actionArea = clone.querySelector('#action-buttons-area');
+      if (actionArea) actionArea.remove();
+
+      // 2. Sesuaikan nilai input text, date, number menjadi tampilan teks rapi
+      const origInputs = sourceElement.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
+      const cloneInputs = clone.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
+      cloneInputs.forEach((input, idx) => {
+        const val = origInputs[idx].value || '';
+        input.setAttribute('value', val);
       });
 
-      const textareas = element.querySelectorAll('textarea');
-      textareas.forEach(textarea => {
-        textarea.innerHTML = textarea.value;
+      // 3. Ubah textarea menjadi DIV dengan border/background sama agar menyesuaikan tinggi teks dinamis tanpa scrollbar
+      const origTextareas = sourceElement.querySelectorAll('textarea');
+      const cloneTextareas = clone.querySelectorAll('textarea');
+      cloneTextareas.forEach((textarea, idx) => {
+        const textVal = origTextareas[idx].value || '(belum diisi)';
+        const divReplacement = document.createElement('div');
+        divReplacement.className = textarea.className + ' whitespace-pre-wrap leading-relaxed';
+        divReplacement.style.minHeight = '42px';
+        divReplacement.style.height = 'auto';
+        divReplacement.style.display = 'block';
+        divReplacement.innerText = textVal;
+        textarea.parentNode.replaceChild(divReplacement, textarea);
       });
 
-      const selects = element.querySelectorAll('select');
-      selects.forEach(select => {
-        const selectedOption = select.options[select.selectedIndex];
-        if (selectedOption) {
-          Array.from(select.options).forEach(opt => opt.removeAttribute('selected'));
-          selectedOption.setAttribute('selected', 'selected');
-        }
+      // 4. Sinkronisasi dropdown select
+      const origSelects = sourceElement.querySelectorAll('select');
+      const cloneSelects = clone.querySelectorAll('select');
+      cloneSelects.forEach((select, idx) => {
+        const origSel = origSelects[idx];
+        const selectedText = origSel.options[origSel.selectedIndex]?.text || '-- Belum Dipilih --';
+        
+        // Buat kotak statis elegan pengganti dropdown agar teks tampil penuh
+        const divSelect = document.createElement('div');
+        divSelect.className = select.className + ' flex items-center justify-between font-medium';
+        divSelect.innerHTML = `<span>${selectedText}</span>`;
+        select.parentNode.replaceChild(divSelect, select);
       });
 
-      const radios = element.querySelectorAll('input[type="radio"]');
-      radios.forEach(radio => {
-        if (radio.checked) {
+      // 5. Sinkronisasi radio button
+      const origRadios = sourceElement.querySelectorAll('input[type="radio"]');
+      const cloneRadios = clone.querySelectorAll('input[type="radio"]');
+      cloneRadios.forEach((radio, idx) => {
+        if (origRadios[idx].checked) {
           radio.setAttribute('checked', 'checked');
-        } else {
-          radio.removeAttribute('checked');
+          radio.checked = true;
+          // Sorot opsi terpilih
+          const parentLabel = radio.closest('label');
+          if (parentLabel) {
+            parentLabel.classList.remove('bg-slate-800', 'bg-slate-900');
+            parentLabel.classList.add('bg-blue-900/60', 'border-blue-400', 'text-white', 'font-bold');
+          }
         }
       });
+
+      return clone;
     }
 
-    async function generatePdfBlob(fileName) {
-      const element = document.getElementById('worksheet-app');
-      syncFormValuesToDOM(element);
-
-      const opt = {
-        margin: [8, 8, 8, 8],
+    // Opsi konfigurasi html2pdf standar A4 Anti Terpotong
+    function getPdfOptions(fileName) {
+      return {
+        margin: [10, 10, 10, 10], // Margin atas, kanan, bawah, kiri (mm)
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
@@ -772,34 +839,62 @@
           useCORS: true,
           logging: false,
           scrollY: 0,
-          windowWidth: document.documentElement.offsetWidth
+          windowWidth: 1024
         },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: {
+          mode: ['avoid-all', 'css', 'legacy'],
+          avoid: ['section', '.pdf-avoid-break', '.header-banner', '.question-card']
+        }
       };
+    }
 
-      return await html2pdf().set(opt).from(element).outputPdf('blob');
+    async function generatePdfBlob(fileName) {
+      const originalElement = document.getElementById('worksheet-app');
+      const printClone = preparePrintableClone(originalElement);
+
+      // Wadah sementara tak terlihat untuk proses render canvas
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.top = '-99999px';
+      container.style.left = '0';
+      container.style.width = '900px';
+      container.appendChild(printClone);
+      document.body.appendChild(container);
+
+      try {
+        const opt = getPdfOptions(fileName);
+        const pdfBlob = await html2pdf().set(opt).from(printClone).outputPdf('blob');
+        document.body.removeChild(container);
+        return pdfBlob;
+      } catch (err) {
+        if (document.body.contains(container)) document.body.removeChild(container);
+        throw err;
+      }
     }
 
     async function downloadPdfDirectly() {
       const fileName = getFormattedFileName();
-      const element = document.getElementById('worksheet-app');
-      syncFormValuesToDOM(element);
+      const originalElement = document.getElementById('worksheet-app');
+      const printClone = preparePrintableClone(originalElement);
 
-      const opt = {
-        margin: [8, 8, 8, 8],
-        filename: fileName,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          scrollY: 0,
-          windowWidth: document.documentElement.offsetWidth
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.top = '-99999px';
+      container.style.left = '0';
+      container.style.width = '900px';
+      container.appendChild(printClone);
+      document.body.appendChild(container);
 
-      await html2pdf().set(opt).from(element).save();
+      try {
+        const opt = getPdfOptions(fileName);
+        await html2pdf().set(opt).from(printClone).save();
+        document.body.removeChild(container);
+      } catch (err) {
+        if (document.body.contains(container)) document.body.removeChild(container);
+        console.error(err);
+        alert("Terjadi kesalahan saat memproses unduhan PDF: " + err.message);
+      }
     }
 
     async function submitToGoogleDrive() {
