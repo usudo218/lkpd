@@ -15,10 +15,16 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
     
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: #0f172a;
       color: #f8fafc;
+      margin: 0;
+      padding: 0;
     }
 
     /* Input Styling */
@@ -42,14 +48,11 @@
       background-color: #0f172a;
     }
 
-    /* Auto-resize textarea */
     textarea {
       resize: vertical;
-      min-height: 44px;
-      overflow-y: hidden;
+      min-height: 48px;
     }
 
-    /* Styling saat identitas terkunci */
     .input-locked {
       background-color: #1e293b !important;
       color: #94a3b8 !important;
@@ -57,31 +60,38 @@
       cursor: not-allowed !important;
     }
 
-    /* Target cetak khusus PDF */
-    .printable-sheet {
-      background-color: #0f172a;
-      color: #f8fafc;
-    }
-
-    /* ATURAN ANTI TERPOTONG (PAGE BREAK RULES) */
-    .pdf-avoid-break,
-    section,
-    .question-card,
-    .header-banner {
-      break-inside: avoid !important;
+    /* ATURAN PAGE-BREAK UNTUK CETAK & PDF */
+    .avoid-break {
       page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      page-break-after: auto;
+      page-break-before: auto;
     }
 
+    /* Tampilan khusus cetak browser (Cetak / Simpan PDF Browser) */
     @media print {
+      @page {
+        size: A4 portrait;
+        margin: 12mm 10mm;
+      }
       body {
         background-color: #0f172a !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
-      .printable-sheet {
+      #worksheet-app {
         box-shadow: none !important;
         border: none !important;
         padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      #action-buttons-area {
+        display: none !important;
+      }
+      .avoid-break {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
     }
   </style>
@@ -89,10 +99,10 @@
 <body class="min-h-screen py-6 px-3 sm:px-6">
 
   <!-- Container Lembar Kerja -->
-  <div id="worksheet-app" class="printable-sheet max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-8">
+  <div id="worksheet-app" class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-8">
 
     <!-- Header Banner -->
-    <div class="header-banner bg-gradient-to-r from-blue-900 via-indigo-800 to-sky-700 rounded-xl p-6 mb-6 text-white shadow-lg pdf-avoid-break">
+    <div class="avoid-break bg-gradient-to-r from-blue-900 via-indigo-800 to-sky-700 rounded-xl p-6 mb-6 text-white shadow-lg">
       <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-2">
         <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-300"></i> LKPD Digital Interaktif
       </div>
@@ -105,7 +115,7 @@
     </div>
 
     <!-- Identitas Peserta Didik -->
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <div class="avoid-break bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
           <i data-lucide="user-check" class="w-4 h-4"></i> Identitas Peserta Didik
@@ -138,7 +148,7 @@
     </div>
 
     <!-- Tujuan Pembelajaran -->
-    <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 mb-6 text-emerald-100 text-xs sm:text-sm pdf-avoid-break">
+    <div class="avoid-break bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 mb-6 text-emerald-100 text-xs sm:text-sm">
       <div class="font-bold text-emerald-400 mb-1.5 flex items-center gap-2">
         <i data-lucide="target" class="w-4 h-4"></i> TUJUAN PEMBELAJARAN (FASE F):
       </div>
@@ -151,7 +161,7 @@
     </div>
 
     <!-- ================= BAGIAN A ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-blue-600 rounded text-xs">A</span> PEMANASAN KONSEP ALGORITMA
@@ -163,13 +173,13 @@
           <label class="text-xs text-slate-300 font-semibold block mb-1">1. Menurut pendapatmu, apa yang dimaksud dengan <strong>algoritma</strong>?</label>
           <textarea id="ans_a1_1" rows="2" placeholder="tulis jawabanmu disini..." 
                     onpaste="handlePasteBlock(event)"
-                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm auto-expand"></textarea>
+                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
         </div>
         <div>
           <label class="text-xs text-slate-300 font-semibold block mb-1">2. Mengapa masalah komputasi wajib diselesaikan dengan langkah teratur dan logis?</label>
           <textarea id="ans_a1_2" rows="2" placeholder="tulis jawabanmu disini..." 
                     onpaste="handlePasteBlock(event)"
-                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm auto-expand"></textarea>
+                    class="question-input w-full rounded-lg p-2.5 text-xs sm:text-sm"></textarea>
         </div>
       </div>
 
@@ -236,7 +246,7 @@
     </section>
 
     <!-- ================= BAGIAN B ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-purple-600 rounded text-xs">B</span> MENGENAL STRATEGI ALGORITMIK
@@ -321,7 +331,7 @@
     </section>
 
     <!-- ================= BAGIAN C ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-emerald-600 rounded text-xs">C</span> ANALISIS MASALAH (INPUT - PROCESS - OUTPUT)
@@ -350,7 +360,7 @@
     </section>
 
     <!-- ================= BAGIAN D ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-blue-600 rounded text-xs">D</span> STRUKTUR DASAR BAHASA C++
@@ -440,7 +450,7 @@
     </section>
 
     <!-- ================= BAGIAN E ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-rose-600 rounded text-xs">E</span> DEBUGGING CHALLENGE (TEMUKAN ERROR)
@@ -477,7 +487,7 @@
     </section>
 
     <!-- ================= BAGIAN F (HOTS VERSION) ================= -->
-    <section class="bg-slate-800/50 border border-amber-600/50 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-amber-600/50 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-amber-400 flex items-center gap-2">
           <span class="p-1 bg-amber-600 text-slate-950 rounded text-xs font-black">HOTS</span> TANTANGAN KRITIS: KEGAGALAN STRATEGI GREEDY
@@ -512,7 +522,7 @@
       <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 mb-3.5">
         <p class="text-xs font-semibold text-slate-200 mb-1.5">2. Evaluasi Analis Sistem (Critical Thinking):</p>
         <p class="text-xs text-slate-400 mb-2">Apakah ada kombinasi koin yang <strong>lebih sedikit/optimal</strong> dari mesin Greedy? Jelaskan analisismu!</p>
-        <textarea id="ans_hots_eval" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs auto-expand"></textarea>
+        <textarea id="ans_hots_eval" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
       </div>
 
       <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 text-xs">
@@ -527,7 +537,7 @@
     </section>
 
     <!-- ================= BAGIAN G ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-emerald-600 rounded text-xs">G</span> CODING CHALLENGE & PREDIKSI OUTPUT
@@ -564,7 +574,7 @@
     </section>
 
     <!-- ================= BAGIAN H ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-purple-600 rounded text-xs">H</span> LEVEL UP! MATCHING STRATEGY
@@ -624,7 +634,7 @@
     </section>
 
     <!-- ================= BAGIAN I ================= -->
-    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-8 pdf-avoid-break">
+    <section class="avoid-break bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-8">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
         <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
           <span class="p-1 bg-sky-600 rounded text-xs">I</span> REFLEKSI DIRI
@@ -655,12 +665,12 @@
 
       <div>
         <label class="text-xs text-slate-400 block mb-1">Hal baru yang dipelajari:</label>
-        <textarea id="ans_ref_new" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs auto-expand"></textarea>
+        <textarea id="ans_ref_new" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
       </div>
     </section>
 
-    <!-- TOMBOL SUBMIT & MANUAL SAVE (Dikeluarkan dari render PDF atau disembunyikan saat cetak) -->
-    <div id="action-buttons-area" class="bg-gradient-to-r from-emerald-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
+    <!-- TOMBOL SUBMIT & MANUAL SAVE -->
+    <div id="action-buttons-area" class="avoid-break bg-gradient-to-r from-emerald-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
       <h3 class="font-extrabold text-lg text-white">🎉 Kumpulkan Tugas</h3>
       <p class="text-xs text-emerald-200 max-w-lg mx-auto">
         Pastikan seluruh jawaban sudah lengkap. Ketika tombol diklik, berkas <span class="font-mono text-amber-300">namasiswa_tugas1.pdf</span> otomatis disimpan ke Google Drive.
@@ -682,12 +692,12 @@
 
   </div>
 
-  <!-- SCRIPT LOGIKA PERBAIKAN GENERATE PDF & PENGIRIMAN -->
+  <!-- SCRIPT LOGIKA CETAK PDF & SUBMISSION DENGAN UKURAN PROPORSIONAL A4 -->
   <script>
     lucide.createIcons();
     document.getElementById('student_date').valueAsDate = new Date();
 
-    // Auto resize textarea saat diketik
+    // Auto-grow textarea saat diketik
     document.querySelectorAll('textarea').forEach(tx => {
       tx.addEventListener('input', function() {
         this.style.height = 'auto';
@@ -698,7 +708,6 @@
     // URL GOOGLE APPS SCRIPT
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwokrZArEENzEepANydmpNRFmvNKMc5UiD0rKCn1rb36MNHXLDLrXxIbDd7LJ5_A5qFLg/exec";
 
-    // 1. Logika Kunci Nama & Kelas Otomatis saat mulai mengerjakan soal
     let isIdentityLocked = false;
 
     function lockIdentity() {
@@ -713,7 +722,6 @@
         return false;
       }
 
-      // Kunci input identitas
       const nameInput = document.getElementById('student_name');
       const classInput = document.getElementById('student_class');
       const dateInput = document.getElementById('student_date');
@@ -726,7 +734,6 @@
       classInput.classList.add('input-locked');
       dateInput.classList.add('input-locked');
 
-      // Update badge status
       const badge = document.getElementById('lockStatusBadge');
       badge.className = "text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-600 flex items-center gap-1";
       badge.innerHTML = `<i data-lucide="lock" class="w-3 h-3"></i> Terkunci`;
@@ -737,14 +744,11 @@
       return true;
     }
 
-    // Pasang event listener ke seluruh input pertanyaan untuk memicu penguncian
     document.querySelectorAll('.question-input').forEach(el => {
       el.addEventListener('focus', () => {
         if (!isIdentityLocked) {
           const locked = lockIdentity();
-          if (!locked) {
-            el.blur();
-          }
+          if (!locked) el.blur();
         }
       });
       el.addEventListener('change', () => {
@@ -752,7 +756,6 @@
       });
     });
 
-    // 2. Logika Pemblokir Paste Teks
     function handlePasteBlock(e) {
       e.preventDefault();
       alert("⚠️ Dilarang menempel (paste) teks jawaban! Silakan ketikkan jawaban analisismu sendiri secara mandiri.");
@@ -765,73 +768,91 @@
       return `${cleanName}_tugas1.pdf`;
     }
 
-    // Siapkan Clone DOM Khusus Cetak agar jawaban panjang mengalir wajar & tidak terpotong
-    function preparePrintableClone(sourceElement) {
-      const clone = sourceElement.cloneNode(true);
+    // MEMBUAT DOKUMEN KHUSUS CETAK YANG PROPORSIONAL PERSIS UKURAN A4
+    function createPrintableDOM() {
+      const orig = document.getElementById('worksheet-app');
+      const clone = orig.cloneNode(true);
 
-      // 1. Hilangkan tombol kirim/unduh dari dokumen PDF yang dicetak
-      const actionArea = clone.querySelector('#action-buttons-area');
-      if (actionArea) actionArea.remove();
+      // 1. Buat wrapper khusus berukuran tepat rasio A4 (750px adalah lebar standar 190mm pada 96 DPI)
+      const wrapper = document.createElement('div');
+      wrapper.style.width = '750px';
+      wrapper.style.padding = '10px';
+      wrapper.style.backgroundColor = '#0f172a';
+      wrapper.style.color = '#f8fafc';
+      wrapper.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
+      wrapper.style.boxSizing = 'border-box';
 
-      // 2. Sesuaikan nilai input text, date, number menjadi tampilan teks rapi
-      const origInputs = sourceElement.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
+      // Hapus tombol aksi dari salinan cetak
+      const btnArea = clone.querySelector('#action-buttons-area');
+      if (btnArea) btnArea.remove();
+
+      // Sinkronkan text & date & number
+      const origInputs = orig.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
       const cloneInputs = clone.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
       cloneInputs.forEach((input, idx) => {
         const val = origInputs[idx].value || '';
         input.setAttribute('value', val);
       });
 
-      // 3. Ubah textarea menjadi DIV dengan border/background sama agar menyesuaikan tinggi teks dinamis tanpa scrollbar
-      const origTextareas = sourceElement.querySelectorAll('textarea');
+      // Sinkronkan textarea ke dalam div statis agar teks panjang tidak terpotong
+      const origTextareas = orig.querySelectorAll('textarea');
       const cloneTextareas = clone.querySelectorAll('textarea');
-      cloneTextareas.forEach((textarea, idx) => {
-        const textVal = origTextareas[idx].value || '(belum diisi)';
-        const divReplacement = document.createElement('div');
-        divReplacement.className = textarea.className + ' whitespace-pre-wrap leading-relaxed';
-        divReplacement.style.minHeight = '42px';
-        divReplacement.style.height = 'auto';
-        divReplacement.style.display = 'block';
-        divReplacement.innerText = textVal;
-        textarea.parentNode.replaceChild(divReplacement, textarea);
+      cloneTextareas.forEach((tx, idx) => {
+        const val = origTextareas[idx].value.trim();
+        const displayDiv = document.createElement('div');
+        displayDiv.className = tx.className;
+        displayDiv.style.minHeight = '38px';
+        displayDiv.style.height = 'auto';
+        displayDiv.style.whiteSpace = 'pre-wrap';
+        displayDiv.style.wordBreak = 'break-word';
+        displayDiv.innerText = val ? val : '-';
+        tx.parentNode.replaceChild(displayDiv, tx);
       });
 
-      // 4. Sinkronisasi dropdown select
-      const origSelects = sourceElement.querySelectorAll('select');
+      // Sinkronkan Select
+      const origSelects = orig.querySelectorAll('select');
       const cloneSelects = clone.querySelectorAll('select');
-      cloneSelects.forEach((select, idx) => {
+      cloneSelects.forEach((sel, idx) => {
         const origSel = origSelects[idx];
-        const selectedText = origSel.options[origSel.selectedIndex]?.text || '-- Belum Dipilih --';
-        
-        // Buat kotak statis elegan pengganti dropdown agar teks tampil penuh
-        const divSelect = document.createElement('div');
-        divSelect.className = select.className + ' flex items-center justify-between font-medium';
-        divSelect.innerHTML = `<span>${selectedText}</span>`;
-        select.parentNode.replaceChild(divSelect, select);
+        const val = origSel.options[origSel.selectedIndex]?.text || '-- Belum Dipilih --';
+        const displayDiv = document.createElement('div');
+        displayDiv.className = sel.className + ' flex items-center justify-center font-medium';
+        displayDiv.innerText = val;
+        sel.parentNode.replaceChild(displayDiv, sel);
       });
 
-      // 5. Sinkronisasi radio button
-      const origRadios = sourceElement.querySelectorAll('input[type="radio"]');
+      // Sinkronkan Radio
+      const origRadios = orig.querySelectorAll('input[type="radio"]');
       const cloneRadios = clone.querySelectorAll('input[type="radio"]');
-      cloneRadios.forEach((radio, idx) => {
+      cloneRadios.forEach((rd, idx) => {
         if (origRadios[idx].checked) {
-          radio.setAttribute('checked', 'checked');
-          radio.checked = true;
-          // Sorot opsi terpilih
-          const parentLabel = radio.closest('label');
-          if (parentLabel) {
-            parentLabel.classList.remove('bg-slate-800', 'bg-slate-900');
-            parentLabel.classList.add('bg-blue-900/60', 'border-blue-400', 'text-white', 'font-bold');
+          rd.setAttribute('checked', 'checked');
+          rd.checked = true;
+          const lbl = rd.closest('label');
+          if (lbl) {
+            lbl.style.backgroundColor = '#1e3a8a';
+            lbl.style.borderColor = '#60a5fa';
+            lbl.style.color = '#ffffff';
+            lbl.style.fontWeight = 'bold';
           }
         }
       });
 
-      return clone;
+      // Reset margin & padding clone agar pas di kertas
+      clone.style.margin = '0';
+      clone.style.width = '100%';
+      clone.style.maxWidth = '100%';
+      clone.style.border = 'none';
+      clone.style.boxShadow = 'none';
+      clone.style.padding = '0';
+
+      wrapper.appendChild(clone);
+      return wrapper;
     }
 
-    // Opsi konfigurasi html2pdf standar A4 Anti Terpotong
-    function getPdfOptions(fileName) {
+    function getPdfConfig(fileName) {
       return {
-        margin: [10, 10, 10, 10], // Margin atas, kanan, bawah, kiri (mm)
+        margin: [10, 8, 10, 8], // margin dalam mm (Atas, Kanan, Bawah, Kiri)
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
@@ -839,32 +860,30 @@
           useCORS: true,
           logging: false,
           scrollY: 0,
-          windowWidth: 1024
+          windowWidth: 770
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         pagebreak: {
-          mode: ['avoid-all', 'css', 'legacy'],
-          avoid: ['section', '.pdf-avoid-break', '.header-banner', '.question-card']
+          mode: ['css', 'legacy'],
+          avoid: ['.avoid-break', 'section']
         }
       };
     }
 
     async function generatePdfBlob(fileName) {
-      const originalElement = document.getElementById('worksheet-app');
-      const printClone = preparePrintableClone(originalElement);
+      const printableDom = createPrintableDOM();
 
-      // Wadah sementara tak terlihat untuk proses render canvas
       const container = document.createElement('div');
       container.style.position = 'fixed';
       container.style.top = '-99999px';
       container.style.left = '0';
-      container.style.width = '900px';
-      container.appendChild(printClone);
+      container.style.width = '770px';
+      container.appendChild(printableDom);
       document.body.appendChild(container);
 
       try {
-        const opt = getPdfOptions(fileName);
-        const pdfBlob = await html2pdf().set(opt).from(printClone).outputPdf('blob');
+        const opt = getPdfConfig(fileName);
+        const pdfBlob = await html2pdf().set(opt).from(printableDom).outputPdf('blob');
         document.body.removeChild(container);
         return pdfBlob;
       } catch (err) {
@@ -875,25 +894,24 @@
 
     async function downloadPdfDirectly() {
       const fileName = getFormattedFileName();
-      const originalElement = document.getElementById('worksheet-app');
-      const printClone = preparePrintableClone(originalElement);
+      const printableDom = createPrintableDOM();
 
       const container = document.createElement('div');
       container.style.position = 'fixed';
       container.style.top = '-99999px';
       container.style.left = '0';
-      container.style.width = '900px';
-      container.appendChild(printClone);
+      container.style.width = '770px';
+      container.appendChild(printableDom);
       document.body.appendChild(container);
 
       try {
-        const opt = getPdfOptions(fileName);
-        await html2pdf().set(opt).from(printClone).save();
+        const opt = getPdfConfig(fileName);
+        await html2pdf().set(opt).from(printableDom).save();
         document.body.removeChild(container);
       } catch (err) {
         if (document.body.contains(container)) document.body.removeChild(container);
         console.error(err);
-        alert("Terjadi kesalahan saat memproses unduhan PDF: " + err.message);
+        alert("Gagal mengunduh: " + err.message);
       }
     }
 
@@ -915,7 +933,7 @@
       lucide.createIcons();
 
       statusDiv.className = "block bg-blue-950 border border-blue-600 text-blue-200 text-xs p-3 rounded-lg max-w-md mx-auto text-center";
-      statusDiv.innerHTML = `⏳ Sedang merender dokumen PDF berisi jawabanmu dan mengunggah ke Google Drive...`;
+      statusDiv.innerHTML = `⏳ Sedang merender dokumen PDF beresolusi tinggi dan mengunggah ke Google Drive...`;
 
       try {
         const pdfBlob = await generatePdfBlob(fileName);
