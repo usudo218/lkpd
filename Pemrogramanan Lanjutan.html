@@ -7,7 +7,7 @@
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Library html2canvas & jsPDF Murni (Lebih Stabil & Presisi) -->
+  <!-- Library html2canvas & jsPDF Murni (Stabil & Presisi) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Lucide Icons -->
@@ -131,10 +131,10 @@
         <i data-lucide="target" class="w-4 h-4"></i> TUJUAN PEMBELAJARAN (FASE F):
       </div>
       <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 list-disc list-inside">
-        <li>Menganalisis manipulasi array 1D/2D dan alokasi indeks memori.[cite: 7]</li>
-        <li>Membedakan mekanisme parameter fungsi (*pass-by-value* vs *pass-by-reference*).[cite: 7]</li>
-        <li>Mendiagnosis bug kritis (*memory out-of-bounds* & *type casting truncation*).[cite: 7]</li>
-        <li>Merancang algoritma penelusuran matriks (*nested loop*) secara kolaboratif.[cite: 7]</li>
+        <li>Menganalisis manipulasi array 1D/2D dan alokasi indeks memori.</li>
+        <li>Membedakan mekanisme parameter fungsi (*pass-by-value* vs *pass-by-reference*).</li>
+        <li>Mendiagnosis bug kritis (*memory out-of-bounds* & *type casting truncation*).</li>
+        <li>Merancang algoritma penelusuran matriks (*nested loop*) secara kolaboratif.</li>
       </ul>
     </div>
 
@@ -159,21 +159,21 @@
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-rose-400">double</span> rata_rata = total / <span class="text-amber-300">5</span>;<br>
         &nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="text-emerald-400">"Rata-rata = "</span> &lt;&lt; rata_rata &lt;&lt; endl;<br>
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-amber-300">0</span>;<br>
-        }[cite: 7]
+        }
       </div>
 
       <div class="space-y-3">
         <div>
-          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Temukan bug fatal pada indeks array perulangan `for` (*Memory Out-of-Bounds*):</label>[cite: 7]
-          <textarea id="ans_d1_1" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>[cite: 7]
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Temukan bug fatal pada indeks array perulangan `for` (*Memory Out-of-Bounds*):</label>
+          <textarea id="ans_d1_1" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
         </div>
         <div>
-          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Mengapa perhitungan `rata_rata` menghasilkan pembulatan integer dan kehilangan presisi desimal?</label>[cite: 7]
-          <textarea id="ans_d1_2" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>[cite: 7]
+          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Mengapa perhitungan `rata_rata` menghasilkan pembulatan integer dan kehilangan presisi desimal?</label>
+          <textarea id="ans_d1_2" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
         </div>
         <div>
-          <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan baris perbaikan kode yang benar untuk `for` dan rumus `rata_rata`:</label>[cite: 7]
-          <input type="text" id="ans_d1_3" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-emerald-400">[cite: 7]
+          <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan baris perbaikan kode yang benar untuk `for` dan rumus `rata_rata`:</label>
+          <input type="text" id="ans_d1_3" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-emerald-400">
         </div>
       </div>
     </section>
@@ -200,21 +200,21 @@
         &nbsp;&nbsp;&nbsp;&nbsp;tukarData(x, y);<br>
         &nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; <span class="text-emerald-400">"x="</span> &lt;&lt; x &lt;&lt; <span class="text-emerald-400">", y="</span> &lt;&lt; y;<br>
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-amber-300">0</span>;<br>
-        }[cite: 7]
+        }
       </div>
 
       <div class="space-y-3">
         <div>
-          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Mengapa nilai variabel `x` dan `y` tidak berubah setelah fungsi `tukarData()` dijalankan?</label>[cite: 7]
-          <textarea id="ans_d2_1" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>[cite: 7]
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Mengapa nilai variabel `x` dan `y` tidak berubah setelah fungsi `tukarData()` dijalankan?</label>
+          <textarea id="ans_d2_1" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
         </div>
         <div>
-          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Karakter/simbol apa yang wajib ditambahkan pada parameter fungsi agar variabel asli ikut tertukar (*Pass-by-Reference*)?</label>[cite: 7]
-          <input type="text" id="ans_d2_2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-sky-400">[cite: 7]
+          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Karakter/simbol apa yang wajib ditambahkan pada parameter fungsi agar variabel asli ikut tertukar (*Pass-by-Reference*)?</label>
+          <input type="text" id="ans_d2_2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-sky-400">
         </div>
         <div>
-          <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan baris deklarasi header fungsi `tukarData` yang sudah diperbaiki:</label>[cite: 7]
-          <input type="text" id="ans_d2_3" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-emerald-400">[cite: 7]
+          <label class="text-xs text-slate-300 font-semibold block mb-1">3. Tuliskan baris deklarasi header fungsi `tukarData` yang sudah diperbaiki:</label>
+          <input type="text" id="ans_d2_3" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-emerald-400">
         </div>
       </div>
     </section>
@@ -230,23 +230,23 @@
 
       <div class="bg-slate-950 border border-slate-700 p-3.5 rounded-lg mb-4 text-xs text-slate-300 leading-relaxed">
         <strong>Kasus Penataan Rak Gudang Matrix 3x3:</strong><br>
-        Sebuah gudang memiliki rak matriks berukuran $3 \times 3$. Diberikan data stok: <code class="font-mono text-amber-300">int gudang[3][3] = {{12, 45, 18}, {30, 85, 22}, {15, 60, 40}};</code>.<br>
-        Rancanglah logika perulangan bersarang (*nested loop*) untuk menghitung <strong>total seluruh barang</strong> dan mencari <strong>koordinat baris & kolom dengan stok terbanyak</strong>.[cite: 7]
+        Sebuah gudang memiliki rak matriks berukuran 3 x 3. Diberikan data stok: <code class="font-mono text-amber-300">int gudang[3][3] = {{12, 45, 18}, {30, 85, 22}, {15, 60, 40}};</code>.<br>
+        Rancanglah logika perulangan bersarang (*nested loop*) untuk menghitung <strong>total seluruh barang</strong> dan mencari <strong>koordinat baris & kolom dengan stok terbanyak</strong>.
       </div>
 
       <div class="space-y-3">
         <div>
-          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Tuliskan kode perulangan bersarang (*nested loop*) C++ lengkap untuk menyelesaikan kasus di atas:</label>[cite: 7]
-          <textarea id="ans_hots_code" rows="5" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-emerald-400"></textarea>[cite: 7]
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Tuliskan kode perulangan bersarang (*nested loop*) C++ lengkap untuk menyelesaikan kasus di atas:</label>
+          <textarea id="ans_hots_code" rows="5" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono text-emerald-400"></textarea>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
-            <label class="text-xs text-slate-300 font-semibold block mb-1">2. Nilai Grand Total Stok Barang:</label>[cite: 7]
-            <input type="text" id="ans_hots_total" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-1.5 text-xs font-mono text-amber-300">[cite: 7]
+            <label class="text-xs text-slate-300 font-semibold block mb-1">2. Nilai Grand Total Stok Barang:</label>
+            <input type="text" id="ans_hots_total" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-1.5 text-xs font-mono text-amber-300">
           </div>
           <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
-            <label class="text-xs text-slate-300 font-semibold block mb-1">3. Koordinat Stok Maksimal (Baris, Kolom):</label>[cite: 7]
-            <input type="text" id="ans_hots_coord" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-1.5 text-xs font-mono text-amber-300">[cite: 7]
+            <label class="text-xs text-slate-300 font-semibold block mb-1">3. Koordinat Stok Maksimal (Baris, Kolom):</label>
+            <input type="text" id="ans_hots_coord" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-1.5 text-xs font-mono text-amber-300">
           </div>
         </div>
       </div>
@@ -261,10 +261,10 @@
       </div>
 
       <div class="mb-4">
-        <label class="text-xs font-semibold text-slate-300 block mb-2">Evaluasi Kolaborasi Tim Sebangku:</label>[cite: 7]
+        <label class="text-xs font-semibold text-slate-300 block mb-2">Evaluasi Kolaborasi Tim Sebangku:</label>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="bg-slate-900 p-2.5 rounded border border-slate-700 text-xs">
-            <span class="text-slate-300 block mb-1">Keaktifan Diskusi</span>[cite: 7]
+            <span class="text-slate-300 block mb-1">Keaktifan Diskusi</span>
             <select id="ans_peer_1" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Rating --</option>
               <option value="Sangat Aktif (5/5)">⭐⭐⭐⭐⭐ Sangat Aktif</option>
@@ -273,7 +273,7 @@
             </select>
           </div>
           <div class="bg-slate-900 p-2.5 rounded border border-slate-700 text-xs">
-            <span class="text-slate-300 block mb-1">Ketelitian Tracking Bug</span>[cite: 7]
+            <span class="text-slate-300 block mb-1">Ketelitian Tracking Bug</span>
             <select id="ans_peer_2" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Rating --</option>
               <option value="Sangat Teliti (5/5)">⭐⭐⭐⭐⭐ Sangat Teliti</option>
@@ -282,7 +282,7 @@
             </select>
           </div>
           <div class="bg-slate-900 p-2.5 rounded border border-slate-700 text-xs">
-            <span class="text-slate-300 block mb-1">Pemahaman Alur Logika</span>[cite: 7]
+            <span class="text-slate-300 block mb-1">Pemahaman Alur Logika</span>
             <select id="ans_peer_3" class="question-input w-full rounded p-1.5 text-xs">
               <option value="">-- Pilih Rating --</option>
               <option value="Sangat Paham (5/5)">⭐⭐⭐⭐⭐ Sangat Paham</option>
@@ -295,35 +295,35 @@
 
       <div class="space-y-3">
         <div>
-          <label class="text-xs text-slate-400 block mb-1">Catatan/Masukan untuk Teman Sebangku:</label>[cite: 7]
-          <input type="text" id="ans_peer_note" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">[cite: 7]
+          <label class="text-xs text-slate-400 block mb-1">Catatan/Masukan untuk Teman Sebangku:</label>
+          <input type="text" id="ans_peer_note" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
         </div>
         <div>
-          <label class="text-xs text-slate-400 block mb-1">Kesimpulan materi C++ Lanjutan yang dipelajari hari ini:</label>[cite: 7]
-          <textarea id="ans_ref_summary" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>[cite: 7]
+          <label class="text-xs text-slate-400 block mb-1">Kesimpulan materi C++ Lanjutan yang dipelajari hari ini:</label>
+          <textarea id="ans_ref_summary" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
         </div>
       </div>
     </section>
 
     <!-- TOMBOL SUBMIT & MANUAL DOWNLOAD -->
     <div id="action-buttons-area" class="bg-gradient-to-r from-emerald-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
-      <h3 class="font-extrabold text-lg text-white">🎉 Kumpulkan Tugas C++ Lanjutan</h3>[cite: 7]
+      <h3 class="font-extrabold text-lg text-white">🎉 Kumpulkan Tugas C++ Lanjutan</h3>
       <p class="text-xs text-emerald-200 max-w-lg mx-auto">
-        Pastikan seluruh lembar analisis telah terisi lengkap. Berkas PDF otomatis disimpan dengan format nama <span class="font-mono text-amber-300">namasiswa1_namasiswa2_tugas3.pdf</span> ke Google Drive Guru.[cite: 7]
+        Pastikan seluruh lembar analisis telah terisi lengkap. Berkas PDF otomatis disimpan dengan format nama <span class="font-mono text-amber-300">namasiswa1_namasiswa2_tugas3.pdf</span> ke Google Drive Guru.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
         <button type="button" id="submitBtn" onclick="submitToGoogleDrive()" 
                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg transition active:scale-95">
           <i data-lucide="send" class="w-4 h-4"></i> KIRIM KE GOOGLE DRIVE
-        </button>[cite: 7]
+        </button>
         <button type="button" onclick="downloadPdfDirectly()" 
                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm rounded-xl border border-slate-600 transition">
           <i data-lucide="download" class="w-4 h-4"></i> Unduh PDF Manual
-        </button>[cite: 7]
+        </button>
       </div>
 
-      <div id="statusMessage" class="hidden text-xs font-semibold p-3 rounded-lg max-w-md mx-auto"></div>[cite: 7]
+      <div id="statusMessage" class="hidden text-xs font-semibold p-3 rounded-lg max-w-md mx-auto"></div>
     </div>
 
   </div>
@@ -331,83 +331,80 @@
   <!-- SCRIPT LOGIKA CETAK PDF MURNI KANVAS A4 (ANTI-GESER & ANTI-TERPOTONG) -->
   <script>
     lucide.createIcons();
-    document.getElementById('student_date').valueAsDate = new Date();[cite: 7]
+    document.getElementById('student_date').valueAsDate = new Date();
 
-    // URL WEB APP GOOGLE APPS SCRIPT
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwokrZArEENzEepANydmpNRFmvNKMc5UiD0rKCn1rb36MNHXLDLrXxIbDd7LJ5_A5qFLg/exec";[cite: 7]
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwokrZArEENzEepANydmpNRFmvNKMc5UiD0rKCn1rb36MNHXLDLrXxIbDd7LJ5_A5qFLg/exec";
 
-    let isIdentityLocked = false;[cite: 7]
+    let isIdentityLocked = false;
 
     function lockIdentity() {
-      if (isIdentityLocked) return;[cite: 7]
+      if (isIdentityLocked) return;
 
-      const s1 = document.getElementById('student_name_1').value.trim();[cite: 7]
-      const s2 = document.getElementById('student_name_2').value.trim();[cite: 7]
-      const sClass = document.getElementById('student_class').value.trim();[cite: 7]
+      const s1 = document.getElementById('student_name_1').value.trim();
+      const s2 = document.getElementById('student_name_2').value.trim();
+      const sClass = document.getElementById('student_class').value.trim();
 
       if (!s1 || !s2 || !sClass) {
-        alert("⚠️ Perhatian: Mohon lengkapi Nama Siswa 1, Nama Siswa 2, dan Kelas terlebih dahulu sebelum mulai mengerjakan lembar tugas!");[cite: 7]
-        if (!s1) document.getElementById('student_name_1').focus();[cite: 7]
-        else if (!s2) document.getElementById('student_name_2').focus();[cite: 7]
-        else document.getElementById('student_class').focus();[cite: 7]
-        return false;[cite: 7]
+        alert("⚠️ Perhatian: Mohon lengkapi Nama Siswa 1, Nama Siswa 2, dan Kelas terlebih dahulu sebelum mulai mengerjakan lembar tugas!");
+        if (!s1) document.getElementById('student_name_1').focus();
+        else if (!s2) document.getElementById('student_name_2').focus();
+        else document.getElementById('student_class').focus();
+        return false;
       }
 
-      const n1 = document.getElementById('student_name_1');[cite: 7]
-      const n2 = document.getElementById('student_name_2');[cite: 7]
-      const cl = document.getElementById('student_class');[cite: 7]
-      const dt = document.getElementById('student_date');[cite: 7]
+      const n1 = document.getElementById('student_name_1');
+      const n2 = document.getElementById('student_name_2');
+      const cl = document.getElementById('student_class');
+      const dt = document.getElementById('student_date');
 
-      n1.readOnly = true;[cite: 7]
-      n2.readOnly = true;[cite: 7]
-      cl.readOnly = true;[cite: 7]
-      dt.readOnly = true;[cite: 7]
+      n1.readOnly = true;
+      n2.readOnly = true;
+      cl.readOnly = true;
+      dt.readOnly = true;
 
-      n1.classList.add('input-locked');[cite: 7]
-      n2.classList.add('input-locked');[cite: 7]
-      cl.classList.add('input-locked');[cite: 7]
-      dt.classList.add('input-locked');[cite: 7]
+      n1.classList.add('input-locked');
+      n2.classList.add('input-locked');
+      cl.classList.add('input-locked');
+      dt.classList.add('input-locked');
 
-      const badge = document.getElementById('lockStatusBadge');[cite: 7]
-      badge.className = "text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-600 flex items-center gap-1";[cite: 7]
-      badge.innerHTML = `<i data-lucide="lock" class="w-3 h-3"></i> Terkunci`;[cite: 7]
+      const badge = document.getElementById('lockStatusBadge');
+      badge.className = "text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-600 flex items-center gap-1";
+      badge.innerHTML = `<i data-lucide="lock" class="w-3 h-3"></i> Terkunci`;
 
-      document.getElementById('lockWarningText').classList.remove('hidden');[cite: 7]
-      isIdentityLocked = true;[cite: 7]
-      lucide.createIcons();[cite: 7]
-      return true;[cite: 7]
+      document.getElementById('lockWarningText').classList.remove('hidden');
+      isIdentityLocked = true;
+      lucide.createIcons();
+      return true;
     }
 
     document.querySelectorAll('.question-input').forEach(el => {
       el.addEventListener('focus', () => {
         if (!isIdentityLocked) {
-          const locked = lockIdentity();[cite: 7]
-          if (!locked) el.blur();[cite: 7]
+          const locked = lockIdentity();
+          if (!locked) el.blur();
         }
       });
       el.addEventListener('change', () => {
-        if (!isIdentityLocked) lockIdentity();[cite: 7]
+        if (!isIdentityLocked) lockIdentity();
       });
     });
 
     function handlePasteBlock(e) {
-      e.preventDefault();[cite: 7]
-      alert("⚠️ Dilarang menempel (paste) teks jawaban! Silakan diskusikan dan ketikkan hasil analisis analisismu bersama teman sebangku.");[cite: 7]
-      return false;[cite: 7]
+      e.preventDefault();
+      alert("⚠️ Dilarang menempel (paste) teks jawaban! Silakan diskusikan dan ketikkan hasil analisis analisismu bersama teman sebangku.");
+      return false;
     }
 
-    // Format Nama Berkas: namasiswa1_namasiswa2_tugas3.pdf
     function getFormattedFileName() {
-      const s1 = document.getElementById('student_name_1').value.trim();[cite: 7]
-      const s2 = document.getElementById('student_name_2').value.trim();[cite: 7]
+      const s1 = document.getElementById('student_name_1').value.trim();
+      const s2 = document.getElementById('student_name_2').value.trim();
       
-      const clean1 = s1 ? s1.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'siswa1';[cite: 7]
-      const clean2 = s2 ? s2.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'siswa2';[cite: 7]
+      const clean1 = s1 ? s1.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'siswa1';
+      const clean2 = s2 ? s2.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'siswa2';
       
-      return `${clean1}_${clean2}_tugas3.pdf`;[cite: 7]
+      return `${clean1}_${clean2}_tugas3.pdf`;
     }
 
-    // TRANSFORMASI DOM SALINAN CETAK: SEMUA INPUT DIGANTI DIV STATIS AGAR TIDAK TERPOTONG
     function createPrintableDOM() {
       const orig = document.getElementById('worksheet-app');
       const clone = orig.cloneNode(true);
@@ -599,8 +596,12 @@
           submissionDate: new Date().toLocaleString('id-ID')
         };
 
+        // Pengiriman payload dengan text/plain untuk melewati CORS preflight pada Google Apps Script
         const response = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
           body: JSON.stringify(payload)
         });
 
@@ -612,24 +613,24 @@
             <div class="font-bold text-sm mb-1 text-emerald-300">✅ Berhasil Terkirim!</div>
             Berkas <span class="font-mono font-bold text-amber-300">${fileName}</span> telah sukses tersimpan di Google Drive Guru.
           `;
-          submitBtn.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> TUGAS SUDAH TERKIRIM`;[cite: 7]
-          submitBtn.className = "w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-700 text-slate-400 font-bold text-sm rounded-xl cursor-not-allowed";[cite: 7]
+          submitBtn.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> TUGAS SUDAH TERKIRIM`;
+          submitBtn.className = "w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-700 text-slate-400 font-bold text-sm rounded-xl cursor-not-allowed";
         } else {
-          throw new Error(result.message || "Gagal menyimpan ke Google Drive.");[cite: 7]
+          throw new Error(result.message || "Gagal menyimpan ke Google Drive.");
         }
 
       } catch (err) {
-        console.error(err);[cite: 7]
-        statusDiv.className = "block bg-rose-950 border border-rose-500 text-rose-100 text-xs p-4 rounded-lg max-w-md mx-auto text-center";[cite: 7]
+        console.error(err);
+        statusDiv.className = "block bg-rose-950 border border-rose-500 text-rose-100 text-xs p-4 rounded-lg max-w-md mx-auto text-center";
         statusDiv.innerHTML = `
           <div class="font-bold text-sm mb-1 text-rose-300">❌ Gagal Mengirim ke Drive</div>
           ${err.message}<br>
           <span class="text-xs text-slate-300">Silakan gunakan tombol <strong>Unduh PDF Manual</strong> untuk menyimpan berkas secara lokal.</span>
-        `;[cite: 7]
-        submitBtn.disabled = false;[cite: 7]
-        submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> COBA KIRIM LAGI`;[cite: 7]
+        `;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> COBA KIRIM LAGI`;
       }
-      lucide.createIcons();[cite: 7]
+      lucide.createIcons();
     }
   </script>
 </body>
