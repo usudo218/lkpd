@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LKPD Interaktif: Strategi Algoritmik & Pemrograman C++</title>
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- html2pdf.js bundle -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -25,6 +25,10 @@
       color: #f8fafc;
       margin: 0;
       padding: 0;
+    }
+
+    .font-mono {
+      font-family: 'Fira Code', monospace;
     }
 
     /* Input Styling */
@@ -53,6 +57,7 @@
       min-height: 48px;
     }
 
+    /* Styling saat identitas terkunci */
     .input-locked {
       background-color: #1e293b !important;
       color: #94a3b8 !important;
@@ -60,7 +65,7 @@
       cursor: not-allowed !important;
     }
 
-    /* ATURAN PAGE-BREAK UNTUK CETAK & PDF */
+    /* Proteksi Pemisahan Halaman PDF */
     .avoid-break {
       page-break-inside: avoid !important;
       break-inside: avoid !important;
@@ -68,7 +73,6 @@
       page-break-before: auto;
     }
 
-    /* Tampilan khusus cetak browser (Cetak / Simpan PDF Browser) */
     @media print {
       @page {
         size: A4 portrait;
@@ -104,7 +108,7 @@
     <!-- Header Banner -->
     <div class="avoid-break bg-gradient-to-r from-blue-900 via-indigo-800 to-sky-700 rounded-xl p-6 mb-6 text-white shadow-lg">
       <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-2">
-        <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-300"></i> LKPD Digital Interaktif
+        <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-300"></i> LKPD Digital Interaktif (Tugas 1)
       </div>
       <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1">
         STRATEGI ALGORITMIK & PEMROGRAMAN C++
@@ -462,7 +466,7 @@
           1. #include &lt;iostream&gt;<br>
           2. using namespace std;<br>
           3. int main() {<br>
-          4. &nbsp;&nbsp;int a = 10<br>
+          4. &nbsp;&nbsp;<span class="bg-rose-950 text-rose-300 px-1 rounded">int a = 10</span><br>
           5. &nbsp;&nbsp;int b = 5;<br>
           6. &nbsp;&nbsp;int hasil = a + b;<br>
           7. &nbsp;&nbsp;cout &lt;&lt; hasil;<br>
@@ -516,7 +520,7 @@
             <input type="number" id="ans_hots_1k" min="0" placeholder="0" class="question-input w-full rounded p-1.5 text-xs text-center">
           </div>
         </div>
-        <p class="text-xs text-slate-400">Total koin versi mesin Greedy: <input type="text" id="ans_hots_greedy_total" placeholder="tulis jawabanmu..." onpaste="handlePasteBlock(event)" class="question-input w-48 rounded p-1 text-xs text-center font-bold text-amber-400"></p>
+        <p class="text-xs text-slate-400">Total koin versi mesin Greedy: <input type="text" id="ans_hots_greedy_total" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-48 rounded p-1 text-xs text-center font-bold text-amber-400"></p>
       </div>
 
       <div class="bg-slate-900 p-3.5 rounded-lg border border-slate-700 mb-3.5">
@@ -554,8 +558,8 @@
             cout &lt;&lt; "Angka: " &lt;&lt; <span class="text-amber-400 font-bold">______ (2)</span>;
           </div>
           <div class="space-y-2">
-            <input type="text" id="ans_g1_1" placeholder="jawaban (1)..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
-            <input type="text" id="ans_g1_2" placeholder="jawaban (2)..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
+            <input type="text" id="ans_g1_1" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
+            <input type="text" id="ans_g1_2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
           </div>
         </div>
 
@@ -568,7 +572,7 @@
             return 0;
           </div>
           <label class="text-xs text-slate-300 block mb-1">Hasil output konsol:</label>
-          <input type="text" id="ans_g2_output" placeholder="tulis jawabanmu..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
+          <input type="text" id="ans_g2_output" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono">
         </div>
       </div>
     </section>
@@ -692,7 +696,7 @@
 
   </div>
 
-  <!-- SCRIPT LOGIKA CETAK PDF & SUBMISSION DENGAN UKURAN PROPORSIONAL A4 -->
+  <!-- SCRIPT LOGIKA CETAK PDF & SUBMISSION TANPA TEKS TERPOTONG -->
   <script>
     lucide.createIcons();
     document.getElementById('student_date').valueAsDate = new Date();
@@ -768,12 +772,11 @@
       return `${cleanName}_tugas1.pdf`;
     }
 
-    // MEMBUAT DOKUMEN KHUSUS CETAK YANG PROPORSIONAL PERSIS UKURAN A4
+    // TRANSFORMASI DOM SALINAN CETAK: MENGUBAH TEXTAREA MENJADI ELEMEN TEKS AUTO-EXPAND BEBAS POTONG
     function createPrintableDOM() {
       const orig = document.getElementById('worksheet-app');
       const clone = orig.cloneNode(true);
 
-      // 1. Buat wrapper khusus berukuran tepat rasio A4 (750px adalah lebar standar 190mm pada 96 DPI)
       const wrapper = document.createElement('div');
       wrapper.style.width = '750px';
       wrapper.style.padding = '10px';
@@ -786,7 +789,7 @@
       const btnArea = clone.querySelector('#action-buttons-area');
       if (btnArea) btnArea.remove();
 
-      // Sinkronkan text & date & number
+      // Sinkronkan Input Text, Date, Number
       const origInputs = orig.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
       const cloneInputs = clone.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
       cloneInputs.forEach((input, idx) => {
@@ -794,7 +797,7 @@
         input.setAttribute('value', val);
       });
 
-      // Sinkronkan textarea ke dalam div statis agar teks panjang tidak terpotong
+      // Sinkronkan Textarea ke Blok Teks Statis Auto-Expand (Anti-Terpotong)
       const origTextareas = orig.querySelectorAll('textarea');
       const cloneTextareas = clone.querySelectorAll('textarea');
       cloneTextareas.forEach((tx, idx) => {
@@ -803,6 +806,7 @@
         displayDiv.className = tx.className;
         displayDiv.style.minHeight = '38px';
         displayDiv.style.height = 'auto';
+        displayDiv.style.overflow = 'visible';
         displayDiv.style.whiteSpace = 'pre-wrap';
         displayDiv.style.wordBreak = 'break-word';
         displayDiv.innerText = val ? val : '-';
@@ -821,7 +825,7 @@
         sel.parentNode.replaceChild(displayDiv, sel);
       });
 
-      // Sinkronkan Radio
+      // Sinkronkan Radio Button
       const origRadios = orig.querySelectorAll('input[type="radio"]');
       const cloneRadios = clone.querySelectorAll('input[type="radio"]');
       cloneRadios.forEach((rd, idx) => {
@@ -838,7 +842,6 @@
         }
       });
 
-      // Reset margin & padding clone agar pas di kertas
       clone.style.margin = '0';
       clone.style.width = '100%';
       clone.style.maxWidth = '100%';
@@ -852,7 +855,7 @@
 
     function getPdfConfig(fileName) {
       return {
-        margin: [10, 8, 10, 8], // margin dalam mm (Atas, Kanan, Bawah, Kiri)
+        margin: [10, 8, 10, 8],
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
@@ -933,7 +936,7 @@
       lucide.createIcons();
 
       statusDiv.className = "block bg-blue-950 border border-blue-600 text-blue-200 text-xs p-3 rounded-lg max-w-md mx-auto text-center";
-      statusDiv.innerHTML = `⏳ Sedang merender dokumen PDF beresolusi tinggi dan mengunggah ke Google Drive...`;
+      statusDiv.innerHTML = `⏳ Sedang merender dokumen PDF utuh tanpa terpotong dan mengunggah ke Google Drive Guru...`;
 
       try {
         const pdfBlob = await generatePdfBlob(fileName);
