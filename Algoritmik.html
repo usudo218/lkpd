@@ -7,7 +7,7 @@
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Library html2canvas & jsPDF Murni (Lebih Stabil daripada html2pdf wrapper) -->
+  <!-- Library html2canvas & jsPDF Murni -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Lucide Icons -->
@@ -125,7 +125,7 @@
         <li>Menganalisis strategi pemecahan masalah (Greedy, Rekursi, DP, & D&C).</li>
         <li>Mengevaluasi kelemahan strategi algoritma pada studi kasus nyata (HOTS).</li>
         <li>Menganalisis komponen Input-Process-Output (IPO).</li>
-        <li>Menemukan kesalahan sintaks (*debugging*) dan menyusun program C++.</li>
+        <li>Menemukan kesalahan sintaks (*debugging*) serta menyusun program C++.</li>
       </ul>
     </div>
 
@@ -431,7 +431,7 @@
           1. #include &lt;iostream&gt;<br>
           2. using namespace std;<br>
           3. int main() {<br>
-          4. &nbsp;&nbsp;int a = 10<br>
+          4. &nbsp;&nbsp;<span class="bg-rose-950 text-rose-300 px-1 rounded">int a = 10</span><br>
           5. &nbsp;&nbsp;int b = 5;<br>
           6. &nbsp;&nbsp;int hasil = a + b;<br>
           7. &nbsp;&nbsp;cout &lt;&lt; hasil;<br>
@@ -728,6 +728,7 @@
       return `${cleanName}_tugas1.pdf`;
     }
 
+    // TRANSFORMASI DOM SALINAN CETAK: SEMUA INPUT DIGANTI DIV STATIS AGAR TIDAK TERPOTONG
     function createPrintableDOM() {
       const orig = document.getElementById('worksheet-app');
       const clone = orig.cloneNode(true);
@@ -744,12 +745,26 @@
       const btnArea = clone.querySelector('#action-buttons-area');
       if (btnArea) btnArea.remove();
 
+      // 1. Ganti Semua Input Teks/Date/Number menjadi DIV Statis Bebas Potong
       const origInputs = orig.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
       const cloneInputs = clone.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
       cloneInputs.forEach((input, idx) => {
-        input.setAttribute('value', origInputs[idx].value || '');
+        const val = origInputs[idx].value.trim();
+        const displayDiv = document.createElement('div');
+        displayDiv.className = input.className;
+        displayDiv.style.minHeight = '38px';
+        displayDiv.style.height = 'auto';
+        displayDiv.style.lineHeight = '1.5';
+        displayDiv.style.padding = '8px 12px';
+        displayDiv.style.display = 'flex';
+        displayDiv.style.alignItems = 'center';
+        displayDiv.style.whiteSpace = 'pre-wrap';
+        displayDiv.style.wordBreak = 'break-word';
+        displayDiv.innerText = val ? val : '-';
+        input.parentNode.replaceChild(displayDiv, input);
       });
 
+      // 2. Ganti Textarea Menjadi DIV Statis Auto-Expand
       const origTextareas = orig.querySelectorAll('textarea');
       const cloneTextareas = clone.querySelectorAll('textarea');
       cloneTextareas.forEach((tx, idx) => {
@@ -758,12 +773,15 @@
         displayDiv.className = tx.className;
         displayDiv.style.minHeight = '38px';
         displayDiv.style.height = 'auto';
+        displayDiv.style.lineHeight = '1.5';
+        displayDiv.style.padding = '8px 12px';
         displayDiv.style.whiteSpace = 'pre-wrap';
         displayDiv.style.wordBreak = 'break-word';
         displayDiv.innerText = val ? val : '-';
         tx.parentNode.replaceChild(displayDiv, tx);
       });
 
+      // 3. Ganti Dropdown Select Menjadi DIV Teks Pilihan
       const origSelects = orig.querySelectorAll('select');
       const cloneSelects = clone.querySelectorAll('select');
       cloneSelects.forEach((sel, idx) => {
@@ -771,10 +789,12 @@
         const val = origSel.options[origSel.selectedIndex]?.text || '-- Belum Dipilih --';
         const displayDiv = document.createElement('div');
         displayDiv.className = sel.className + ' flex items-center justify-center font-medium';
+        displayDiv.style.minHeight = '34px';
         displayDiv.innerText = val;
         sel.parentNode.replaceChild(displayDiv, sel);
       });
 
+      // 4. Sinkronkan Status Radio Button
       const origRadios = orig.querySelectorAll('input[type="radio"]');
       const cloneRadios = clone.querySelectorAll('input[type="radio"]');
       cloneRadios.forEach((rd, idx) => {
@@ -802,7 +822,6 @@
       return wrapper;
     }
 
-    // GENERATE PDF PRESISI RASIO A4 PENUH (ANTI-GESER KIRI & KANAN)
     async function generatePdfDoc() {
       const { jsPDF } = window.jspdf;
       const printableDom = createPrintableDOM();
@@ -838,11 +857,9 @@
         let position = 0;
         const imgData = canvas.toDataURL('image/jpeg', 0.98);
 
-        // Halaman Pertama
         pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
 
-        // Tambah Halaman Baru Jika Dokumen Lebih Panjang dari 1 Halaman A4
         while (heightLeft > 0) {
           position = heightLeft - imgHeight;
           pdf.addPage();
