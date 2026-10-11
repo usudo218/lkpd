@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LKPD Interaktif: Analisis Data Hasil Belajar Siswa</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Library html2canvas & jsPDF Murni -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+
+    .font-mono {
+      font-family: 'Fira Code', monospace;
+    }
+
+    input[type="text"], 
+    input[type="number"], 
+    input[type="date"], 
+    textarea, 
+    select {
+      pointer-events: auto !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      background-color: #1e293b;
+      color: #ffffff;
+      border: 1.5px solid #475569;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+      background-color: #0f172a;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 48px;
+    }
+
+    .input-locked {
+      background-color: #1e293b !important;
+      color: #94a3b8 !important;
+      border-color: #334155 !important;
+      cursor: not-allowed !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen py-6 px-3 sm:px-6">
+
+  <!-- Container Lembar Kerja -->
+  <div id="worksheet-app" class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-5 sm:p-8">
+
+    <!-- Header Banner -->
+    <div class="bg-gradient-to-r from-blue-900 via-indigo-800 to-sky-700 rounded-xl p-6 mb-6 text-white shadow-lg">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="bar-chart-3" class="w-3.5 h-3.5 text-yellow-300"></i> LKPD Analisis Data (Fase F)
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1">
+        TUGAS ANALISIS DATA KELAS: HASIL BELAJAR SISWA
+      </h1>
+      <p class="text-sky-100 text-sm font-medium">
+        Mata Pelajaran: <strong>Informatika / Matematika</strong> | Fase / Kelas: <strong>Fase F / Kelas XI SMA</strong>
+      </p>
+    </div>
+
+    <!-- Identitas Peserta Didik -->
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
+          <i data-lucide="user-check" class="w-4 h-4"></i> Identitas Peserta Didik
+        </h3>
+        <span id="lockStatusBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-700 text-slate-300 border border-slate-600 flex items-center gap-1">
+          <i data-lucide="unlock" class="w-3 h-3"></i> Siap Diisi
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Lengkap Siswa *</label>
+          <input type="text" id="student_name" required placeholder="tulis jawabanmu disini..." 
+                 class="w-full rounded-lg px-3.5 py-2 text-sm transition">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Kelas & No. Presensi *</label>
+          <input type="text" id="student_class" required placeholder="tulis jawabanmu disini..." 
+                 class="w-full rounded-lg px-3.5 py-2 text-sm transition">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Tanggal Pengerjaan</label>
+          <input type="date" id="student_date" 
+                 class="w-full rounded-lg px-3.5 py-2 text-sm transition">
+        </div>
+      </div>
+      <p id="lockWarningText" class="text-[11px] text-amber-400/90 mt-2 flex items-center gap-1.5 hidden">
+        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Identitas terkunci otomatis saat pengerjaan dimulai untuk menjaga keaslian tugas.
+      </p>
+    </div>
+
+    <!-- Petunjuk Pengerjaan & Data Referensi -->
+    <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 mb-6 text-emerald-100 text-xs sm:text-sm">
+      <div class="font-bold text-emerald-400 mb-1.5 flex items-center gap-2">
+        <i data-lucide="file-text" class="w-4 h-4"></i> PETUNJUK PENGERJAAN & SUMBER DATA (30 SISWA):
+      </div>
+      <p class="mb-2 text-emerald-200/90">
+        Gunakan data nilai 30 siswa di bawah ini (Matematika, Informatika, Bahasa Inggris dengan standar KKM = 75)[cite: 3] untuk menyelesaikan 4 bagian tugas analisis data.
+      </p>
+
+      <!-- Tabel Data 30 Siswa yang Menarik & Rapi -->
+      <div class="mt-3 bg-slate-950 border border-slate-700 rounded-lg overflow-hidden max-h-64 overflow-y-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead class="bg-slate-900 text-sky-400 uppercase sticky top-0 border-b border-slate-700">
+            <tr>
+              <th class="p-2.5">ID Siswa</th>
+              <th class="p-2.5 text-center">Matematika</th>
+              <th class="p-2.5 text-center">Informatika</th>
+              <th class="p-2.5 text-center">B. Inggris</th>
+              <th class="p-2.5 text-center">Status (KKM 75)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-slate-300 font-mono">
+            <tr><td class="p-2 font-bold text-sky-300">S-01</td><td class="p-2 text-center">85</td><td class="p-2 text-center">88</td><td class="p-2 text-center">80</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-02</td><td class="p-2 text-center">70</td><td class="p-2 text-center">72</td><td class="p-2 text-center">78</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-03</td><td class="p-2 text-center">92</td><td class="p-2 text-center">95</td><td class="p-2 text-center">89</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-04</td><td class="p-2 text-center">65</td><td class="p-2 text-center">68</td><td class="p-2 text-center">74</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-05</td><td class="p-2 text-center">78</td><td class="p-2 text-center">82</td><td class="p-2 text-center">85</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-06</td><td class="p-2 text-center">88</td><td class="p-2 text-center">90</td><td class="p-2 text-center">82</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-07</td><td class="p-2 text-center">60</td><td class="p-2 text-center">65</td><td class="p-2 text-center">70</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-08</td><td class="p-2 text-center">75</td><td class="p-2 text-center">78</td><td class="p-2 text-center">80</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-09</td><td class="p-2 text-center">82</td><td class="p-2 text-center">85</td><td class="p-2 text-center">88</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-10</td><td class="p-2 text-center">90</td><td class="p-2 text-center">92</td><td class="p-2 text-center">94</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-11</td><td class="p-2 text-center">68</td><td class="p-2 text-center">70</td><td class="p-2 text-center">76</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-12</td><td class="p-2 text-center">74</td><td class="p-2 text-center">76</td><td class="p-2 text-center">82</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-13</td><td class="p-2 text-center">86</td><td class="p-2 text-center">89</td><td class="p-2 text-center">84</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-14</td><td class="p-2 text-center">95</td><td class="p-2 text-center">98</td><td class="p-2 text-center">91</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-15</td><td class="p-2 text-center">72</td><td class="p-2 text-center">75</td><td class="p-2 text-center">79</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-16</td><td class="p-2 text-center">64</td><td class="p-2 text-center">66</td><td class="p-2 text-center">72</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-17</td><td class="p-2 text-center">80</td><td class="p-2 text-center">84</td><td class="p-2 text-center">86</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-18</td><td class="p-2 text-center">77</td><td class="p-2 text-center">80</td><td class="p-2 text-center">75</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-19</td><td class="p-2 text-center">89</td><td class="p-2 text-center">91</td><td class="p-2 text-center">87</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-20</td><td class="p-2 text-center">58</td><td class="p-2 text-center">62</td><td class="p-2 text-center">68</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-21</td><td class="p-2 text-center">91</td><td class="p-2 text-center">94</td><td class="p-2 text-center">90</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-22</td><td class="p-2 text-center">73</td><td class="p-2 text-center">77</td><td class="p-2 text-center">83</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-23</td><td class="p-2 text-center">84</td><td class="p-2 text-center">86</td><td class="p-2 text-center">85</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-24</td><td class="p-2 text-center">67</td><td class="p-2 text-center">70</td><td class="p-2 text-center">73</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-25</td><td class="p-2 text-center">79</td><td class="p-2 text-center">81</td><td class="p-2 text-center">88</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-26</td><td class="p-2 text-center">93</td><td class="p-2 text-center">96</td><td class="p-2 text-center">92</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-27</td><td class="p-2 text-center">62</td><td class="p-2 text-center">64</td><td class="p-2 text-center">71</td><td class="p-2 text-center text-rose-400">Remedial</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-28</td><td class="p-2 text-center">81</td><td class="p-2 text-center">83</td><td class="p-2 text-center">86</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-29</td><td class="p-2 text-center">76</td><td class="p-2 text-center">79</td><td class="p-2 text-center">80</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+            <tr><td class="p-2 font-bold text-sky-300">S-30</td><td class="p-2 text-center">88</td><td class="p-2 text-center">91</td><td class="p-2 text-center">89</td><td class="p-2 text-center text-emerald-400">Tuntas</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ================= BAGIAN 1 ================= -->
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+          <span class="p-1 bg-blue-600 rounded text-xs font-mono">01</span> BAGIAN 1: ANALISIS DATA STATISTIK
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Hitung nilai rata-rata, tertinggi, dan terendah untuk masing-masing mata pelajaran[cite: 3]:</label>
+          <textarea id="ans_stat_summary" rows="3" placeholder="tulis perhitungan dan hasil analisis statistik disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs font-mono"></textarea>
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Tentukan persentase ketuntasan siswa pada tiap mata pelajaran (KKM = 75)[cite: 3]:</label>
+          <input type="text" id="ans_stat_percent" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">3. Sebutkan ID siswa yang masuk peringkat 3 teratas dan ID siswa yang wajib mengikuti remedial (rata-rata < 75)[cite: 3]:</label>
+          <textarea id="ans_stat_ranking" rows="2" placeholder="tulis jawabanmu disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BAGIAN 2 ================= -->
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+          <span class="p-1 bg-purple-600 rounded text-xs font-mono">02</span> BAGIAN 2: VISUALISASI GRAFIK
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">1. Analisis Diagram Batang (Perbandingan Rata-rata Mapel & Garis Batas KKM = 75)[cite: 3]:</label>
+          <textarea id="ans_chart_bar" rows="2" placeholder="deskripsikan atau tulis hasil analisis diagram batang disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">2. Analisis Diagram Pencar / Scatter Plot (Keterkaitan Matematika X & Informatika Y)[cite: 3]:</label>
+          <textarea id="ans_chart_scatter" rows="2" placeholder="deskripsikan pola keterkaitan variabel X dan Y disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BAGIAN 3 ================= -->
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-6">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+          <span class="p-1 bg-amber-600 text-slate-950 rounded text-xs font-black">03</span> BAGIAN 3: DESAIN INFOGRAFIS (RINGKASAN)
+        </h2>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">Kartu Angka (Total Siswa, Kelulusan Kelas, & Mapel Nilai Tertinggi)[cite: 3]:</label>
+          <input type="text" id="ans_info_cards" placeholder="tulis rangkuman kartu angka disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">Sorotan Data (3 Siswa Nilai Tertinggi & Kelompok Pendampingan)[cite: 3]:</label>
+          <input type="text" id="ans_info_highlights" placeholder="tulis sorotan data disini..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs">
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BAGIAN 4 ================= -->
+    <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-5 mb-8">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
+        <h2 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
+          <span class="p-1 bg-sky-600 rounded text-xs font-mono">04</span> BAGIAN 4: NARASI LAPORAN SINGKAT KONSULTAN
+        </h2>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">Paragraf 1: Ringkasan performa kelas (pelajaran terkuat vs terlemah & hubungan Matematika-Informatika)[cite: 3]:</label>
+          <textarea id="ans_narrative_p1" rows="3" placeholder="tulis paragraf 1 laporan konsultan akademik..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
+        </div>
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">Paragraf 2: Dua rekomendasi solusi konkret bagi guru untuk membantu siswa yang belum tuntas[cite: 3]:</label>
+          <textarea id="ans_narrative_p2" rows="3" placeholder="tulis paragraf 2 rekomendasi solusi konkret..." onpaste="handlePasteBlock(event)" class="question-input w-full rounded p-2 text-xs"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOMBOL SUBMIT & MANUAL DOWNLOAD -->
+    <div id="action-buttons-area" class="bg-gradient-to-r from-emerald-900/80 to-slate-900 border border-emerald-700/60 rounded-xl p-6 text-center space-y-4">
+      <h3 class="font-extrabold text-lg text-white">🎉 Kumpulkan Tugas Analisis Data</h3>
+      <p class="text-xs text-emerald
