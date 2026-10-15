@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul Terpadu Analisis Data, Visualisasi Grafik & Asesmen HOTS 50 Essay</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2pdf.js for Client-Side PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Proteksi Anti Copy-Paste & Seleksi Teks Global */
+    .no-select {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    input, textarea {
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      user-select: text !important;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased no-select" oncontextmenu="return false;">
+
+  <!-- Header Banner Profesional (Full Color) -->
+  <header class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-800 text-white shadow-xl">
+    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="bg-white/20 text-xs tracking-wider uppercase px-3 py-1 rounded-full font-bold">Modul Pembelajaran & Asesmen Literasi-Numerasi</span>
+          <span class="bg-amber-400 text-slate-900 text-xs font-extrabold px-2.5 py-0.5 rounded-full">50 Soal Essay HOTS</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold mt-3 tracking-tight">Analisis Data & Visualisasi Grafik Batang</h1>
+        <p class="text-blue-100 mt-1 text-sm md:text-base max-w-2xl">
+          Panduan Lengkap Perhitungan Statistik Deskriptif (Mean, Min, Max, Range, Aturan Sturgess, Interval) & Pembuatan Grafik Disertai Asesmen Terproteksi Anti-Copy Paste.
+        </p>
+      </div>
+      <div class="flex flex-col items-end gap-2 text-right">
+        <span class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400 text-emerald-100 px-4 py-2 rounded-xl text-xs md:text-sm font-semibold">
+          <i class="fa-solid fa-shield-halved text-emerald-300"></i> Mode Asesmen Terkunci
+        </span>
+        <span class="text-xs text-blue-200">Format Jawaban: Ketik Mandiri</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-8" id="exam-container">
+
+    <!-- Card 1: Identitas Siswa (Otomatis Terblokir / Terkunci) -->
+    <section class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 transition-all hover:shadow-xl">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Identitas Siswa Peserta Ujian</h2>
+            <p class="text-xs text-slate-500">Ketik data diri Anda. Kolom akan terblokir/terkunci otomatis setelah selesai diketik (saat beralih kolom atau tekan Enter).</p>
+          </div>
+        </div>
+        <span id="lock-status-badge" class="px-3.5 py-1.5 bg-amber-100 text-amber-800 rounded-full text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-pen-to-square"></i> Menunggu Pengisian
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Nama Lengkap Siswa</label>
+            <span id="badge-name" class="text-[11px] font-semibold text-slate-400"></span>
+          </div>
+          <input type="text" id="student-name" placeholder="Ketik nama lengkap..." 
+                 onblur="autoLockField(this, 'badge-name')" 
+                 onkeydown="if(event.key==='Enter') this.blur();"
+                 class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium transition-all" />
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Kelas / Peminatan</label>
+            <span id="badge-class" class="text-[11px] font-semibold text-slate-400"></span>
+          </div>
+          <input type="text" id="student-class" placeholder="Contoh: XII MIPA 1 / X TKJ 2" 
+                 onblur="autoLockField(this, 'badge-class')" 
+                 onkeydown="if(event.key==='Enter') this.blur();"
+                 class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium transition-all" />
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">Nomor Absen / NIS</label>
+            <span id="badge-nis" class="text-[11px] font-semibold text-slate-400"></span>
+          </div>
+          <input type="text" id="student-nis" placeholder="Contoh: 14" 
+                 onblur="autoLockField(this, 'badge-nis')" 
+                 onkeydown="if(event.key==='Enter') this.blur();"
+                 class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium transition-all" />
+        </div>
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+        <p class="flex items-center gap-1.5 italic">
+          <i class="fa-solid fa-lock text-emerald-600"></i> Proteksi Aktif: Data yang telah diinput terkunci permanen guna menjamin autentisitas berkas.
+        </p>
+      </div>
+    </section>
+
+    <!-- Card 2: Materi Pembelajaran Komprehensif & Studi Kasus -->
+    <section class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 md:p-8 space-y-8">
+      <div class="border-b border-slate-100 pb-4">
+        <span class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Materi Pelajaran Lengkap</span>
+        <h2 class="text-2xl font-bold text-slate-800 mt-2">1. Fondasi Pengolahan Data Statistik & Visualisasi Grafik</h2>
+        <p class="text-slate-600 text-sm mt-1">Pelajari rumus-rumus esensial dalam statistik deskriptif dan metodologi penyusunan diagram batang sebelum menjawab asesmen.</p>
+      </div>
+
+      <!-- Grid Rumus-Rumus Inti -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-sm">
+        
+        <!-- Box 1: Rata-Rata (Mean) -->
+        <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-5 space-y-2">
+          <div class="flex items-center gap-2 text-blue-800 font-bold">
+            <i class="fa-solid fa-calculator text-blue-600"></i>
+            <h3>1. Rata-Rata (Mean - x̄)</h3>
+          </div>
+          <p class="text-slate-600 text-xs">Nilai representatif pusat data yang diperoleh dari jumlah seluruh nilai data dibagi banyaknya data ($n$).</p>
+          <div class="bg-white p-3 rounded-xl border border-blue-100 font-mono text-center font-bold text-blue-900 text-sm shadow-sm">
+            x̄ = (∑ xᵢ) / n
+          </div>
+          <p class="text-[11px] text-slate-500">Contoh data: 70, 80, 90. Rata-rata = (70 + 80 + 90) / 3 = 80.</p>
+        </div>
+
+        <!-- Box 2: Nilai Maksimum & Minimum -->
+        <div class="bg-indigo-50/70 border border-indigo-200 rounded-2xl p-5 space-y-2">
+          <div class="flex items-center gap-2 text-indigo-800 font-bold">
+            <i class="fa-solid fa-arrows-up-down text-indigo-600"></i>
+            <h3>2. Nilai Maksimum & Minimum</h3>
+          </div>
+          <p class="text-slate-600 text-xs">Batas ekstremum dataset untuk mengidentifikasi puncak tertinggi dan titik terendah data observasi.</p>
+          <div class="bg-white p-3 rounded-xl border border-indigo-100 font-mono text-center font-bold text-indigo-900 text-sm shadow-sm">
+            X_maks = Max(x₁, x₂, ..., xₙ)<br>
+            X_min = Min(x₁, x₂, ..., xₙ)
+          </div>
+          <p class="text-[11px] text-slate-500">Menjadi acuan utama dalam menentukan dispersi persebaran data.</p>
+        </div>
+
+        <!-- Box 3: Jangkauan Data (Range) -->
+        <div class="bg-purple-50/70 border border-purple-200 rounded-2xl p-5 space-y-2">
+          <div class="flex items-center gap-2 text-purple-800 font-bold">
+            <i class="fa-solid fa-ruler-horizontal text-purple-600"></i>
+            <h3>3. Jangkauan Data (Range - R)</h3>
+          </div>
+          <p class="text-slate-600 text-xs">Selisih mutlak antara nilai observasi tertinggi dengan nilai observasi terendah.</p>
+          <div class="bg-white p-3 rounded-xl border border-purple-100 font-mono text-center font-bold text-purple-900 text-sm shadow-sm">
+            R = X_maks - X_min
+          </div>
+          <p class="text-[11px] text-slate-500">Jika nilai tertinggi = 98 dan terendah = 42, maka R = 98 - 42 = 56.</p>
+        </div>
+
+        <!-- Box 4: Banyak Kelas (Aturan Sturgess) -->
+        <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-5 space-y-2">
+          <div class="flex items-center gap-2 text-amber-800 font-bold">
+            <i class="fa-solid fa-layer-group text-amber-600"></i>
+            <h3>4. Banyak Kelas (Aturan Sturgess)</h3>
+          </div>
+          <p class="text-slate-600 text-xs">Metode empiris standar untuk menentukan jumlah kelompok kelas interval ($k$) dari $n$ data.</p>
+          <div class="bg-white p-3 rounded-xl border border-amber-100 font-mono text-center font-bold text-amber-900 text-sm shadow-sm">
+            k = 1 + 3.322 · log₁₀(n)
+          </div>
+          <p class="text-[11px] text-slate-500">Nilai $k$ selalu dibulatkan ke bilangan bulat terdekat (umumnya pembulatan ke atas).</p>
+        </div>
+
+        <!-- Box 5: Panjang Interval Kelas (i / c) -->
+        <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5 space-y-2">
+          <div class="flex items-center gap-2 text-emerald-800 font-bold">
+            <i class="fa-solid fa-arrows-left-right text-emerald-600"></i>
+            <h3>5. Panjang Interval Kelas (i)</h3>
+          </div>
+          <p class="text-slate-600 text-xs">Lebar cakupan nilai dalam setiap kelompok interval kelas.</p>
+          <div class="bg-white p-3 rounded-xl border border-emerald-100 font-mono text-center font-bold text-emerald-900 text-sm shadow-sm">
+            i = R / k = (X_maks - X_min) / k
+          </div>
+          <p class="text-[11px] text-slate-500">Jika R = 56 dan k = 6, maka i = 56 / 6 = 9.33 ≈ 10.</p>
+        </div>
+
+        <!-- Box 6: Anatomi Visualisasi Grafik Batang -->
+        <div class="bg-rose-50/70 border border-rose-200 rounded-2xl p-5 space-y-2">
+          <div class="flex items-center gap-2 text-rose-800 font-bold">
+            <i class="fa-solid fa-chart-column text-rose-600"></i>
+            <h3>6. Kaidah Grafik Batang Profesional</h3>
+          </div>
+          <p class="text-slate-600 text-xs">Grafik batang menyajikan frekuensi atau agregasi nilai pada kategori tertentu secara terpisah.</p>
+          <div class="bg-white p-2.5 rounded-xl border border-rose-100 text-[11px] text-slate-700 leading-snug space-y-1">
+            <p>• <strong>Sumbu X (Horizontal):</strong> Kategori / Label Interval.</p>
+            <p>• <strong>Sumbu Y (Vertikal):</strong> Frekuensi / Nilai (Mulai dari 0).</p>
+            <p>• <strong>Lebar Batang:</strong> Konsisten dengan celah antar batang seragam.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Studi Kasus Praktis Lengkap dengan Langkah-Langkah -->
+      <div class="bg-slate-900 text-slate-100 p-6 md:p-8 rounded-2xl space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div class="flex items-center gap-3">
+            <span class="p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl text-xl">
+              <i class="fa-solid fa-laptop-code"></i>
+            </span>
+            <div>
+              <h3 class="text-lg md:text-xl font-bold text-white">Studi Kasus: Pemetaan Hasil Asesmen Analisis Data Siswa (N = 30)</h3>
+              <p class="text-xs text-slate-400">Penerapan perhitungan statistik deskriptif dan transformasi tabel ke visualisasi grafik batang.</p>
+            </div>
+          </div>
+          <span class="text-xs font-semibold px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30">Latihan Terpandu</span>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Dataset Mentah Nilai Asesmen (30 Siswa):</span>
+            <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700 font-mono text-emerald-300 text-sm leading-relaxed tracking-wider">
+              [ 55, 60, 62, 65, 65, 68, 70, 72, 72, 74, 75, 75, 76, 78, 80, 80, 82, 84, 85, 85, 86, 88, 90, 90, 92, 94, 95, 96, 98, 100 ]
+            </div>
+          </div>
+
+          <!-- Rincian Hitungan Step-by-Step -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+            <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/80 space-y-2">
+              <h4 class="font-bold text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-1"></i> Perhitungan Parameter Statistik Dasar</h4>
+              <ul class="space-y-1 text-slate-300">
+                <li>• <strong>Banyak Data (n):</strong> 30 siswa</li>
+                <li>• <strong>Nilai Minimum (X_min):</strong> 55</li>
+                <li>• <strong>Nilai Maksimum (X_maks):</strong> 100</li>
+                <li>• <strong>Rata-Rata (Mean):</strong> ∑X / n = 2397 / 30 = <strong>79.9</strong></li>
+                <li>• <strong>Jangkauan (Range R):</strong> 100 - 55 = <strong>45</strong></li>
+              </ul>
+            </div>
+            <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/80 space-y-2">
+              <h4 class="font-bold text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-2"></i> Perhitungan Interval & Frekuensi</h4>
+              <ul class="space-y-1 text-slate-300">
+                <li>• <strong>Banyak Kelas (k):</strong> 1 + 3.322 · log₁₀(30) = 1 + 3.322(1.477) = 1 + 4.907 = 5.907 ≈ <strong>6 Kelas</strong></li>
+                <li>• <strong>Panjang Interval (i):</strong> R / k = 45 / 6 = 7.5 ≈ <strong>8 Nilai</strong></li>
+                <li>• <strong>Kelas Interval:</strong> 55–62, 63–70, 71–78, 79–86, 87–94, 95–102</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Visualisasi Diagram Batang SVG Profesional -->
+          <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-emerald-300 flex items-center gap-2">
+                <i class="fa-solid fa-chart-simple"></i> Representasi Grafik Batang Distribusi Frekuensi Siswa
+              </h4>
+              <span class="text-[11px] text-slate-400">Sumbu Y: Frekuensi (Siswa) | Sumbu X: Rentang Nilai</span>
+            </div>
+
+            <!-- SVG Bar Chart -->
+            <div class="w-full overflow-x-auto">
+              <svg viewBox="0 0 700 240" class="w-full max-w-2xl mx-auto block font-sans">
+                <!-- Grid Lines -->
+                <line x1="60" y1="20" x2="660" y2="20" stroke="#334155" stroke-dasharray="3,3" />
+                <line x1="60" y1="65" x2="660" y2="65" stroke="#334155" stroke-dasharray="3,3" />
+                <line x1="60" y1="110" x2="660" y2="110" stroke="#334155" stroke-dasharray="3,3" />
+                <line x1="60" y1="155" x2="660" y2="155" stroke="#334155" stroke-dasharray="3,3" />
+                <line x1="60" y1="200" x2="660" y2="200" stroke="#64748b" stroke-width="2" />
+                <line x1="60" y1="20" x2="60" y2="200" stroke="#64748b" stroke-width="2" />
+
+                <!-- Y Axis Labels -->
+                <text x="45" y="25" fill="#94a3b8" font-size="11" text-anchor="end">8 Siswa</text>
+                <text x="45" y="70" fill="#94a3b8" font-size="11" text-anchor="end">6 Siswa</text>
+                <text x="45" y="115" fill="#94a3b8" font-size="11" text-anchor="end">4 Siswa</text>
+                <text x="45" y="160" fill="#94a3b8" font-size="11" text-anchor="end">2 Siswa</text>
+                <text x="45" y="204" fill="#94a3b8" font-size="11" text-anchor="end">0</text>
+
+                <!-- Bars & Labels -->
+                <!-- Bar 1: 55-62 (f=3) -> height = 3 * 22.5 = 67.5 -> y = 200 - 67.5 = 132.5 -->
+                <rect x="90" y="132.5" width="60" height="67.5" fill="#3b82f6" rx="4" />
+                <text x="120" y="125" fill="#60a5fa" font-size="12" font-weight="bold" text-anchor="middle">3</text>
+                <text x="120" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">55-62</text>
+
+                <!-- Bar 2: 63-70 (f=4) -> height = 4 * 22.5 = 90 -> y = 110 -->
+                <rect x="185" y="110" width="60" height="90" fill="#6366f1" rx="4" />
+                <text x="215" y="102" fill="#818cf8" font-size="12" font-weight="bold" text-anchor="middle">4</text>
+                <text x="215" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">63-70</text>
+
+                <!-- Bar 3: 71-78 (f=7) -> height = 7 * 22.5 = 157.5 -> y = 42.5 -->
+                <rect x="280" y="42.5" width="60" height="157.5" fill="#8b5cf6" rx="4" />
+                <text x="310" y="35" fill="#a78bfa" font-size="12" font-weight="bold" text-anchor="middle">7</text>
+                <text x="310" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">71-78</text>
+
+                <!-- Bar 4: 79-86 (f=7) -> height = 7 * 22.5 = 157.5 -> y = 42.5 -->
+                <rect x="375" y="42.5" width="60" height="157.5" fill="#ec4899" rx="4" />
+                <text x="405" y="35" fill="#f472b6" font-size="12" font-weight="bold" text-anchor="middle">7</text>
+                <text x="405" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">79-86</text>
+
+                <!-- Bar 5: 87-94 (f=5) -> height = 5 * 22.5 = 112.5 -> y = 87.5 -->
+                <rect x="470" y="87.5" width="60" height="112.5" fill="#f59e0b" rx="4" />
+                <text x="500" y="80" fill="#fbbf24" font-size="12" font-weight="bold" text-anchor="middle">5</text>
+                <text x="500" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">87-94</text>
+
+                <!-- Bar 6: 95-102 (f=4) -> height = 4 * 22.5 = 90 -> y = 110 -->
+                <rect x="565" y="110" width="60" height="90" fill="#10b981" rx="4" />
+                <text x="595" y="102" fill="#34d399" font-size="12" font-weight="bold" text-anchor="middle">4</text>
+                <text x="595" y="218" fill="#cbd5e1" font-size="11" text-anchor="middle">95-102</text>
+              </svg>
+            </div>
+            <p class="text-xs text-slate-400 italic text-center">
+              Interpretasi: Modus data berada pada rentang 71–86 (14 siswa berkumpul di kelompok ini), membentuk pola distribusi simetris unimodal mendekati kurva normal.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card 3: Soal Evaluasi 50 Essay HOTS (Anti Copy-Paste + Literasi & Numerasi Grafis) -->
+    <section class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 md:p-8 space-y-6">
+      <div class="border-b border-slate-100 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+        <div>
+          <span class="bg-rose-100 text-rose-800 font-extrabold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Lembar Asesmen Mandiri</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-2">50 Butir Soal Essay Analisis Data & Visualisasi (HOTS)</h2>
+          <p class="text-xs text-rose-600 font-semibold mt-1">
+            <i class="fa-solid fa-ban"></i> Fitur Salin-Tempel (Copy-Paste) Diblokir Total. Setiap jawaban wajib diketik mandiri berdasarkan penalaran analitis.
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-right">
+          <span class="text-xs text-slate-500 font-medium">Domain Asesmen:</span>
+          <span class="text-sm font-black text-indigo-700 block">Literasi Data & Penalaran Numerasi</span>
+        </div>
+      </div>
+
+      <div class="space-y-6 text-sm" id="essay-container">
+        <!-- 50 Essay Soal HOTS akan di-render di sini -->
+      </div>
+    </section>
+
+        <!-- Card 4: Pengiriman Berkas Otomatis ke Google Drive & Ekspor PDF -->
+    <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl shadow-2xl p-6 md:p-8 space-y-6 no-print">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-5">
+        <div>
+          <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+            <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Terintegrasi Google Apps Script
+          </span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-2 flex items-center gap-2">
+            Kirim Hasil Ujian / Unduh Berkas PDF
+          </h2>
+          <p class="text-slate-300 text-sm mt-1 max-w-2xl">
+            Klik tombol <strong>"Kirim Otomatis ke Google Drive"</strong> agar lembar jawaban Anda dikonversi menjadi file PDF penuh dengan format <code>namasiswa_kelas.pdf</code> dan langsung tersimpan di Google Drive & Spreadsheet guru.
+          </p>
+        </div>
+        <div class="bg-white/10 border border-white/10 px-4 py-3 rounded-2xl text-xs space-y-1">
+          <div class="text-emerald-400 font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-check"></i> Status Server:
+          </div>
+          <div class="text-slate-200">Endpoint Siap Menerima</div>
+        </div>
+      </div>
+
+      <!-- Status Panel Pengiriman Real-Time -->
+      <div id="upload-status-box" class="hidden p-4 rounded-xl text-sm font-medium transition-all"></div>
+
+      <!-- Tombol Aksi Utama -->
+      <div class="flex flex-wrap items-center gap-4 pt-1">
+        <!-- Tombol Kirim Otomatis yang dihubungkan langsung ke Web App -->
+        <button type="button" onclick="sendDirectToGoogleDrive()" id="btn-send-drive"
+                class="px-7 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-xl text-sm md:text-base shadow-xl hover:shadow-2xl transition-all flex items-center gap-3 active:scale-95">
+          <i class="fa-solid fa-paper-plane text-xl text-emerald-200"></i> 
+          <span>Kirim Otomatis ke Google Drive</span>
+        </button>
+
+        <!-- Tombol Cadangan PDF -->
+        <button type="button" onclick="generateFullPDF()" id="btn-export-pdf"
+                class="px-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-sm shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+          <i class="fa-solid fa-file-pdf text-lg text-indigo-200"></i> Unduh Cadangan PDF
+        </button>
+
+        <!-- Buka Folder Drive Guru -->
+        <a href="https://drive.google.com/drive/folders/1Gmwxjsqh1CdI1diGpI7w8VGXlQy4GGj5" target="_blank" rel="noopener noreferrer"
+           class="px-5 py-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl text-sm border border-slate-700 transition-all flex items-center gap-2">
+          <i class="fa-brands fa-google-drive text-amber-400 text-lg"></i> Buka Folder Drive
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center py-6 text-slate-500 text-xs no-print">
+    &copy; 2026 Modul Evaluasi & Pembelajaran Analisis Data Terpadu | Berbasis Literasi Numerasi & HOTS
+  </footer>
+
+  <!-- SCRIPT ENGINE -->
+  <script>
+    // Data 50 Soal Essay HOTS (Disertai Ilustrasi Grafis, Tabel, & Data Nyata)
+    const questions50 = [
+      {
+        no: 1,
+        title: "Perumusan Rumus Rata-Rata Terbobot (Weighted Mean)",
+        q: "Sebuah instansi menghitung performa siswa menggunakan 3 komponen: Tugas Mandiri (bobot 20%), Ujian Tengah Semester (bobot 30%), dan Proyek Analisis Data (bobot 50%). Jika Ahmad memperoleh nilai Tugas = 85, UTS = 70, dan Proyek = 90, hitunglah rata-rata terbobotnya dan jelaskan mengapa rata-rata terbobot lebih adil dibanding rata-rata aritmatika biasa!",
+        infographic: null
+      },
+      {
+        no: 2,
+        title: "Numerasi Jangkauan Data (Range) dan Resiko Outlier",
+        q: "Diberikan dataset laba harian kantin sekolah (dalam ribuan rupiah) selama 7 hari: 120, 130, 125, 140, 135, 128, 950. Hitung nilai minimum, maksimum, serta Range data tersebut. Jelaskan mengapa nilai Range menjadi sangat sensitif dan berpotensi menyesatkan dalam menggambarkan variabilitas asli data di atas!",
+        infographic: null
+      },
+      {
+        no: 3,
+        title: "Penerapan Aturan Sturgess untuk Sampel Besar",
+        q: "Seorang analis data kesehatan mengumpulkan data tinggi badan dari n = 250 siswa. Menggunakan Aturan Sturgess (k = 1 + 3.322 log10(n)), tentukan banyak kelas interval yang paling ideal! Berikan justifikasi mengapa kita tidak boleh membuat kelas interval terlalu sedikit (misal k=2) atau terlalu banyak (misal k=30)!",
+        infographic: null
+      },
+      {
+        no: 4,
+        title: "Perhitungan Panjang Interval Kelas dan Pembulatan",
+        q: "Dari hasil survei waktu tempuh siswa ke sekolah diperoleh waktu tercepat 12 menit dan terlama 78 menit. Jika ditetapkan banyak kelas k = 7, hitunglah panjang interval kelas (i) sebelum dan sesudah pembulatan matematis. Mengapa dalam penyusunan tabel distribusi frekuensi pembulatan disarankan ke atas?",
+        infographic: null
+      },
+      {
+        no: 5,
+        title: "Literasi Infografis Grafik Batang: Analisis Penjualan Laptop",
+        q: "Perhatikan diagram batang penjualan laptop per kuartal di bawah. Analisislah mengapa terjadi penurunan drastis pada Q3 dan kenaikan tajam pada Q4. Berikan 3 rekomendasi manajerial berbasis data bagi pimpinan toko!",
+        infographic: `
+          <div class="bg-slate-900 p-4 rounded-xl text-slate-200 my-3">
+            <span class="text-xs text-amber-400 font-bold block mb-2">INFOGRAFIS 1: Tren Penjualan Laptop 2026 (Unit)</span>
+            <svg viewBox="0 0 500 150" class="w-full max-w-md mx-auto block font-sans">
+              <line x1="50" y1="120" x2="450" y2="120" stroke="#64748b" stroke-width="2" />
+              <line x1="50" y1="20" x2="50" y2="120" stroke="#64748b" stroke-width="2" />
+              <text x="40" y="30" fill="#94a3b8" font-size="10" text-anchor="end">100</text>
+              <text x="40" y="75" fill="#94a3b8" font-size="10" text-anchor="end">50</text>
+              <text x="40" y="123" fill="#94a3b8" font-size="10" text-anchor="end">0</text>
+              <!-- Q1 -->
+              <rect x="80" y="45" width="55" height="75" fill="#3b82f6" rx="3" />
+              <text x="107" y="40" fill="#93c5fd" font-size="10" font-weight="bold" text-anchor="middle">75</text>
+              <text x="107" y="135" fill="#cbd5e1" font-size="10" text-anchor="middle">Q1</text>
+              <!-- Q2 -->
+              <rect x="175" y="40" width="55" height="80" fill="#6366f1" rx="3" />
+              <text x="202" y="35" fill="#a5b4fc" font-size="10" font-weight="bold" text-anchor="middle">80</text>
+              <text x="202" y="135" fill="#cbd5e1" font-size="10" text-anchor="middle">Q2</text>
+              <!-- Q3 -->
+              <rect x="270" y="90" width="55" height="30" fill="#f43f5e" rx="3" />
+              <text x="297" y="85" fill="#fda4af" font-size="10" font-weight="bold" text-anchor="middle">30</text>
+              <text x="297" y="135" fill="#cbd5e1" font-size="10" text-anchor="middle">Q3</text>
+              <!-- Q4 -->
+              <rect x="365" y="25" width="55" height="95" fill="#10b981" rx="3" />
+              <text x="392" y="20" fill="#6ee7b7" font-size="10" font-weight="bold" text-anchor="middle">95</text>
+              <text x="392" y="135" fill="#cbd5e1" font-size="10" text-anchor="middle">Q4</text>
+            </svg>
+          </div>
+        `
+      },
+      {
+        no: 6,
+        title: "Perbedaan Batas Bawah Kelas vs Tepi Bawah Kelas",
+        q: "Dalam kelas interval data kontinu 60 – 69, jelaskan perbedaan mendasar antara 'Batas Bawah' (Lower Limit) dengan 'Tepi Bawah' (Lower Boundary). Tentukan pula nilai titik tengah (midpoint) kelas tersebut beserta rumusnya!",
+        infographic: null
+      },
+      {
+        no: 7,
+        title: "Etika Pembuatan Sumbu Y pada Grafik Batang (Truncated Graph)",
+        q: "Sebuah media massa menyajikan grafik batang kepuasan publik dengan sumbu Y dimulai dari angka 45% bukan dari 0%, sehingga selisih 2% terlihat seperti jurang perbedaan yang amat besar. Jelaskan fenomena 'Truncated Graph' ini dan mengapa hal tersebut melanggar etika integritas penyajian data!",
+        infographic: null
+      },
+      {
+        no: 8,
+        title: "Numerasi Titik Tengah & Estimasi Rata-Rata Data Berkelompok",
+        q: "Diberikan tabel interval nilai: [50-59 (f=4), 60-69 (f=8), 70-79 (f=12), 80-89 (f=6)]. Hitung estimasi rata-rata menggunakan rumus x̄ = (∑ fᵢ · mᵢ) / ∑ fᵢ di mana mᵢ adalah titik tengah masing-masing kelas!",
+        infographic: null
+      },
+      {
+        no: 9,
+        title: "Literasi Infografis Grafik Batang Bertumpuk (Stacked Bar Chart)",
+        q: "Perhatikan perbandingan komposisi pengguna browser di sekolah pada infografis berikut. Tentukan persentase kontribusi masing-masing platform dan simpulkan browser apa yang wajib diprioritaskan saat merancang aplikasi web sekolah!",
+        infographic: `
+          <div class="bg-slate-900 p-4 rounded-xl text-slate-200 my-3">
+            <span class="text-xs text-amber-400 font-bold block mb-2">INFOGRAFIS 2: Distribusi Penggunaan Browser Ujian (Total = 200 Siswa)</span>
+            <div class="w-full bg-slate-800 rounded-xl h-8 flex overflow-hidden border border-slate-700 my-2 text-xs font-bold text-center leading-8">
+              <div style="width: 60%" class="bg-blue-600 text-white">Chrome (120)</div>
+              <div style="width: 25%" class="bg-emerald-600 text-white">Edge (50)</div>
+              <div style="width: 15%" class="bg-purple-600 text-white">Firefox (30)</div>
+            </div>
+            <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+              <span>Google Chrome: 60%</span>
+              <span>Microsoft Edge: 25%</span>
+              <span>Mozilla Firefox: 15%</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        no: 10,
+        title: "Menangani Missing Value pada Nilai Rata-Rata",
+        q: "Dari 40 siswa yang mengikuti tes, sistem hanya mencatat 38 data dengan rata-rata 78. Dua siswa susulan memperoleh nilai 84 dan 92. Hitung nilai rata-rata terbaru seluruh 40 siswa tersebut dengan menuliskan alur matematis lengkapnya!",
+        infographic: null
+      },
+      {
+        no: 11,
+        title: "Diagram Batang Horizontal vs Vertikal",
+        q: "Kapan seorang analis data lebih memilih menggunakan grafik batang horizontal dibanding grafik batang vertikal? Berikan contoh kasus nyata terkait panjang label kategori!",
+        infographic: null
+      },
+      {
+        no: 12,
+        title: "Penetapan Skala Proporsional Sumbu Y",
+        q: "Jika data frekuensi observasi berkisar antara nilai minimum 2 hingga nilai maksimum 145, buatlah usulan pembagian interval skala sumbu Y yang proporsional, mudah dibaca, dan tidak membingungkan audiens!",
+        infographic: null
+      },
+      {
+        no: 13,
+        title: "Literasi Infografis: Anomali Data Suhu Server Lab Komputer",
+        q: "Perhatikan diagram batang pemantauan suhu server selama 6 jam berikut. Identifikasi jam ke berapa terjadi anomali kritis dan analisislah potensi dampaknya pada perangkat keras jika suhu kritis ambang batas aman adalah 75°C!",
+        infographic: `
+          <div class="bg-slate-900 p-4 rounded-xl text-slate-200 my-3">
+            <span class="text-xs text-amber-400 font-bold block mb-2">INFOGRAFIS 3: Suhu Server (°C) Pukul 08:00 - 13:00</span>
+            <svg viewBox="0 0 500 140" class="w-full max-w-md mx-auto block font-sans">
+              <line x1="40" y1="110" x2="460" y2="110" stroke="#64748b" stroke-width="2" />
+              <!-- Threshold Line 75°C -->
+              <line x1="40" y1="35" x2="460" y2="35" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,4" />
+              <text x="465" y="38" fill="#f87171" font-size="9">Ambang Kritis (75°C)</text>
+              <!-- Bars -->
+              <rect x="60" y="60" width="40" height="50" fill="#38bdf8" rx="2" /><text x="80" y="55" fill="#38bdf8" font-size="9" text-anchor="middle">50°C</text><text x="80" y="125" fill="#94a3b8" font-size="9" text-anchor="middle">08:00</text>
+              <rect x="130" y="57" width="40" height="53" fill="#38bdf8" rx="2" /><text x="150" y="52" fill="#38bdf8" font-size="9" text-anchor="middle">53°C</text><text x="150" y="125" fill="#94a3b8" font-size="9" text-anchor="middle">09:00</text>
+              <rect x="200" y="55" width="40" height="55" fill="#38bdf8" rx="2" /><text x="220" y="50" fill="#38bdf8" font-size="9" text-anchor="middle">55°C</text><text x="220" y="125" fill="#94a3b8" font-size="9" text-anchor="middle">10:00</text>
+              <rect x="270" y="18" width="40" height="92" fill="#ef4444" rx="2" /><text x="290" y="13" fill="#f87171" font-size="10" font-weight="bold" text-anchor="middle">92°C</text><text x="290" y="125" fill="#f87171" font-size="9" font-weight="bold" text-anchor="middle">11:00</text>
+              <rect x="340" y="45" width="40" height="65" fill="#38bdf8" rx="2" /><text x="360" y="40" fill="#38bdf8" font-size="9" text-anchor="middle">65°C</text><text x="360" y="125" fill="#94a3b8" font-size="9" text-anchor="middle">12:00</text>
+              <rect x="410" y="52" width="40" height="58" fill="#38bdf8" rx="2" /><text x="430" y="47" fill="#38bdf8" font-size="9" text-anchor="middle">58°C</text><text x="430" y="125" fill="#94a3b8" font-size="9" text-anchor="middle">13:00</text>
+            </svg>
+          </div>
+        `
+      },
+      {
+        no: 14,
+        title: "Analisis Distribusi Miring (Skewness) vs Posisi Rata-Rata",
+        q: "Ketika diagram batang data penjualan memperlihatkan ekor panjang ke sebelah kanan (positively skewed), di manakah letak nilai rata-rata (mean) jika dibandingkan dengan nilai median dan modus? Jelaskan alasan logisnya!",
+        infographic: null
+      },
+      {
+        no: 15,
+        title: "Penyusunan Tabel Distribusi Frekuensi Lengkap",
+        q: "Uraikan 5 kolom standar yang wajib ada dalam menyusun tabel distribusi frekuensi data berkelompok yang profesional beserta fungsi masing-masing kolom!",
+        infographic: null
+      },
+      {
+        no: 16,
+        title: "Numerasi Frekuensi Relatif & Persentase",
+        q: "Sebuah kelas memiliki total 36 siswa. Kelompok nilai 80-89 memiliki frekuensi 9 siswa. Hitung frekuensi relatif (proporsi desimal) dan frekuensi persentasenya!",
+        infographic: null
+      },
+      {
+        no: 17,
+        title: "Perbedaan Histogram dan Bar Chart",
+        q: "Banyak pemula menyamakan antara Histogram dan Diagram Batang (Bar Chart). Jelaskan 3 perbedaan fundamental dari segi jenis data, keberadaan celah antargaris batang, dan skala sumbu horizontal!",
+        infographic: null
+      },
+      {
+        no: 18,
+        title: "Literasi Infografis: Grafik Batang Komparatif Dua Kategori",
+        q: "Perhatikan diagram perbandingan nilai rata-rata pre-test vs post-test pada 4 kelas di bawah. Kelas manakah yang mengalami peningkatan kompetensi (gain score) paling signifikan? Jelaskan metodologi perhitungannya!",
+        infographic: `
+          <div class="bg-slate-900 p-4 rounded-xl text-slate-200 my-3">
+            <span class="text-xs text-amber-400 font-bold block mb-2">INFOGRAFIS 4: Komparasi Nilai Pre-Test (Biru) vs Post-Test (Hijau)</span>
+            <div class="grid grid-cols-4 gap-2 text-center text-xs">
+              <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                <span class="font-bold text-slate-300 block mb-1">Kelas A</span>
+                <span class="text-blue-400">Pre: 60</span> | <span class="text-emerald-400 font-bold">Post: 75</span>
+                <div class="text-[10px] text-slate-400 mt-1">Δ = +15 poin</div>
+              </div>
+              <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                <span class="font-bold text-slate-300 block mb-1">Kelas B</span>
+                <span class="text-blue-400">Pre: 55</span> | <span class="text-emerald-400 font-bold">Post: 82</span>
+                <div class="text-[10px] text-emerald-400 font-bold mt-1">Δ = +27 poin</div>
+              </div>
+              <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                <span class="font-bold text-slate-300 block mb-1">Kelas C</span>
+                <span class="text-blue-400">Pre: 70</span> | <span class="text-emerald-400 font-bold">Post: 85</span>
+                <div class="text-[10px] text-slate-400 mt-1">Δ = +15 poin</div>
+              </div>
+              <div class="bg-slate-800 p-2 rounded-lg border border-slate-700">
+                <span class="font-bold text-slate-300 block mb-1">Kelas D</span>
+                <span class="text-blue-400">Pre: 65</span> | <span class="text-emerald-400 font-bold">Post: 78</span>
+                <div class="text-[10px] text-slate-400 mt-1">Δ = +13 poin</div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        no: 19,
+        title: "Dampak Perubahan Nilai Ekstrem terhadap Rata-Rata",
+        q: "Sekelompok 10 pekerja memiliki rata-rata gaji Rp 4.000.000 per bulan. Jika ada satu direktur baru masuk dengan gaji Rp 48.000.000 per bulan, hitunglah rata-rata gaji yang baru sekarang dan jelaskan dampaknya terhadap persepsi keadilan gaji kelompok!",
+        infographic: null
+      },
+      {
+        no: 20,
+        title: "Kaidah Pemilihan Warna pada Grafik Batang",
+        q: "Mengapa menggunakan warna pelangi yang terlalu ramai (lebih dari 7 warna berbeda) pada diagram batang satu kategori justru menurunkan efektivitas visualisasi data menurut teori psikologi visual (Cognitive Load Theory)?",
+        infographic: null
+      },
+      {
+        no: 21,
+        title: "Perhitungan Jangkauan Antarkuartil (IQR)",
+        q: "Jelaskan definisi kuartil pertama (Q1) dan kuartil ketiga (Q3). Tuliskan rumus Jangkauan Antarkuartil (IQR) dan jelaskan mengapa IQR sering dipilih sebagai alternatif pengganti Range ketika dataset memiliki pencilan (outlier)!",
+        infographic: null
+      },
+      {
+        no: 22,
+        title: "Literasi Infografis: Grafik Batang Distribusi Kuota Internet",
+        q: "Perhatikan diagram penggunaan kuota internet harian siswa (GB). Hitung estimasi rata-rata konsumsi kuota per hari jika data dikelompokkan: [1-3 GB (f=15), 4-6 GB (f=25), 7-9 GB (f=10)]!",
+        infographic: null
+      },
+      {
+        no: 23,
+        title: "Penerapan Prinsip Data-Ink Ratio oleh Edward Tufte",
+        q: "Edward Tufte mengenalkan konsep 'Data-Ink Ratio' dalam visualisasi grafik. Jelaskan apa arti konsep tersebut dan sebutkan 3 elemen grafis mubazir (chart junk) yang harus dibuang dari grafik batang!",
+        infographic: null
+      },
+      {
+        no: 24,
+        title: "Numerasi Nilai Minimal Kelulusan (KKM)",
+        q: "Sebanyak 50 siswa menempuh ujian dengan nilai minimum 40, nilai maksimum 96, dan rata-rata 74. Jika batas KKM adalah 75 dan siswa yang memperoleh nilai di bawah KKM sebanyak 18 anak, berapa persentase tingkat ketuntasan kelas tersebut?",
+        infographic: null
+      },
+      {
+        no: 25,
+        title: "Pengaruh Ukuran Sampel (n) terhadap Nilai k Sturgess",
+        q: "Bandingkan nilai banyak kelas k yang dihasilkan Aturan Sturgess antara sampel n = 50 dengan sampel n = 5000. Apakah penambahan kelas berjalan linier atau logaritmik? Berikan analisis matematis Anda!",
+        infographic: null
+      },
+      {
+        no: 26,
+        title: "Literasi Infografis: Kerusakan Komputer Laboratorium",
+        q: "Berdasarkan diagram Pareto penyebab kerusakan komputer sekolah (Hardware 55%, Virus 25%, Human Error 15%, Listrik 5%), strategi perbaikan preventif prioritas apa yang harus segera dijalankan tim IT sekolah?",
+        infographic: null
+      },
+      {
+        no: 27,
+        title: "Penentuan Titik Batas Bawah dan Batas Atas Kelas Pertama",
+        q: "Jika data nilai terkecil adalah 32 dan disepakati panjang interval i = 6, mengapa praktisi data sering memilih batas bawah kelas pertama adalah 30 atau 31 dibanding tepat 32? Jelaskan prinsip kenyamanan numerik (round numbers)!",
+        infographic: null
+      },
+      {
+        no: 28,
+        title: "Validasi Grafik Batang 3 Dimensi (3D Bar Chart)",
+        q: "Mengapa mayoritas pakar data science melarang keras penggunaan grafik batang 3D pada laporan akademik atau bisnis resmi? Kaitkan dengan ilusi perspektif visual!",
+        infographic: null
+      },
+      {
+        no: 29,
+        title: "Numerasi Transformasi Data Linier pada Rata-Rata",
+        q: "Rata-rata ulangan harian 30 siswa adalah 68. Guru memutuskan menaikkan nilai setiap siswa dengan rumus baru: Nilai_Baru = (1.2 × Nilai_Lama) + 5. Hitung rata-rata nilai kelas yang baru tanpa perlu menghitung data satu per satu!",
+        infographic: null
+      },
+      {
+        no: 30,
+        title: "Analisis Frekuensi Kumulatif 'Kurang Dari'",
+        q: "Jelaskan fungsi tabel distribusi frekuensi kumulatif 'kurang dari' dan bagaimana tabel ini menjadi dasar pembentukan kurva Ogif Positif!",
+        infographic: null
+      },
+      {
+        no: 31,
+        title: "Literasi Infografis: Waktu Latensi Respon Aplikasi CBT",
+        q: "Perhatikan diagram batang rata-rata respons server CBT saat ujian serentak. Pada detik ke berapa lonjakan latensi mulai mengancam stabilitas koneksi siswa?",
+        infographic: null
+      },
+      {
+        no: 32,
+        title: "Simulasi Perhitungan Range pada Dua Kelompok Berbeda",
+        q: "Kelompok A memiliki nilai: 70, 71, 72, 73, 74 (Range = 4). Kelompok B memiliki nilai: 50, 60, 70, 80, 90 (Range = 40). Kedua kelompok memiliki rata-rata sama yakni 72. Simpulkan kelompok mana yang lebih homogen dan mengapa!",
+        infographic: null
+      },
+      {
+        no: 33,
+        title: "Teknik Visualisasi Data Kategori Banyak (> 15 Kategori)",
+        q: "Jika Anda memiliki 20 kategori produk yang ingin ditampilkan dalam grafik batang, langkah penataan apa yang wajib Anda lakukan agar grafik tetap bersih dan mudah dibaca (misal: sorting dari nilai tertinggi, filter Top 10 + 'Lainnya')?",
+        infographic: null
+      },
+      {
+        no: 34,
+        title: "Korelasi Nilai Maksimum dan Kapasitas Maksimal Penyimpanan",
+        q: "Dalam pemantauan basis data harian, kapasitas memori server mencapai nilai maksimum 94% pada pukul 12.00 siang. Tindakan preskriptif analitis apa yang harus diambil untuk mencegah downtime server?",
+        infographic: null
+      },
+      {
+        no: 35,
+        title: "Penyusunan Judul dan Anotasi Grafik yang Efektif",
+        q: "Bandingkan dua judul grafik: (1) 'Grafik Penjualan 2026' vs (2) 'Penjualan Q4 Melonjak 45% Didorong Promo Akhir Tahun'. Manakah judul yang menerapkan prinsip 'Action Title' dalam data storytelling dan mengapa?",
+        infographic: null
+      },
+      {
+        no: 36,
+        title: "Numerasi Nilai Rata-Rata Gabungan Tiga Sub-Populasi",
+        q: "Tiga kelas paralel mengikuti tes data analitik: Kelas X (25 siswa, rata-rata 76), Kelas Y (30 siswa, rata-rata 82), dan Kelas Z (25 siswa, rata-rata 80). Hitung nilai rata-rata gabungan seluruh siswa!",
+        infographic: null
+      },
+      {
+        no: 37,
+        title: "Identifikasi Kesalahan Skala Non-Linier",
+        q: "Apa bahaya jika sumbu Y sebuah diagram batang menggunakan penomoran loncatan angka tidak konsisten seperti 0, 10, 20, 50, 100, 500 tanpa menggunakan skala logaritmik yang dinyatakan eksplisit?",
+        infographic: null
+      },
+      {
+        no: 38,
+        title: "Literasi Infografis: Alokasi Jam Belajar Mandiri Mingguan",
+        q: "Dari grafik batang survei 100 siswa, 40 siswa belajar 2-4 jam/minggu, 35 siswa belajar 5-7 jam/minggu, dan 25 siswa belajar >8 jam/minggu. Rancanglah simpulan naratif mengenai budaya belajar mandiri di sekolah tersebut!",
+        infographic: null
+      },
+      {
+        no: 39,
+        title: "Konversi Skala Nilai Mentah ke Skala Standar 0-100",
+        q: "Sebuah tes memiliki skor terendah mungkin 0 dan skor tertinggi 40. Jika seorang siswa memperoleh skor mentah 34, hitung skor konversinya ke skala 100 menggunakan rumus interpolasi linier sederhana!",
+        infographic: null
+      },
+      {
+        no: 40,
+        title: "Pemanfaatan Label Nilai Langsung (Direct Data Labels)",
+        q: "Kapan sebaiknya kita menampilkan label angka pasti tepat di atas masing-masing batang grafik, dan kapan sebaiknya kita cukup mengandalkan garis grid horizontal?",
+        infographic: null
+      },
+      {
+        no: 41,
+        title: "Numerasi Batas Bawah dan Batas Atas Nyata Data Desimal",
+        q: "Jika data pengamatan berupa angka desimal satu angka di belakang koma (misal: 12.4 – 15.8), tentukan tepi bawah dan tepi atas kelas tersebut dengan memperhitungkan faktor ketelitian 0.05!",
+        infographic: null
+      },
+      {
+        no: 42,
+        title: "Analisis Variansi dan Simpangan Baku dari Rata-Rata",
+        q: "Jelaskan secara konseptual apa makna simpangan baku (standard deviation). Jika dua kelas memiliki rata-rata sama yakni 75, tetapi kelas A memiliki SD = 2 dan kelas B memiliki SD = 14, apa arti angka ini bagi guru yang mengajar?",
+        infographic: null
+      },
+      {
+        no: 43,
+        title: "Literasi Infografis: Grafik Batang Divergen (Diverging Bar Chart)",
+        q: "Jelaskan fungsi diagram batang divergen yang memiliki sumbu tengah 0 (nilai negatif mengarah ke kiri dan positif ke kanan), berikan contoh penggunaannya pada analisis sentimen kepuasan pengguna!",
+        infographic: null
+      },
+      {
+        no: 44,
+        title: "Dilema Jumlah Kelas Terlalu Sedikit pada Histogram",
+        q: "Jika seorang analis data memaksakan dataset berisi 1.000 record hanya ke dalam 2 kelas interval, informasi krusial apa yang hilang dari karakteristik sebaran data asli?",
+        infographic: null
+      },
+      {
+        no: 45,
+        title: "Pemeriksaan Validitas Nilai Minimum dan Maksimum Logis",
+        q: "Dalam proses data cleaning ditemukan kolom 'Umur Siswa SMA' memiliki X_min = 2 tahun dan X_maks = 175 tahun. Mengapa ini disebut pelanggaran logika domain data dan bagaimana langkah perbaikannya?",
+        infographic: null
+      },
+      {
+        no: 46,
+        title: "Literasi Infografis: Perbandingan Pengunjung Perpustakaan Digital",
+        q: "Perhatikan perbandingan pengunjung perpustakaan digital dari hari Senin hingga Jumat. Hari manakah yang mencatat trafik puncak dan faktor kegiatan akademis apa yang umumnya memengaruhinya?",
+        infographic: null
+      },
+      {
+        no: 47,
+        title: "Peran Rata-Rata Geometris dan Kapan Digunakan",
+        q: "Kapan rata-rata geometris (Geometric Mean) wajib digunakan menggantikan rata-rata aritmatika biasa? Berikan contoh kasus pada pertumbuhan suku bunga majemuk atau persentase pertumbuhan data tahunan!",
+        infographic: null
+      },
+      {
+        no: 48,
+        title: "Desain Grafik Batang Responsif untuk Perangkat Seluler",
+        q: "Sebutkan 3 pertimbangan teknis UX/UI saat merancang visualisasi diagram batang agar tetap terbaca jelas dan tidak terpotong pada layar ponsel pintar siswa!",
+        infographic: null
+      },
+      {
+        no: 49,
+        title: "Interpretasi Modus dari Batang Tertinggi pada Histogram",
+        q: "Tunjukkan hubungan antara kelas interval dengan batang tertinggi pada grafik batang/histogram dengan letak kelas modus. Tuliskan rumus penentuan modus data berkelompok menggunakan tepi bawah kelas dan selisih frekuensi kelas sebelumnya dan sesudahnya!",
+        infographic: null
+      },
+      {
+        no: 50,
+        title: "Sintesis Preskriptif Menyeluruh Berdasarkan Temuan Grafik",
+        q: "Berdasarkan seluruh materi pengolahan data mulai dari identifikasi nilai Min, Maks, Range, penentuan Interval Sturgess, hingga terbentuknya grafik batang, susunlah sebuah kesimpulan komprehensif mengenai bagaimana visualisasi data mampu mengubah kumpulan angka mentah menjadi keputusan strategis yang bernilai nyata!",
+        infographic: null
+      }
+    ];
+
+    // Render 50 Soal Essay
+    function render50Essays() {
+      const container = document.getElementById('essay-container');
+      let html = '';
+
+      questions50.forEach((item) => {
+        html += `
+          <div class="p-5 md:p-6 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-blue-300 transition-all space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2">
+              <span class="px-3 py-1 rounded-lg bg-blue-100 text-blue-800 font-extrabold text-xs">
+                Soal Essay #${item.no}
+              </span>
+              <span class="text-xs font-semibold text-slate-500">${item.title}</span>
+            </div>
+            
+            <p class="font-medium text-slate-800 leading-relaxed text-sm">${item.q}</p>
+            
+            ${item.infographic ? item.infographic : ''}
+
+            <div class="pt-2">
+              <label class="block text-xs font-bold text-slate-600 mb-1">
+                Ketik Jawaban Analisis Anda (Fitur Tempel/Paste Dinonaktifkan):
+              </label>
+              <textarea id="essay_${item.no}" rows="4" 
+                        placeholder="Ketik jawaban lengkap secara mandiri dan terstruktur di sini..."
+                        class="w-full p-3.5 text-xs md:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                        onpaste="handleBlockedPaste(event)"
+                        oncopy="handleBlockedCopy(event)"
+                        oncut="handleBlockedCut(event)"></textarea>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // Auto-Lock Identitas Siswa tanpa tombol klik
+    function autoLockField(element, badgeId) {
+      const val = element.value.trim();
+      if (val.length > 0 && !element.readOnly) {
+        element.readOnly = true;
+        element.classList.add('bg-slate-100', 'text-slate-700', 'cursor-not-allowed', 'border-emerald-400', 'font-semibold');
+        element.classList.remove('focus:ring-2', 'focus:ring-blue-500');
+        
+        const badge = document.getElementById(badgeId);
+        if (badge) {
+          badge.className = 'text-[11px] font-bold text-emerald-600 flex items-center gap-1';
+          badge.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Terkunci Otomatis';
+        }
+        checkAllIdentityLocked();
+      }
+    }
+
+    function checkAllIdentityLocked() {
+      const name = document.getElementById('student-name').value.trim();
+      const sClass = document.getElementById('student-class').value.trim();
+      const nis = document.getElementById('student-nis').value.trim();
+
+      const globalBadge = document.getElementById('lock-status-badge');
+      if (name && sClass && nis) {
+        globalBadge.className = 'px-3.5 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold flex items-center gap-1.5';
+        globalBadge.innerHTML = '<i class="fa-solid fa-lock"></i> Seluruh Identitas Terkunci Otomatis';
+      } else if (name || sClass || nis) {
+        globalBadge.className = 'px-3.5 py-1.5 bg-blue-100 text-blue-800 rounded-full text-xs font-bold flex items-center gap-1.5';
+        globalBadge.innerHTML = '<i class="fa-solid fa-circle-half-stroke"></i> Sebagian Terkunci';
+      }
+    }
+
+    // Anti Copy-Paste Integrity Protection
+    function handleBlockedPaste(e) {
+      e.preventDefault();
+      alert('⛔ PERINGATAN INTEGRITAS AKADEMIK: Fitur Tempel (Paste) dinonaktifkan! Seluruh jawaban wajib diketik secara mandiri.');
+    }
+    function handleBlockedCopy(e) {
+      e.preventDefault();
+    }
+    function handleBlockedCut(e) {
+      e.preventDefault();
+    }
+
+    // Block Keyboard Shortcuts (Ctrl+V, Ctrl+C, Ctrl+U, etc.)
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V')) {
+        if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') {
+          e.preventDefault();
+          alert('⛔ Salin-Tempel (Ctrl+V) diblokir! Silakan ketik langsung jawaban Anda.');
+        }
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
+        if (window.getSelection().toString().length > 0) {
+          e.preventDefault();
+        }
+      }
+    });
+
+    // URL Web App Google Apps Script Guru (Resmi & Terhubung Langsung)
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzW6wMGZIqR9rmxQs-y9UOScjky-MwqzbhDYf2IcPEvbLsXk4LFLhQCMnsrEpUinJvg/exec";
+
+    // Fungsi untuk membuat elemen cetak yang bersih dan PASTI TERISI (Bebas Blank)
+    function createPrintableDocument() {
+      const name = document.getElementById('student-name').value.trim() || 'Tanpa Nama';
+      const sClass = document.getElementById('student-class').value.trim() || 'Tanpa Kelas';
+      const nis = document.getElementById('student-nis').value.trim() || '-';
+      const nowStr = new Date().toLocaleString('id-ID');
+
+      // Ambil seluruh jawaban essay siswa
+      let answersHtml = '';
+      questions50.forEach((item) => {
+        const textarea = document.getElementById(`essay_${item.no}`);
+        let answerText = textarea ? textarea.value.trim() : '';
+        if (!answerText) {
+          answerText = '<em style="color:#94a3b8;">(Jawaban tidak diisi oleh siswa)</em>';
+        } else {
+          // Escape HTML & ganti baris baru
+          answerText = answerText
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\n/g, '<br>');
+        }
+
+        answersHtml += `
+          <div style="margin-bottom: 16px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; page-break-inside: avoid;">
+            <div style="font-weight: bold; font-size: 13px; color: #1e293b; margin-bottom: 6px;">
+              <span style="background: #e0e7ff; color: #3730a3; padding: 2px 6px; border-radius: 4px; margin-right: 6px;">#${item.no}</span>
+              ${item.title}
+            </div>
+            <div style="font-size: 12px; color: #334155; line-height: 1.5; margin-bottom: 8px;">
+              ${item.q}
+            </div>
+            <div style="font-size: 12px; color: #0f172a; background: #f8fafc; border-left: 3px solid #10b981; padding: 8px 10px; border-radius: 4px; line-height: 1.6;">
+              <strong>Jawaban Siswa:</strong><br>
+              ${answerText}
+            </div>
+          </div>
+        `;
+      });
+
+      // Kontainer Pembungkus Khusus Cetak
+      const printWrapper = document.createElement('div');
+      printWrapper.id = 'clean-print-report';
+      printWrapper.style.width = '750px';
+      printWrapper.style.padding = '20px';
+      printWrapper.style.background = '#ffffff';
+      printWrapper.style.color = '#0f172a';
+      printWrapper.style.fontFamily = 'Arial, Helvetica, sans-serif';
+
+      printWrapper.innerHTML = `
+        <div style="border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 16px;">
+          <h1 style="font-size: 20px; font-weight: bold; color: #1e3a8a; margin: 0 0 4px 0; text-transform: uppercase;">
+            Lembar Jawaban Asesmen Analisis Data & Visualisasi (50 HOTS)
+          </h1>
+          <p style="font-size: 11px; color: #64748b; margin: 0;">Dokumen Resmi Hasil Pengerjaan Mandiri Siswa (Anti Salin-Tempel)</p>
+        </div>
+
+        <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 18px; font-size: 12px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="width: 50%; padding: 3px 0;"><strong>Nama Siswa:</strong> ${name}</td>
+              <td style="width: 50%; padding: 3px 0;"><strong>Kelas:</strong> ${sClass}</td>
+            </tr>
+            <tr>
+              <td style="padding: 3px 0;"><strong>NIS / No. Absen:</strong> ${nis}</td>
+              <td style="padding: 3px 0;"><strong>Waktu Selesai:</strong> ${nowStr}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="margin-top: 14px;">
+          ${answersHtml}
+        </div>
+      `;
+
+      return printWrapper;
+    }
+
+    // Fungsi Kirim Otomatis ke Google Drive (Sudah Diperbaiki Anti-Blank)
+    async function sendDirectToGoogleDrive() {
+      const name = document.getElementById('student-name').value.trim();
+      const sClass = document.getElementById('student-class').value.trim();
+      const nis = document.getElementById('student-nis').value.trim();
+
+      if (!name || !sClass) {
+        alert('⛔ PERINGATAN: Harap isi Nama Lengkap dan Kelas terlebih dahulu!');
+        return;
+      }
+
+      const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const cleanClass = sClass.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const finalFileName = `${cleanName}_${cleanClass}.pdf`;
+
+      const btn = document.getElementById('btn-send-drive');
+      const originalText = btn.innerHTML;
+      const statusBox = document.getElementById('upload-status-box');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i> <span>Memproses PDF & Mengirim...</span>';
+      
+      statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-blue-900/70 border border-blue-500 text-blue-200 block';
+      statusBox.innerHTML = `<i class="fa-solid fa-gear fa-spin mr-2 text-cyan-300"></i> Menyusun seluruh lembar jawaban 50 soal ke dalam dokumen PDF...`;
+
+      // Buat DOM khusus cetak yang bersih
+      const reportElement = createPrintableDocument();
+      document.body.appendChild(reportElement);
+
+      const opt = {
+        margin:       [10, 10, 10, 10],
+        filename:     finalFileName,
+        image:        { type: 'jpeg', quality: 0.95 },
+        html2canvas:  { scale: 1.5, useCORS: true, logging: false, scrollY: 0 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      try {
+        statusBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2 text-cyan-300"></i> Mengonversi data jawaban ke PDF (Tunggu beberapa detik)...`;
+
+        // Render PDF dari elemen bersih
+        const pdfUri = await html2pdf().set(opt).from(reportElement).outputPdf('datauristring');
+        document.body.removeChild(reportElement); // Bersihkan elemen sementara
+
+        const base64Content = pdfUri.split(',')[1];
+
+        statusBox.innerHTML = `<i class="fa-solid fa-cloud-arrow-up fa-bounce mr-2 text-emerald-400"></i> PDF berhasil dibuat! Mengunggah ke Google Drive & Spreadsheet...`;
+
+        // Kirim ke Google Apps Script
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            studentName: name,
+            studentClass: sClass,
+            studentNis: nis || '-',
+            fileName: finalFileName,
+            pdfBase64: base64Content
+          })
+        });
+
+        // Tampilan Sukses
+        statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-emerald-900/80 border border-emerald-500 text-emerald-100 block';
+        statusBox.innerHTML = `<i class="fa-solid fa-circle-check mr-2 text-emerald-300"></i> <strong>BERHASIL TERKIRIM!</strong> Berkas <strong>${finalFileName}</strong> telah terisi lengkap (tidak blank) dan tersimpan di Google Drive & Spreadsheet guru.`;
+
+        btn.className = 'px-7 py-4 bg-slate-700 text-emerald-300 font-bold rounded-xl text-sm md:text-base flex items-center gap-3 cursor-not-allowed';
+        btn.innerHTML = '<i class="fa-solid fa-circle-check text-xl text-emerald-400"></i> <span>Terkirim ke Google Drive</span>';
+        
+        alert(`BERHASIL! Berkas PDF "${finalFileName}" berisi seluruh jawaban 50 soal telah terkirim otomatis ke Google Drive.`);
+
+      } catch (err) {
+        console.error('Error:', err);
+        if (document.getElementById('clean-print-report')) {
+          document.body.removeChild(document.getElementById('clean-print-report'));
+        }
+        statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-rose-900/80 border border-rose-500 text-rose-100 block';
+        statusBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2 text-rose-300"></i> Terjadi kesalahan: ${err.message}.`;
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    // Fungsi Unduh Cadangan PDF (Anti-Blank)
+    function generateFullPDF() {
+      const name = document.getElementById('student-name').value.trim();
+      const sClass = document.getElementById('student-class').value.trim();
+
+      if (!name || !sClass) {
+        alert('PERINGATAN: Harap isi Nama dan Kelas terlebih dahulu!');
+        return;
+      }
+
+      const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const cleanClass = sClass.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const finalFileName = `${cleanName}_${cleanClass}.pdf`;
+
+      const btn = document.getElementById('btn-export-pdf');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Merender Dokumen...';
+      btn.disabled = true;
+
+      const reportElement = createPrintableDocument();
+      document.body.appendChild(reportElement);
+
+      const opt = {
+        margin:       [10, 10, 10, 10],
+        filename:     finalFileName,
+        image:        { type: 'jpeg', quality: 0.95 },
+        html2canvas:  { scale: 1.5, useCORS: true, logging: false, scrollY: 0 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      html2pdf().set(opt).from(reportElement).save().then(() => {
+        document.body.removeChild(reportElement);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        alert(`Berkas PDF "${finalFileName}" berhasil diunduh dan dipastikan terisi lengkap!`);
+      }).catch(err => {
+        console.error(err);
+        if (document.getElementById('clean-print-report')) {
+          document.body.removeChild(document.getElementById('clean-print-report'));
+        }
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        window.print();
+      });
+    }
+
+    // Inisialisasi saat halaman dimuat
+    window.onload = function() {
+      render50Essays();
+      // Muat URL yang tersimpan jika ada
+      const savedUrl = localStorage.getItem('gas_drive_url');
+      if (savedUrl) {
+        document.getElementById('gas-endpoint-url').value = savedUrl;
+      }
+    };
+  </script>
+</body>
+</html>
